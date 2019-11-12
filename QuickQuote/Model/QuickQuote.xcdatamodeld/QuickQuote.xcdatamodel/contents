@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14903" systemVersion="19A583" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Customer" representedClassName="Customer" parentEntity="SignatureManagedObject" syncable="YES" codeGenerationType="class">
+        <attribute name="address" attributeType="String"/>
+        <attribute name="city" optional="YES" attributeType="String"/>
+        <attribute name="email" optional="YES" attributeType="String"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="phone" optional="YES" attributeType="String"/>
+        <attribute name="state" optional="YES" attributeType="String"/>
+        <attribute name="zip" attributeType="String"/>
+        <relationship name="quotes" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Quote" inverseName="customer" inverseEntity="Quote"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="customers" inverseEntity="User"/>
+    </entity>
+    <entity name="Image" representedClassName="Image" parentEntity="SignatureManagedObject" syncable="YES" codeGenerationType="class">
+        <attribute name="imageData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <attribute name="tag" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="quote" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Quote" inverseName="images" inverseEntity="Quote"/>
+    </entity>
+    <entity name="Material" representedClassName="Material" parentEntity="SignatureManagedObject" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="quote" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Quote" inverseName="materials" inverseEntity="Quote"/>
+    </entity>
+    <entity name="Quote" representedClassName="Quote" parentEntity="SignatureManagedObject" syncable="YES" codeGenerationType="class">
+        <attribute name="noteForCustomer" optional="YES" attributeType="String"/>
+        <attribute name="noteForWorkOrder" optional="YES" attributeType="String"/>
+        <attribute name="quoteNumber" attributeType="String"/>
+        <attribute name="quoteStatus" optional="YES" attributeType="String"/>
+        <relationship name="customer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Customer" inverseName="quotes" inverseEntity="Customer"/>
+        <relationship name="images" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Image" inverseName="quote" inverseEntity="Image"/>
+        <relationship name="materials" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Material" inverseName="quote" inverseEntity="Material"/>
+        <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Task" inverseName="quote" inverseEntity="Task"/>
+        <relationship name="worksheet" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Worksheet" inverseName="quote" inverseEntity="Worksheet"/>
+    </entity>
+    <entity name="SignatureManagedObject" representedClassName="SignatureManagedObject" syncable="YES" codeGenerationType="class">
+        <attribute name="dateCreated" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="dateModified" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+    </entity>
+    <entity name="Task" representedClassName="Task" parentEntity="SignatureManagedObject" syncable="YES" codeGenerationType="class">
+        <attribute name="cost" optional="YES" attributeType="String"/>
+        <attribute name="taskDescription" optional="YES" attributeType="String"/>
+        <attribute name="title" attributeType="String"/>
+        <relationship name="quote" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Quote" inverseName="tasks" inverseEntity="Quote"/>
+    </entity>
+    <entity name="User" representedClassName="User" parentEntity="SignatureManagedObject" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="password" optional="YES" attributeType="String"/>
+        <attribute name="userName" optional="YES" attributeType="String"/>
+        <relationship name="customers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Customer" inverseName="user" inverseEntity="Customer"/>
+    </entity>
+    <entity name="Worksheet" representedClassName="Worksheet" parentEntity="SignatureManagedObject" syncable="YES" codeGenerationType="class">
+        <attribute name="equipmentAccess" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="equipmentNeeded" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="gateSize" optional="YES" attributeType="String"/>
+        <attribute name="generalAccess" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="handDig" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="irrigation" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="locatorNeeded" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="notes" optional="YES" attributeType="String"/>
+        <attribute name="p_c" optional="YES" attributeType="String"/>
+        <attribute name="p_cb" optional="YES" attributeType="String"/>
+        <attribute name="p_flex" optional="YES" attributeType="String"/>
+        <attribute name="p_pop" optional="YES" attributeType="String"/>
+        <attribute name="p_t" optional="YES" attributeType="String"/>
+        <attribute name="p_y" optional="YES" attributeType="String"/>
+        <attribute name="p1Diameter" optional="YES" attributeType="String"/>
+        <attribute name="p1Feet" optional="YES" attributeType="String"/>
+        <attribute name="p2Diameter" optional="YES" attributeType="String"/>
+        <attribute name="p2Feet" optional="YES" attributeType="String"/>
+        <attribute name="sodAmount" optional="YES" attributeType="String"/>
+        <attribute name="sodKicker" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="transitNeeded" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="turfType" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="waste" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="water" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="quote" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Quote" inverseName="worksheet" inverseEntity="Quote"/>
+    </entity>
+    <elements>
+        <element name="Customer" positionX="-363.828125" positionY="-55.5546875" width="128" height="178"/>
+        <element name="Image" positionX="-198" positionY="0" width="128" height="88"/>
+        <element name="Material" positionX="-198" positionY="0" width="128" height="73"/>
+        <element name="Quote" positionX="-40.4609375" positionY="19.296875" width="128" height="178"/>
+        <element name="SignatureManagedObject" positionX="-162.91015625" positionY="-154.80859375" width="128" height="73"/>
+        <element name="Task" positionX="-198" positionY="0" width="128" height="103"/>
+        <element name="User" positionX="-178.65625" positionY="143.16796875" width="128" height="103"/>
+        <element name="Worksheet" positionX="-189" positionY="9" width="128" height="418"/>
+    </elements>
+</model>
