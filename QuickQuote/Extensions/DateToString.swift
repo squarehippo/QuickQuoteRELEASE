@@ -9,9 +9,19 @@
 import Foundation
 
 extension Date {
-    func dateToString() -> String {
-        let df = DateFormatter()
-        df.dateFormat = "MM/dd/yyyy"
-        return df.string(from: self)
+    func dateToShort() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .none
+        dateFormatter.locale = Locale(identifier: "en_US")
+        return dateFormatter.string(from: self)
+    }
+    
+    func dateToLong() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .long
+        dateFormatter.timeStyle = .none
+        dateFormatter.locale = Locale(identifier: "en_US")
+        return dateFormatter.string(from: self)
     }
 }

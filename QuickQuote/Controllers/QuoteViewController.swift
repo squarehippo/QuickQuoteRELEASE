@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     var currentCustomer: Customer? {
         didSet {
@@ -32,6 +32,7 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     var currentImageArray = [Image]()
     let imagePicker = UIImagePickerController()
     var imageArray = [Image]()
+    var deleteButton = DeleteButton()
     
     var currentPDF = [String]()
     
@@ -40,8 +41,7 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     @IBOutlet weak var quoteDate: UILabel!
     @IBOutlet var imageButtonCollection: [ImageButton]!
     @IBOutlet weak var shareButton: UIBarButtonItem!
-    
-    
+    @IBOutlet weak var imageCollectionView: UICollectionView!
     
     
     override func viewDidLoad() {
@@ -50,12 +50,9 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         taskTableView.dataSource = self
         taskTableView.delegate = self
         taskTableView.layer.cornerRadius = 10
-        imagePicker.delegate = self
         
         assignCurrentQuoteInformation()
         setUpViewTasks()
-        
-        currentPDF = ["This is where the PDF will be stored"]
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -63,25 +60,31 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "NewTaskSegue" {
+        switch segue.identifier {
+        case "NewTaskSegue":
             if let destinationVC = segue.destination as? NewTaskViewController {
                 destinationVC.currentQuote = currentQuote
             }
-        }
-        //Try guard statement...
-        if segue.identifier == "editTask" {
-            if let destinationVC = segue.destination as? EditTaskViewController {
-                if let currentTasks = currentCustomerTasks {
-                    if let selectedRow = taskTableView.indexPathForSelectedRow  {
-                        destinationVC.currentTask = currentTasks[selectedRow.row]
-                    }
-                }
-            }
-        }
-        if segue.identifier == "workOrder" {
+        case "editTask":
+            guard let destinationVC = segue.destination as? EditTaskViewController,
+                let currentTasks = currentCustomerTasks,
+                let selectedRow = taskTableView.indexPathForSelectedRow else { return }
+            destinationVC.currentTask = currentTasks[selectedRow.row]
+        case "workOrder":
             if let destinationVC = segue.destination as? WorkOrderViewController {
                 destinationVC.currentQuote = currentQuote
             }
+        case "collectionSegue":
+            print("hello?")
+            if let destinationVC = segue.destination as? ImageViewController {
+                destinationVC.currentQuote = currentQuote
+                let cell = sender as! ImageCollectionViewCell
+                let path = imageCollectionView.indexPath(for: cell)?.row
+                destinationVC.buttonTag = path
+                print("PATH = ", path)
+            }
+        default:
+            break
         }
     }
     
@@ -95,6 +98,7 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         NotificationCenter.default.addObserver(self, selector: #selector(onDismissNewTask), name: .onDismissNewTask, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(onChangeCustomer), name: .onChangeCustomer, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(onDismissImageModal), name: .onDismissImageModal, object: nil)
     }
     
     @objc func onDismissNewTask() {
@@ -106,13 +110,17 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         navigationController?.popToRootViewController(animated: true)
     }
     
+    @objc func onDismissImageModal() {
+        AddImagesToButtons()
+    }
+    
     func assignCurrentQuoteInformation() {
         if isNewQuote {
             currentQuoteNumber = makeQuoteNumber(withUser: "Adam Lyon", andDate: Date())
-            quoteDate.text = Date().dateToString()
+            quoteDate.text = Date().dateToShort()
             saveNewQuote()
         } else {
-            quoteDate.text = currentQuote?.dateCreated?.dateToString()
+            quoteDate.text = currentQuote?.dateCreated?.dateToShort()
             currentQuoteNumber = currentQuote?.quoteNumber
         }
         quoteNumber.text = "Quote: " + (currentQuoteNumber ?? "error")
@@ -123,8 +131,33 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         loadViewIfNeeded()
     }
     
+    //MARK: - Collection View
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return currentImageArray.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 125, height: 80)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(indexPath.row)
+        performSegue(withIdentifier: "collectionSegue", sender: self)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCollectionViewCell", for: indexPath) as! ImageCollectionViewCell
+        let sortedArray = currentImageArray.sorted { $0.tag < $1.tag }
+        cell.collectionImage.image = UIImage(named: "add3" )
+        //cell.collectionImage.image = UIImage(data: sortedArray[indexPath.row].imageData!)
+        return cell
+    }
+    
+    //MARK: - Share
+    
     @IBAction func shareButtonPressed(_ sender: UIBarButtonItem) {
-        let pdfPath = createPDF()
+        let pdfPath = getPDF()
         let pdfURL = URL(fileURLWithPath: pdfPath)
         let uiavc = UIActivityViewController(activityItems: [pdfURL], applicationActivities: nil)
         if UIDevice.current.userInterfaceIdiom == .pad {
@@ -133,22 +166,13 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         present(uiavc, animated: true, completion: nil)
     }
     
-    func createPDF() -> String {
+    func getPDF() -> String {
+        let newPDF = PreparePDFSheets()
+        if let quote = currentQuote {
+           return newPDF.getPDFPath(for: quote)
+        }
         return ""
     }
-    
-    func toPDF(views: [UIView]) {
-        if views.isEmpty { return }
-        pdfData = NSMutableData()
-        UIGraphicsBeginPDFContextToData(pdfData, CGRect(x: 0, y: 0, width: pageWidth, height: pageHeight), nil)
-        let context = UIGraphicsGetCurrentContext()
-        for view in views {
-            UIGraphicsBeginPDFPage()
-            view.layer.render(in: context!)
-        }
-        UIGraphicsEndPDFContext()
-    }
-    
     
     //MARK: - Quote Related
     
@@ -196,23 +220,12 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         let fetchRequest = NSFetchRequest<Quote>(entityName: "Quote")
         do {
             let fetchedResults = try context.fetch(fetchRequest)
-             if fetchedResults.count > 0 {
+            if fetchedResults.count > 0 {
                 currentQuote = fetchedResults.last!
             }
         } catch let error as NSError {
             // something went wrong
             print(error.description)
-        }
-    }
-    
-    func fetchCurrentImage(imageTag: Int32) {
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Image")
-        fetchRequest.predicate = NSPredicate(format: "tag = %@", imageTag)
-        do {
-            currentImageArray = try context.fetch(fetchRequest) as! [Image]
-            currentImage = currentImageArray.first
-        } catch let error as NSError {
-            print("Could not fetch \(error)")
         }
     }
     
@@ -236,7 +249,13 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         cell.taskDescription.sizeToFit()
         let text = currentCustomerTasks?[indexPath.row]
         cell.taskTitle.text = text?.title
-        cell.taskCost.text = text?.cost
+        if let cost = text?.cost {
+            if cost.isNumeric {
+                cell.taskCost.text = "\(cost.currencyFormatting())"
+            } else {
+                cell.taskCost.text = cost
+            }
+        }
         cell.taskDescription.text = text?.taskDescription
         return cell
     }
@@ -263,8 +282,28 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     //MARK: - Photo Related
     
     func loadImageArray() {
+        fetchImageArray()
+        let sortedArray = currentImageArray.sorted { $0.tag < $1.tag }
+        saveSortedArray(named: sortedArray)
+    }
+    
+    func fetchImageArray() {
         if let quote = currentQuote {
-            imageArray = (Array(quote.images!) as? [Image])!
+            guard let quoteNumber = quote.quoteNumber else { return }
+            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Image")
+            fetchRequest.predicate = NSPredicate(format: "quote.quoteNumber = %@", quoteNumber)
+            do {
+                currentImageArray = try context.fetch(fetchRequest) as! [Image]
+            } catch let error as NSError {
+                print("Could not fetch \(error)")
+            }
+        }
+    }
+    
+    func saveSortedArray(named sortedArray: [Image]) {
+        for (index, image) in sortedArray.enumerated() {
+            image.tag = Int32(index)
+            coreData.saveContext()
         }
     }
     
@@ -272,7 +311,7 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         loadImageArray()
         positionAddImageButton()
         
-        let sortedArray = imageArray.sorted { $0.tag < $1.tag }
+        let sortedArray = currentImageArray.sorted { $0.tag < $1.tag }
         for (image) in sortedArray where image.imageData != nil {
             for button in imageButtonCollection {
                 if button.tag == image.tag {
@@ -284,42 +323,15 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
-    @IBAction func imageButtonPressed(_ sender: UIButton) {
-        imagePicker.allowsEditing = false
-        imagePicker.sourceType = .photoLibrary
-        imagePicker.view.tag = sender.tag
-        present(imagePicker, animated: true, completion: nil)
-    }
-    
-    
-    
-
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            if let resizedImage = pickedImage.resizedTo1MB() {
-                if let imageData = resizedImage.pngData() {
-                    let buttonTag = picker.view.tag
-                    saveImage(data: imageData, tag: buttonTag)
-                }
-            }
-        }
-        dismiss(animated: true, completion: nil)
-        AddImagesToButtons()
-    }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true, completion: nil)
-    }
-    
     func positionAddImageButton() {
-        if imageArray.count < 5 {
+        if currentImageArray.count < 5 {
             for button in imageButtonCollection {
-                if button.tag > imageArray.count {
+                if button.tag > currentImageArray.count {
                     button.isEnabled = false
                     button.setImage(nil, for: .normal)
                     button.backgroundColor = UIColor.clear
                 }
-                if button.tag == imageArray.count {
+                if button.tag == currentImageArray.count {
                     button.isEnabled = true
                     button.imageView?.contentMode = .center
                     button.setImage(UIImage(named: "addPhoto"), for: .normal)
@@ -330,7 +342,7 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func saveImage(data: Data, tag: Int) {
-        if imageArray.count != tag {
+        if currentImageArray.count != tag {
             let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Image")
             fetchRequest.predicate = NSPredicate(format: "tag == %i", Int32(tag))
             do {
@@ -353,57 +365,6 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
 
-    
-//    @IBAction func handleLongPress(_ sender: UILongPressGestureRecognizer) {
-//        if sender.state == UIGestureRecognizer.State.began {
-//            imageButton = sender.view as? TaskImageButton
-//            
-//            if let buttonTag = imageButton?.tag {
-//                if buttonTag <= photoArray.count {
-//                    imageButton?.wiggle()
-//                    let width = imageButton?.frame.width ?? 50
-//                    let height = imageButton?.frame.height ?? 50
-//                    deleteButton.frame = CGRect(x: 0, y: 0, width: width, height: height)
-//                    deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
-//                    imageButton?.addSubview(deleteButton)
-//                }
-//            }
-//        }
-//    }
-//    
-//    @objc func deleteButtonTapped(_ sender: UIButton) {
-//        if let buttonTag = sender.superview?.tag {
-//            deleteImage(imageIndex: buttonTag - 1)
-//            buttonToDelete = nil
-//        }
-//    }
-//    
-//    func deleteImage(imageIndex: Int) {
-//        clearAllAnimations()
-//        let task = currentTask
-//        let photo = photoArray[imageIndex]
-//        task?.removeFromPhotos(photo)
-//        coreData.saveContext()
-//        
-//        loadPhotos()
-//    }
-//    
-//    func clearAllAnimations() {
-//        imageButton?.layer.removeAllAnimations()
-//        imageButton?.layer.transform = CATransform3DIdentity
-//        imageButton?.removeDeleteButton()
-//    }
-    
-    func rotateImage(image: UIImage) -> UIImage {
-        if (image.imageOrientation == UIImage.Orientation.up) {
-            return image
-        }
-        UIGraphicsBeginImageContext(image.size)
-        image.draw(in: CGRect(origin: .zero, size: image.size))
-        let copy = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return copy!
-    }
 }
 
 extension QuoteViewController: NewTaskDelegate {
@@ -411,3 +372,4 @@ extension QuoteViewController: NewTaskDelegate {
         taskTableView.reloadData()
     }
 }
+

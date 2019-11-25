@@ -15,5 +15,6 @@ class QuoteCell: UITableViewCell {
     @IBOutlet weak var quoteNumber: UILabel!
     @IBOutlet weak var quoteDate: UILabel!
     @IBOutlet weak var quoteStatusView: UIView!
+    @IBOutlet weak var quoteImageView: UIImageView!
     
 }

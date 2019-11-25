@@ -12,4 +12,6 @@ extension Notification.Name {
     static let onChangeCustomer = Notification.Name("onChangeCustomer")
     static let onDismissCustomerEdit = Notification.Name("onDismissCustomerEdit")
     static let onDismissNewTask = Notification.Name("onDismissNewTask")
+    static let onDismissImageModal = Notification.Name("onDismissImageModal")
+    static let onCityAvailable = Notification.Name("onCityAvailable")
 }

@@ -11,7 +11,14 @@
         <relationship name="quotes" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Quote" inverseName="customer" inverseEntity="Quote"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="customers" inverseEntity="User"/>
     </entity>
+    <entity name="Employee" representedClassName="Employee" parentEntity="SignatureManagedObject" syncable="YES" codeGenerationType="class">
+        <attribute name="email" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="phone" optional="YES" attributeType="String"/>
+        <relationship name="quotes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Quote" inverseName="employee" inverseEntity="Quote"/>
+    </entity>
     <entity name="Image" representedClassName="Image" parentEntity="SignatureManagedObject" syncable="YES" codeGenerationType="class">
+        <attribute name="caption" optional="YES" attributeType="String"/>
         <attribute name="imageData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
         <attribute name="tag" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="quote" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Quote" inverseName="images" inverseEntity="Quote"/>
@@ -26,6 +33,7 @@
         <attribute name="quoteNumber" attributeType="String"/>
         <attribute name="quoteStatus" optional="YES" attributeType="String"/>
         <relationship name="customer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Customer" inverseName="quotes" inverseEntity="Customer"/>
+        <relationship name="employee" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Employee" inverseName="quotes" inverseEntity="Employee"/>
         <relationship name="images" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Image" inverseName="quote" inverseEntity="Image"/>
         <relationship name="materials" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Material" inverseName="quote" inverseEntity="Material"/>
         <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Task" inverseName="quote" inverseEntity="Task"/>
@@ -76,9 +84,10 @@
     </entity>
     <elements>
         <element name="Customer" positionX="-363.828125" positionY="-55.5546875" width="128" height="178"/>
-        <element name="Image" positionX="-198" positionY="0" width="128" height="88"/>
+        <element name="Employee" positionX="-198" positionY="0" width="128" height="103"/>
+        <element name="Image" positionX="-198" positionY="0" width="128" height="103"/>
         <element name="Material" positionX="-198" positionY="0" width="128" height="73"/>
-        <element name="Quote" positionX="-40.4609375" positionY="19.296875" width="128" height="178"/>
+        <element name="Quote" positionX="-40.4609375" positionY="19.296875" width="128" height="193"/>
         <element name="SignatureManagedObject" positionX="-162.91015625" positionY="-154.80859375" width="128" height="73"/>
         <element name="Task" positionX="-198" positionY="0" width="128" height="103"/>
         <element name="User" positionX="-178.65625" positionY="143.16796875" width="128" height="103"/>

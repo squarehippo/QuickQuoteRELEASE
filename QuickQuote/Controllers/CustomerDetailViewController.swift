@@ -22,6 +22,7 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
     let coreData = CoreDataStack.shared
     var context = CoreDataStack.shared.persistentContainer.viewContext
     
+    
     @IBOutlet weak var quoteTableView: UITableView!
     @IBOutlet weak var customerAddress1: UILabel!
     @IBOutlet weak var customerAddress2: UILabel!
@@ -34,6 +35,8 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
         quoteTableView.delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(onDismissCustomerEdit), name: .onDismissCustomerEdit, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(onCityAvailable), name: .onCityAvailable, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -58,6 +61,10 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
         title = currentCustomer?.name
     }
     
+    @objc func onCityAvailable() {
+        refreshUI()
+    }
+    
     func refreshUI() {
         loadViewIfNeeded()
         customerAddress1.text = currentCustomer?.address ?? ""
@@ -78,7 +85,7 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
     func loadCustomerQuotes() {
         if let quotes = currentCustomer?.quotes {
             currentCustomerQuotes = Array(quotes) as! [Quote]
-            currentCustomerQuotes = currentCustomerQuotes.sorted(by: { ($0.dateCreated!).compare($1.dateCreated!) == .orderedDescending
+            currentCustomerQuotes = currentCustomerQuotes.sorted(by: { ($0.dateModified!).compare($1.dateModified!) == .orderedDescending
             })
         }
     }
@@ -110,10 +117,15 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "quoteReuseIdentifierCell") as! QuoteCell
         cell.layer.cornerRadius = 10
-        let text = currentCustomerQuotes[indexPath.section]
-        cell.quoteNumber.text = text.quoteNumber
-        let newDateString = text.dateCreated?.dateToString()
+        let quote = currentCustomerQuotes[indexPath.section]
+        cell.quoteNumber.text = quote.quoteNumber
+        let newDateString = quote.dateCreated?.dateToShort()
         cell.quoteDate.text = newDateString
+        if let currentImage = getImageToDisplay(from: quote) {
+            cell.quoteImageView.image = UIImage(data: currentImage.imageData!)
+        } else {
+            cell.quoteImageView.image = nil
+        }
         return cell
     }
     
@@ -130,6 +142,15 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
             let indexSet = IndexSet(integer: indexPath.section)
             tableView.deleteSections(indexSet, with: .fade)
         }
+    }
+    
+    func getImageToDisplay(from quote: Quote) -> Image? {
+        if let images = Array(quote.images!) as? [Image] {
+            if images.count > 0 {
+                return images.first
+            }
+        }
+        return nil
     }
 }
 

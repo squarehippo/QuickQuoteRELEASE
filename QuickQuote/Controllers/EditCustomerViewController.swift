@@ -78,6 +78,7 @@ class EditCustomerViewController: UIViewController {
                     city = placemark.locality!
                     state = placemark.administrativeArea!
                     self.saveCityAndState(city: city, state: state)
+                    NotificationCenter.default.post(name: .onCityAvailable, object: self, userInfo: nil)
                 }
             }
         }
