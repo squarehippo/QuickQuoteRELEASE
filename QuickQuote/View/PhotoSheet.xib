@@ -1,30 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PhotoSheet" customModule="QuickQuote" customModuleProvider="target">
             <connections>
-                <outlet property="caption1" destination="bSa-eF-vE9" id="Ywn-5R-1Xz"/>
-                <outlet property="caption2" destination="la2-wj-WzM" id="hrK-Ki-hk0"/>
-                <outlet property="caption3" destination="hUL-eW-MYY" id="Oed-2T-Orz"/>
-                <outlet property="caption4" destination="2Z3-su-Ri2" id="CJk-8O-Jqy"/>
-                <outlet property="caption5" destination="q7G-H2-tjl" id="GaR-Ht-AGO"/>
+                <outlet property="caption1" destination="zeF-OJ-Xpc" id="2Lq-wh-Qkp"/>
+                <outlet property="caption2" destination="DPe-nc-6KC" id="OIi-F1-sj5"/>
+                <outlet property="caption3" destination="NAF-f8-G2H" id="ntb-2L-cfj"/>
+                <outlet property="caption4" destination="0Rp-Lb-oiU" id="hBk-VC-ANL"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="aSn-kI-NTY"/>
-                <outlet property="photo1" destination="AaD-Ek-7yb" id="JVD-GF-MHv"/>
-                <outlet property="photo2" destination="56o-hh-3op" id="VXa-Dt-uZA"/>
-                <outlet property="photo3" destination="9ZJ-o9-Iag" id="cTB-Z2-mJ1"/>
-                <outlet property="photo4" destination="Omg-EV-UJh" id="GCT-QO-mtM"/>
-                <outlet property="photo5" destination="gx7-M0-P2o" id="PxR-GH-ZEM"/>
-                <outlet property="stackView1" destination="WiD-4Y-izJ" id="zWn-Bc-x2g"/>
-                <outlet property="stackView2" destination="nhY-tw-9q5" id="lh1-wE-FFC"/>
-                <outlet property="stackView3" destination="Ffr-31-bXJ" id="bV7-5o-IGk"/>
-                <outlet property="stackView4" destination="Xj8-6p-ZcY" id="Zn2-U7-P8e"/>
-                <outlet property="stackView5" destination="594-kl-WHO" id="pNd-sc-eGv"/>
+                <outlet property="photo1" destination="a1S-Gr-hqj" id="DzE-jJ-0tu"/>
+                <outlet property="photo2" destination="QMM-6W-Css" id="Wx7-gd-jYg"/>
+                <outlet property="photo3" destination="QOK-pi-cjg" id="5rC-Wj-kRA"/>
+                <outlet property="photo4" destination="dZy-8X-TOp" id="kd6-Jt-2Yr"/>
+                <outlet property="photoStack1" destination="aGB-5U-cGn" id="5Sg-84-4ji"/>
+                <outlet property="photoStack2" destination="J7c-iQ-i1N" id="SK5-Mj-24S"/>
+                <outlet property="photoStack3" destination="ihy-qC-iz2" id="efM-rj-Ld5"/>
+                <outlet property="photoStack4" destination="yke-3X-YLV" id="sbE-xs-Ksz"/>
+                <outlet property="quoteNumber" destination="BIx-d5-hrt" id="XcX-du-td2"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -54,8 +52,11 @@
                                 </imageView>
                             </subviews>
                         </stackView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BIx-d5-hrt">
-                            <rect key="frame" x="550" y="15" width="42" height="20.5"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AL555555-55555" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BIx-d5-hrt">
+                            <rect key="frame" x="390" y="15" width="202" height="20.5"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="202" id="FAM-sH-mIi"/>
+                            </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
@@ -63,155 +64,104 @@
                     </subviews>
                     <color key="backgroundColor" white="0.90480522259999996" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstItem="BIx-d5-hrt" firstAttribute="centerY" secondItem="eiN-wm-lfE" secondAttribute="centerY" id="1cY-nf-YcO"/>
-                        <constraint firstItem="skQ-Zn-nfx" firstAttribute="centerY" secondItem="eiN-wm-lfE" secondAttribute="centerY" id="JJZ-gT-UFl"/>
-                        <constraint firstAttribute="height" constant="50" id="Lrf-du-aEy"/>
-                        <constraint firstItem="skQ-Zn-nfx" firstAttribute="leading" secondItem="eiN-wm-lfE" secondAttribute="leading" constant="20" id="XOl-FB-elO"/>
-                        <constraint firstAttribute="trailing" secondItem="BIx-d5-hrt" secondAttribute="trailing" constant="20" id="aE0-VC-Z2v"/>
+                        <constraint firstAttribute="height" constant="50" id="K4Z-Wy-Lgd"/>
+                        <constraint firstItem="skQ-Zn-nfx" firstAttribute="centerY" secondItem="eiN-wm-lfE" secondAttribute="centerY" id="N3f-yx-bZs"/>
+                        <constraint firstItem="BIx-d5-hrt" firstAttribute="centerY" secondItem="skQ-Zn-nfx" secondAttribute="centerY" id="jaE-Ge-9QU"/>
+                        <constraint firstItem="skQ-Zn-nfx" firstAttribute="leading" secondItem="eiN-wm-lfE" secondAttribute="leading" constant="20" id="owX-hp-nFQ"/>
+                        <constraint firstAttribute="trailing" secondItem="BIx-d5-hrt" secondAttribute="trailing" constant="20" id="wHM-6x-F1s"/>
                     </constraints>
                 </view>
-                <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="1FT-yC-i4s">
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="wQV-C8-ztJ">
                     <rect key="frame" x="20" y="70" width="572" height="702"/>
                     <subviews>
-                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="7Tu-sm-Tvw">
-                            <rect key="frame" x="0.0" y="0.0" width="572" height="702"/>
+                        <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="aGB-5U-cGn">
+                            <rect key="frame" x="0.0" y="0.0" width="572" height="157.5"/>
                             <subviews>
-                                <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="WiD-4Y-izJ">
-                                    <rect key="frame" x="0.0" y="0.0" width="572" height="134"/>
-                                    <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="epW-GX-y6Y">
-                                            <rect key="frame" x="0.0" y="0.0" width="572" height="134"/>
-                                            <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AaD-Ek-7yb">
-                                                    <rect key="frame" x="0.0" y="0.0" width="215" height="134"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="215" id="FTg-Gc-NPm"/>
-                                                        <constraint firstAttribute="height" constant="134" id="Fce-fb-PS9"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="bSa-eF-vE9">
-                                                    <rect key="frame" x="223" y="0.0" width="349" height="134"/>
-                                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim </string>
-                                                    <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                </textView>
-                                            </subviews>
-                                        </stackView>
-                                    </subviews>
-                                </stackView>
-                                <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="nhY-tw-9q5">
-                                    <rect key="frame" x="0.0" y="142" width="572" height="134"/>
-                                    <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="42Q-Is-qvG">
-                                            <rect key="frame" x="0.0" y="0.0" width="572" height="134"/>
-                                            <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="56o-hh-3op">
-                                                    <rect key="frame" x="0.0" y="0.0" width="215" height="134"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="134" id="BHg-gm-Itf"/>
-                                                        <constraint firstAttribute="width" constant="215" id="mj9-k1-Cfl"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut " textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="la2-wj-WzM">
-                                                    <rect key="frame" x="223" y="0.0" width="349" height="134"/>
-                                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                    <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                </textView>
-                                            </subviews>
-                                        </stackView>
-                                    </subviews>
-                                </stackView>
-                                <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Ffr-31-bXJ">
-                                    <rect key="frame" x="0.0" y="284" width="572" height="134"/>
-                                    <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="AG4-3U-JJo">
-                                            <rect key="frame" x="0.0" y="0.0" width="572" height="134"/>
-                                            <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9ZJ-o9-Iag">
-                                                    <rect key="frame" x="0.0" y="0.0" width="215" height="134"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="134" id="2LC-Ly-OR7"/>
-                                                        <constraint firstAttribute="width" constant="215" id="f4W-jS-NRR"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="hUL-eW-MYY">
-                                                    <rect key="frame" x="223" y="0.0" width="349" height="134"/>
-                                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                                    <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                </textView>
-                                            </subviews>
-                                        </stackView>
-                                    </subviews>
-                                </stackView>
-                                <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Xj8-6p-ZcY">
-                                    <rect key="frame" x="0.0" y="426" width="572" height="134"/>
-                                    <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="425-JM-1A1">
-                                            <rect key="frame" x="0.0" y="0.0" width="572" height="134"/>
-                                            <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Omg-EV-UJh">
-                                                    <rect key="frame" x="0.0" y="0.0" width="215" height="134"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="215" id="kBU-vA-NR1"/>
-                                                        <constraint firstAttribute="height" constant="134" id="ksE-Dt-wbq"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="2Z3-su-Ri2">
-                                                    <rect key="frame" x="223" y="0.0" width="349" height="134"/>
-                                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                    <string key="text">cepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                                    <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                </textView>
-                                            </subviews>
-                                        </stackView>
-                                    </subviews>
-                                </stackView>
-                                <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="594-kl-WHO">
-                                    <rect key="frame" x="0.0" y="568" width="572" height="134"/>
-                                    <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="9YI-pJ-piR">
-                                            <rect key="frame" x="0.0" y="0.0" width="572" height="134"/>
-                                            <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gx7-M0-P2o">
-                                                    <rect key="frame" x="0.0" y="0.0" width="215" height="134"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="215" id="Qwb-g4-25t"/>
-                                                        <constraint firstAttribute="height" constant="134" id="wAI-91-fxo"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="n culpa qui officia deserunt mollit anim id est laborum. " textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="q7G-H2-tjl">
-                                                    <rect key="frame" x="223" y="0.0" width="349" height="134"/>
-                                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                    <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                </textView>
-                                            </subviews>
-                                        </stackView>
-                                    </subviews>
-                                </stackView>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="a1S-Gr-hqj">
+                                    <rect key="frame" x="0.0" y="0.0" width="197" height="157.5"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" secondItem="a1S-Gr-hqj" secondAttribute="height" multiplier="5:4" id="JAZ-dZ-FTU"/>
+                                    </constraints>
+                                </imageView>
+                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="zeF-OJ-Xpc">
+                                    <rect key="frame" x="205" y="0.0" width="367" height="157.5"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </string>
+                                    <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                </textView>
+                            </subviews>
+                        </stackView>
+                        <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="J7c-iQ-i1N">
+                            <rect key="frame" x="0.0" y="181.5" width="572" height="157.5"/>
+                            <subviews>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QMM-6W-Css">
+                                    <rect key="frame" x="0.0" y="0.0" width="197" height="157.5"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" secondItem="QMM-6W-Css" secondAttribute="height" multiplier="5:4" id="rCg-Kw-uXS"/>
+                                    </constraints>
+                                </imageView>
+                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="DPe-nc-6KC">
+                                    <rect key="frame" x="205" y="0.0" width="367" height="157.5"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </string>
+                                    <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                </textView>
+                            </subviews>
+                        </stackView>
+                        <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ihy-qC-iz2">
+                            <rect key="frame" x="0.0" y="363" width="572" height="157.5"/>
+                            <subviews>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QOK-pi-cjg">
+                                    <rect key="frame" x="0.0" y="0.0" width="197" height="157.5"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" secondItem="QOK-pi-cjg" secondAttribute="height" multiplier="5:4" id="E20-QV-VQ7"/>
+                                    </constraints>
+                                </imageView>
+                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="NAF-f8-G2H">
+                                    <rect key="frame" x="205" y="0.0" width="367" height="157.5"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </string>
+                                    <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                </textView>
+                            </subviews>
+                        </stackView>
+                        <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="yke-3X-YLV">
+                            <rect key="frame" x="0.0" y="544.5" width="572" height="157.5"/>
+                            <subviews>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dZy-8X-TOp">
+                                    <rect key="frame" x="0.0" y="0.0" width="197" height="157.5"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" secondItem="dZy-8X-TOp" secondAttribute="height" multiplier="5:4" id="MVX-Bt-4vx"/>
+                                    </constraints>
+                                </imageView>
+                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="0Rp-Lb-oiU">
+                                    <rect key="frame" x="205" y="0.0" width="367" height="157.5"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </string>
+                                    <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                </textView>
                             </subviews>
                         </stackView>
                     </subviews>
                 </stackView>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="eiN-wm-lfE" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="7Ro-rF-GgS"/>
-                <constraint firstItem="eiN-wm-lfE" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="K61-cr-Wxr"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="1FT-yC-i4s" secondAttribute="trailing" constant="20" id="SCh-ac-T1d"/>
-                <constraint firstItem="eiN-wm-lfE" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="TA8-wi-CVf"/>
-                <constraint firstItem="1FT-yC-i4s" firstAttribute="top" secondItem="eiN-wm-lfE" secondAttribute="bottom" constant="20" id="UvC-gZ-otH"/>
-                <constraint firstItem="1FT-yC-i4s" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="Y4t-Wp-Lwz"/>
+                <constraint firstAttribute="bottom" secondItem="wQV-C8-ztJ" secondAttribute="bottom" priority="999" constant="20" id="2Yk-f4-TrP"/>
+                <constraint firstItem="wQV-C8-ztJ" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="BK2-pT-XF8"/>
+                <constraint firstItem="wQV-C8-ztJ" firstAttribute="top" secondItem="eiN-wm-lfE" secondAttribute="bottom" constant="20" id="Fr3-w4-HDS"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="wQV-C8-ztJ" secondAttribute="trailing" constant="20" id="Xm7-JV-si6"/>
+                <constraint firstItem="eiN-wm-lfE" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="abv-ez-Amb"/>
+                <constraint firstItem="eiN-wm-lfE" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="g1b-4E-Ud9"/>
+                <constraint firstItem="eiN-wm-lfE" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="gKG-uM-h8L"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>

@@ -44,6 +44,8 @@
 		429EBCE02380BECE0007DC55 /* DeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429EBCDF2380BECE0007DC55 /* DeleteButton.swift */; };
 		429EBCE2238338BD0007DC55 /* String+CurrencyFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429EBCE1238338BD0007DC55 /* String+CurrencyFormat.swift */; };
 		429EBCE423845BBB0007DC55 /* PreparePDFSheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429EBCE323845BBA0007DC55 /* PreparePDFSheets.swift */; };
+		42AD0B4F238D85F20057CFCC /* PhotoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42AD0B4E238D85F20057CFCC /* PhotoView.xib */; };
+		42AD0B51238D88630057CFCC /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AD0B50238D88630057CFCC /* PhotoView.swift */; };
 		42BAEDE5237853A10054A31C /* NotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42BAEDE4237853A10054A31C /* NotesViewController.swift */; };
 		42BF7FE7236C8EA800605C68 /* DateToSeconds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42BF7FE6236C8EA800605C68 /* DateToSeconds.swift */; };
 		42E1E5192360BC07008B1912 /* String+Trim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E1E5182360BC07008B1912 /* String+Trim.swift */; };
@@ -90,6 +92,8 @@
 		429EBCDF2380BECE0007DC55 /* DeleteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButton.swift; sourceTree = "<group>"; };
 		429EBCE1238338BD0007DC55 /* String+CurrencyFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+CurrencyFormat.swift"; sourceTree = "<group>"; };
 		429EBCE323845BBA0007DC55 /* PreparePDFSheets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreparePDFSheets.swift; sourceTree = "<group>"; };
+		42AD0B4E238D85F20057CFCC /* PhotoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PhotoView.xib; sourceTree = "<group>"; };
+		42AD0B50238D88630057CFCC /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
 		42BAEDE4237853A10054A31C /* NotesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesViewController.swift; sourceTree = "<group>"; };
 		42BF7FE6236C8EA800605C68 /* DateToSeconds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateToSeconds.swift; sourceTree = "<group>"; };
 		42E1E5182360BC07008B1912 /* String+Trim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Trim.swift"; sourceTree = "<group>"; };
@@ -123,6 +127,8 @@
 				429EBCD7237F25D00007DC55 /* SignSheet.swift */,
 				429EBCDF2380BECE0007DC55 /* DeleteButton.swift */,
 				42663566238A04CC0038EA4B /* ImageCollectionViewCell.swift */,
+				42AD0B4E238D85F20057CFCC /* PhotoView.xib */,
+				42AD0B50238D88630057CFCC /* PhotoView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -265,6 +271,7 @@
 				42688B8723553C6C00AE825A /* LaunchScreen.storyboard in Resources */,
 				429EBCCE237F0FD10007DC55 /* CoverSheet.xib in Resources */,
 				429EBCD4237F25A20007DC55 /* SignSheet.xib in Resources */,
+				42AD0B4F238D85F20057CFCC /* PhotoView.xib in Resources */,
 				429EBCD2237F258E0007DC55 /* QuoteSheet.xib in Resources */,
 				429EBCDA23804CA20007DC55 /* PhotoSheet.xib in Resources */,
 				42688B8423553C6C00AE825A /* Assets.xcassets in Resources */,
@@ -302,6 +309,7 @@
 				423B0E1F2364A30E00CEB2F7 /* EditCustomerViewController.swift in Sources */,
 				429EBCD8237F25D00007DC55 /* SignSheet.swift in Sources */,
 				422E3A0123785C32004F42E7 /* WorkOrderViewController.swift in Sources */,
+				42AD0B51238D88630057CFCC /* PhotoView.swift in Sources */,
 				422E39FF23785C21004F42E7 /* WorkSheetViewController.swift in Sources */,
 				429EBCD0237F0FE90007DC55 /* CoverSheet.swift in Sources */,
 				42BAEDE5237853A10054A31C /* NotesViewController.swift in Sources */,

@@ -11,11 +11,13 @@ import CoreData
 
 class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
+    
     var currentCustomer: Customer? {
         didSet {
             refreshUI()
         }
     }
+    
     let pageWidth: CGFloat = 612.0
     let pageHeight: CGFloat = 792.0
     var pdfData = NSMutableData()
@@ -39,7 +41,6 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     @IBOutlet weak var taskTableView: UITableView!
     @IBOutlet weak var quoteNumber: UILabel!
     @IBOutlet weak var quoteDate: UILabel!
-    @IBOutlet var imageButtonCollection: [ImageButton]!
     @IBOutlet weak var shareButton: UIBarButtonItem!
     @IBOutlet weak var imageCollectionView: UICollectionView!
     
@@ -51,12 +52,9 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         taskTableView.delegate = self
         taskTableView.layer.cornerRadius = 10
         
+        loadImageArray()
         assignCurrentQuoteInformation()
         setUpViewTasks()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        AddImagesToButtons()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -75,13 +73,15 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
                 destinationVC.currentQuote = currentQuote
             }
         case "collectionSegue":
-            print("hello?")
             if let destinationVC = segue.destination as? ImageViewController {
                 destinationVC.currentQuote = currentQuote
-                let cell = sender as! ImageCollectionViewCell
-                let path = imageCollectionView.indexPath(for: cell)?.row
-                destinationVC.buttonTag = path
-                print("PATH = ", path)
+                let path = self.imageCollectionView.indexPath(for: sender as! ImageCollectionViewCell)
+                destinationVC.buttonTag = path?.row
+            }
+        case "newPhotoSegue":
+            if let destinationVC = segue.destination as? ImageViewController {
+                destinationVC.currentQuote = currentQuote
+                destinationVC.buttonTag = currentImageArray.count
             }
         default:
             break
@@ -111,7 +111,8 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     @objc func onDismissImageModal() {
-        AddImagesToButtons()
+        loadImageArray()
+        imageCollectionView.reloadData()
     }
     
     func assignCurrentQuoteInformation() {
@@ -142,15 +143,14 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath.row)
-        performSegue(withIdentifier: "collectionSegue", sender: self)
+        let cell = imageCollectionView.cellForItem(at: indexPath) as! ImageCollectionViewCell
+        performSegue(withIdentifier: "collectionSegue", sender: cell)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCollectionViewCell", for: indexPath) as! ImageCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ImageCollectionViewCell
         let sortedArray = currentImageArray.sorted { $0.tag < $1.tag }
-        cell.collectionImage.image = UIImage(named: "add3" )
-        //cell.collectionImage.image = UIImage(data: sortedArray[indexPath.row].imageData!)
+        cell.collectionImage.image = UIImage(data: sortedArray[indexPath.row].imageData!)
         return cell
     }
     
@@ -307,39 +307,9 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
-    func AddImagesToButtons() {
-        loadImageArray()
-        positionAddImageButton()
-        
-        let sortedArray = currentImageArray.sorted { $0.tag < $1.tag }
-        for (image) in sortedArray where image.imageData != nil {
-            for button in imageButtonCollection {
-                if button.tag == image.tag {
-                    button.isEnabled = true
-                    button.imageView?.contentMode = .scaleAspectFill
-                    button.setImage(UIImage(data: image.imageData!), for: .normal)
-                }
-            }
-        }
-    }
     
-    func positionAddImageButton() {
-        if currentImageArray.count < 5 {
-            for button in imageButtonCollection {
-                if button.tag > currentImageArray.count {
-                    button.isEnabled = false
-                    button.setImage(nil, for: .normal)
-                    button.backgroundColor = UIColor.clear
-                }
-                if button.tag == currentImageArray.count {
-                    button.isEnabled = true
-                    button.imageView?.contentMode = .center
-                    button.setImage(UIImage(named: "addPhoto"), for: .normal)
-                    button.backgroundColor = UIColor.lightGray
-                }
-            }
-        }
-    }
+    
+    
     
     func saveImage(data: Data, tag: Int) {
         if currentImageArray.count != tag {
