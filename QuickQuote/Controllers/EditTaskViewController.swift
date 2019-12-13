@@ -24,7 +24,6 @@ class EditTaskViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        editTaskView.layer.cornerRadius = 10.0
         taskTitle.becomeFirstResponder()
         loadTaskInfo()
     }

@@ -16,9 +16,17 @@
 		422A6990236F546300CE1433 /* ResizeImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422A698F236F546300CE1433 /* ResizeImage.swift */; };
 		422E39FF23785C21004F42E7 /* WorkSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422E39FE23785C21004F42E7 /* WorkSheetViewController.swift */; };
 		422E3A0123785C32004F42E7 /* WorkOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422E3A0023785C32004F42E7 /* WorkOrderViewController.swift */; };
+		4239714A23A359C400E82BB6 /* PrepareWorkOrderPDF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4239714923A359C400E82BB6 /* PrepareWorkOrderPDF.swift */; };
+		4239714C23A35AEF00E82BB6 /* WorkOrderPage1.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4239714B23A35AEF00E82BB6 /* WorkOrderPage1.xib */; };
+		4239714E23A35B7700E82BB6 /* WorkOrderPage1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4239714D23A35B7700E82BB6 /* WorkOrderPage1.swift */; };
 		423B0E1F2364A30E00CEB2F7 /* EditCustomerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423B0E1E2364A30E00CEB2F7 /* EditCustomerViewController.swift */; };
 		423B0E2123660A0100CEB2F7 /* NewTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423B0E2023660A0100CEB2F7 /* NewTaskViewController.swift */; };
 		424DD09D2370B96800EFE029 /* ImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424DD09C2370B96800EFE029 /* ImageButton.swift */; };
+		426239B9239ECC9C004D58E0 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426239B8239ECC9C004D58E0 /* LoginViewController.swift */; };
+		426239BB239F2895004D58E0 /* EmployeeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426239BA239F2895004D58E0 /* EmployeeViewController.swift */; };
+		426239BD239FAABA004D58E0 /* CancelButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426239BC239FAABA004D58E0 /* CancelButton.swift */; };
+		426239BF23A0A131004D58E0 /* DesignView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426239BE23A0A131004D58E0 /* DesignView.swift */; };
+		4264094E23A403E100F26C88 /* UIView+PDF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4264094D23A403E100F26C88 /* UIView+PDF.swift */; };
 		4266356323888E730038EA4B /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4266356223888E730038EA4B /* ImageViewController.swift */; };
 		42663567238A04CC0038EA4B /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42663566238A04CC0038EA4B /* ImageCollectionViewCell.swift */; };
 		42688B7823553C6A00AE825A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42688B7723553C6A00AE825A /* AppDelegate.swift */; };
@@ -62,9 +70,17 @@
 		422A698F236F546300CE1433 /* ResizeImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizeImage.swift; sourceTree = "<group>"; };
 		422E39FE23785C21004F42E7 /* WorkSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkSheetViewController.swift; sourceTree = "<group>"; };
 		422E3A0023785C32004F42E7 /* WorkOrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkOrderViewController.swift; sourceTree = "<group>"; };
+		4239714923A359C400E82BB6 /* PrepareWorkOrderPDF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrepareWorkOrderPDF.swift; sourceTree = "<group>"; };
+		4239714B23A35AEF00E82BB6 /* WorkOrderPage1.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WorkOrderPage1.xib; sourceTree = "<group>"; };
+		4239714D23A35B7700E82BB6 /* WorkOrderPage1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkOrderPage1.swift; sourceTree = "<group>"; };
 		423B0E1E2364A30E00CEB2F7 /* EditCustomerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditCustomerViewController.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		423B0E2023660A0100CEB2F7 /* NewTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskViewController.swift; sourceTree = "<group>"; };
 		424DD09C2370B96800EFE029 /* ImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageButton.swift; sourceTree = "<group>"; };
+		426239B8239ECC9C004D58E0 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		426239BA239F2895004D58E0 /* EmployeeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeViewController.swift; sourceTree = "<group>"; };
+		426239BC239FAABA004D58E0 /* CancelButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelButton.swift; sourceTree = "<group>"; };
+		426239BE23A0A131004D58E0 /* DesignView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignView.swift; sourceTree = "<group>"; };
+		4264094D23A403E100F26C88 /* UIView+PDF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+PDF.swift"; sourceTree = "<group>"; };
 		4266356223888E730038EA4B /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		42663566238A04CC0038EA4B /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		42688B7423553C6A00AE825A /* QuickQuote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuickQuote.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -78,7 +94,7 @@
 		427B4F05235F7197009816A5 /* SignatureManagedObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignatureManagedObject.swift; sourceTree = "<group>"; };
 		427B4F07235FD7D7009816A5 /* NewCustomerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCustomerViewController.swift; sourceTree = "<group>"; };
 		4292E4F92355407D009657EB /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		4292E4FB235546DB009657EB /* CustomerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerViewController.swift; sourceTree = "<group>"; wrapsLines = 0; };
+		4292E4FB235546DB009657EB /* CustomerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerViewController.swift; sourceTree = "<group>"; wrapsLines = 1; };
 		4292E4FD23554A41009657EB /* CustomerDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerDetailViewController.swift; sourceTree = "<group>"; };
 		429EBCCD237F0FD10007DC55 /* CoverSheet.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CoverSheet.xib; sourceTree = "<group>"; };
 		429EBCCF237F0FE90007DC55 /* CoverSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverSheet.swift; sourceTree = "<group>"; };
@@ -129,6 +145,10 @@
 				42663566238A04CC0038EA4B /* ImageCollectionViewCell.swift */,
 				42AD0B4E238D85F20057CFCC /* PhotoView.xib */,
 				42AD0B50238D88630057CFCC /* PhotoView.swift */,
+				426239BC239FAABA004D58E0 /* CancelButton.swift */,
+				426239BE23A0A131004D58E0 /* DesignView.swift */,
+				4239714B23A35AEF00E82BB6 /* WorkOrderPage1.xib */,
+				4239714D23A35B7700E82BB6 /* WorkOrderPage1.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -178,6 +198,7 @@
 		42C454E02363D18C0024DD99 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				426239B8239ECC9C004D58E0 /* LoginViewController.swift */,
 				4292E4FB235546DB009657EB /* CustomerViewController.swift */,
 				4292E4FD23554A41009657EB /* CustomerDetailViewController.swift */,
 				427B4F07235FD7D7009816A5 /* NewCustomerViewController.swift */,
@@ -190,7 +211,9 @@
 				422E39FE23785C21004F42E7 /* WorkSheetViewController.swift */,
 				420C645623775A39001997D8 /* MaterialsListViewController.swift */,
 				42BAEDE4237853A10054A31C /* NotesViewController.swift */,
+				426239BA239F2895004D58E0 /* EmployeeViewController.swift */,
 				429EBCE323845BBA0007DC55 /* PreparePDFSheets.swift */,
+				4239714923A359C400E82BB6 /* PrepareWorkOrderPDF.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -206,6 +229,7 @@
 				422A698F236F546300CE1433 /* ResizeImage.swift */,
 				429EBCDD2380BC690007DC55 /* UIView+WigglyShake.swift */,
 				429EBCE1238338BD0007DC55 /* String+CurrencyFormat.swift */,
+				4264094D23A403E100F26C88 /* UIView+PDF.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -269,6 +293,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				42688B8723553C6C00AE825A /* LaunchScreen.storyboard in Resources */,
+				4239714C23A35AEF00E82BB6 /* WorkOrderPage1.xib in Resources */,
 				429EBCCE237F0FD10007DC55 /* CoverSheet.xib in Resources */,
 				429EBCD4237F25A20007DC55 /* SignSheet.xib in Resources */,
 				42AD0B4F238D85F20057CFCC /* PhotoView.xib in Resources */,
@@ -286,6 +311,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				426239B9239ECC9C004D58E0 /* LoginViewController.swift in Sources */,
 				42663567238A04CC0038EA4B /* ImageCollectionViewCell.swift in Sources */,
 				4292E4FC235546DB009657EB /* CustomerViewController.swift in Sources */,
 				4292E4FE23554A41009657EB /* CustomerDetailViewController.swift in Sources */,
@@ -300,13 +326,17 @@
 				42688B7823553C6A00AE825A /* AppDelegate.swift in Sources */,
 				4211CA56236A2278008D57C3 /* EditTaskViewController.swift in Sources */,
 				424DD09D2370B96800EFE029 /* ImageButton.swift in Sources */,
+				426239BD239FAABA004D58E0 /* CancelButton.swift in Sources */,
 				4211CA4F2367B5AC008D57C3 /* DateToString.swift in Sources */,
+				426239BF23A0A131004D58E0 /* DesignView.swift in Sources */,
 				427B4F04235F6B0E009816A5 /* CoreDataStack.swift in Sources */,
+				4239714E23A35B7700E82BB6 /* WorkOrderPage1.swift in Sources */,
 				429EBCE2238338BD0007DC55 /* String+CurrencyFormat.swift in Sources */,
 				429EBCE02380BECE0007DC55 /* DeleteButton.swift in Sources */,
 				42688B8223553C6A00AE825A /* QuickQuote.xcdatamodeld in Sources */,
 				4211CA54236A0C78008D57C3 /* Notification+Names.swift in Sources */,
 				423B0E1F2364A30E00CEB2F7 /* EditCustomerViewController.swift in Sources */,
+				4264094E23A403E100F26C88 /* UIView+PDF.swift in Sources */,
 				429EBCD8237F25D00007DC55 /* SignSheet.swift in Sources */,
 				422E3A0123785C32004F42E7 /* WorkOrderViewController.swift in Sources */,
 				42AD0B51238D88630057CFCC /* PhotoView.swift in Sources */,
@@ -317,7 +347,9 @@
 				42BF7FE7236C8EA800605C68 /* DateToSeconds.swift in Sources */,
 				427B4F08235FD7D7009816A5 /* NewCustomerViewController.swift in Sources */,
 				42688B7A23553C6A00AE825A /* SceneDelegate.swift in Sources */,
+				426239BB239F2895004D58E0 /* EmployeeViewController.swift in Sources */,
 				423B0E2123660A0100CEB2F7 /* NewTaskViewController.swift in Sources */,
+				4239714A23A359C400E82BB6 /* PrepareWorkOrderPDF.swift in Sources */,
 				422A6990236F546300CE1433 /* ResizeImage.swift in Sources */,
 				4266356323888E730038EA4B /* ImageViewController.swift in Sources */,
 				427B4F06235F7197009816A5 /* SignatureManagedObject.swift in Sources */,

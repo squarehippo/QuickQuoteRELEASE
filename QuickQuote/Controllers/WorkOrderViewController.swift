@@ -12,6 +12,8 @@ class WorkOrderViewController: UIViewController {
     
     var currentQuote: Quote?
     
+    @IBOutlet weak var shareButton: UIBarButtonItem!
+    
     @IBOutlet weak var containerView1: UIView!
     @IBOutlet weak var containerView2: UIView!
     @IBOutlet weak var containerView3: UIView!
@@ -64,6 +66,24 @@ class WorkOrderViewController: UIViewController {
         }
     }
     
+    @IBAction func shareButtonPressed(_ sender: UIBarButtonItem) {
+        
+        let pdfPath = getPDF()
+            let pdfURL = URL(fileURLWithPath: pdfPath)
+            let uiavc = UIActivityViewController(activityItems: [pdfURL], applicationActivities: nil)
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                uiavc.popoverPresentationController?.barButtonItem = self.shareButton
+            }
+            present(uiavc, animated: true, completion: nil)
+        }
+        
+        func getPDF() -> String {
+            let newPDF = PrepareWorkOrderPDF()
+            if let quote = currentQuote {
+               return newPDF.getPDFPath(for: quote)
+            }
+            return ""
+        }
     
 
 }

@@ -15,7 +15,6 @@ class EditCustomerViewController: UIViewController {
     let coreData = CoreDataStack.shared
     var context = CoreDataStack.shared.persistentContainer.viewContext
     var currentCustomer: Customer?
-    //var delegate: EditCustomerDelegate?
     
     @IBOutlet weak var editCustomerView: UIView!
     @IBOutlet weak var customerName: UITextField!

@@ -28,11 +28,14 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
     @IBOutlet weak var customerAddress2: UILabel!
     @IBOutlet weak var customerEmail: UILabel!
     @IBOutlet weak var customerPhone: UILabel!
+    @IBOutlet weak var customerName: UILabel!
     
     
     override func viewDidLoad() {
         quoteTableView.dataSource = self
         quoteTableView.delegate = self
+        
+        navigationController?.navigationBar.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
         
         NotificationCenter.default.addObserver(self, selector: #selector(onDismissCustomerEdit), name: .onDismissCustomerEdit, object: nil)
         
@@ -71,6 +74,7 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
         customerAddress2.text = cityStateZipToString()
         customerPhone.text = currentCustomer?.phone ?? ""
         customerEmail.text = currentCustomer?.email ?? ""
+        customerName.text = currentCustomer?.name ?? ""
     }
     
     func cityStateZipToString() -> String {

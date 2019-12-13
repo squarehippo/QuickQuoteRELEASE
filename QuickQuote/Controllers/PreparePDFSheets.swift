@@ -35,8 +35,8 @@ class PreparePDFSheets: UIView {
         newPDFCoverSheet.quoteDate.text = (quote.dateCreated?.dateToLong())?.uppercased()
         newPDFCoverSheet.customerName.text = (quote.customer?.name)?.uppercased()
         newPDFCoverSheet.quoteNumber.text = quote.quoteNumber
-        newPDFCoverSheet.employeeName.text = "ADAM LYON"
-        newPDFCoverSheet.employeeContact.text = "919-555-1212"
+        newPDFCoverSheet.employeeName.text = quote.employee?.name
+        newPDFCoverSheet.employeeContact.text = quote.employee?.phone
         
         pdfPages.append(newPDFCoverSheet.contentView)
     }
@@ -133,37 +133,6 @@ class PreparePDFSheets: UIView {
                 }
             }
         }
-        
-        
-//--------------------------------------------------------------------------------
-        //TODO: get this to work!
-        
-//        if let totalPhotos = quote.images?.count {
-//            print(totalPhotos)
-//            for index in 0..<totalPhotos {
-//                print("outer loop")
-//                if index % 4 == 0 {
-//                    let newPhotoSheet = PhotoSheet(frame: CGRect(x: 30, y: 100, width: 612, height: 792))
-//                    //self.addSubview(newPhotoSheet)
-//                    newPhotoSheet.quoteNumber.text = quote.quoteNumber
-//
-//                    let photos = (Array(quote.images!) as? [Image])!.sorted(by: { ($0.dateCreated!).compare($1.dateCreated!) == .orderedAscending })
-//
-//                    for (photoIndex, _) in Array(photos).enumerated() where photoIndex >= index && photoIndex < index + 4 {
-//                        let newView = PhotoView()
-//                        newView.heightAnchor.constraint(equalToConstant: 150).isActive = true
-//                        newView.widthAnchor.constraint(equalToConstant: self.bounds.maxX - 20).isActive = true
-//                        newView.photoCaption.text = photos[photoIndex].caption
-//                        print(photos[photoIndex].caption!)
-//                        newView.photo.image = UIImage(data: photos[photoIndex].imageData!)
-//                        newPhotoSheet.photoStackView.addArrangedSubview(newView)
-//                        newPhotoSheet.photoStackView.updateConstraints()
-//                        newPhotoSheet.photoStackView.setNeedsLayout()
-//                    }
-//                    pdfPages.append(newPhotoSheet)
-//                }
-//            }
-//        }
     }
     
     func makeSignSheet(quote: Quote) {
@@ -191,52 +160,5 @@ class PreparePDFSheets: UIView {
         dateFormatter.locale = Locale(identifier: "en_US")
         return dateFormatter.string(from: date)
     }
-    
-    func arrayToPDF(views: [UIView], fileName: String) -> String {
-        let pdfData = NSMutableData()
-        let pdfPageFrame = self.bounds
-        UIGraphicsBeginPDFContextToData(pdfData, pdfPageFrame, nil)
-        let context = UIGraphicsGetCurrentContext()
-        for view in views {
-            UIGraphicsBeginPDFPage()
-            view.layer.render(in: context!)
-        }
-        UIGraphicsEndPDFContext()
-        return saveViewPdf(data: pdfData, fileName: fileName)
-    }
 
 }
-
-extension UIView {
-    
-//    // Export pdf from Save pdf in drectory and return pdf file path
-//    func exportAsPdfFromView(fileName: String) -> String {
-//        let pdfPageFrame = self.bounds
-//        let pdfData = NSMutableData()
-//        UIGraphicsBeginPDFContextToData(pdfData, pdfPageFrame, nil)
-//        UIGraphicsBeginPDFPageWithInfo(pdfPageFrame, nil)
-//        guard let pdfContext = UIGraphicsGetCurrentContext() else { return "" }
-//        self.layer.render(in: pdfContext)
-//        UIGraphicsEndPDFContext()
-//        return self.saveViewPdf(data: pdfData, fileName: fileName)
-//
-//    }
-    
-    // Save pdf file in document directory
-    func saveViewPdf(data: NSMutableData, fileName: String) -> String {
-        
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let docDirectoryPath = paths[0]
-        let pdfPath = docDirectoryPath.appendingPathComponent("\(fileName).pdf")
-        if data.write(to: pdfPath, atomically: true) {
-            print("file://\(pdfPath.path)")
-            return pdfPath.path
-        } else {
-            return ""
-        }
-    }
-}
-
-
-
-

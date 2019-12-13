@@ -20,37 +20,82 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating {
     var delegate: CustomerSelectionDelegate?
     var customers = [Customer]()
     var currentCustomer: NSManagedObject?
+    
     let coreData = CoreDataStack.shared
     var context = CoreDataStack.shared.persistentContainer.viewContext
     
     let searchController = UISearchController(searchResultsController: nil)
     
     @IBOutlet weak var customerTableView: UITableView!
+    @IBOutlet weak var itemBarButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchCustomers(searchString: "")
-        configureSearchController()
-        title = "Customers"
-        highlightFirstRow()
-        NotificationCenter.default.addObserver(self, selector: #selector(onDismissCustomerEdit), name: .onDismissCustomerEdit, object: nil)
+        
+        print("isLOggedIn = ", isLoggedIn())
+        print("currentEmployee = ", UserDefaults.standard.object(forKey: "currentEmployee") as? String ?? "")
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(onDismissEmployee), name: .onDismissEmployee, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(onDismissLogin), name: .onDismissLogin, object: nil)
+        if isLoggedIn() {
+            prepareView()
+        } else {
+            performSegue(withIdentifier: "loginSegue", sender: self)
+        }
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ModalCustomer" {
-            if let nextVC = segue.destination as? NewCustomerViewController {
-                nextVC.delegate = self
-            }
-        }
-        if segue.identifier == "editCustomer" {
-            if let nextVC = segue.destination as? EditCustomerViewController {
-                nextVC.currentCustomer = currentCustomer as? Customer
-            }
-        }
+    @objc func onDismissLogin() {
+        prepareView()
+    }
+    
+    @objc func onDismissEmployee() {
+        prepareView()
     }
     
     @objc func onDismissCustomerEdit() {
         customerTableView.reloadData()
+    }
+    
+    func isLoggedIn() -> Bool {
+        return UserDefaults.standard.bool(forKey: "isLoggedIn")
+    }
+    
+    func prepareView() {
+        fetchCustomers(searchString: "")
+        configureSearchController()
+        title = "Customers"
+        if customers.count > 0 {
+            highlightFirstRow()
+        }
+        NotificationCenter.default.addObserver(self, selector: #selector(onDismissCustomerEdit), name: .onDismissCustomerEdit, object: nil)
+        itemBarButton.title = UserDefaults.standard.object(forKey: "currentEmployee") as? String ?? ""
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+        case "ModalCustomer":
+            if let destinationVC = segue.destination as? NewCustomerViewController {
+                destinationVC.delegate = self
+            }
+        case "editCustomer":
+            if let destinationVC = segue.destination as? EditCustomerViewController {
+                destinationVC.currentCustomer = currentCustomer as? Customer
+            }
+        case "editEmployee1Segue":
+            print("edit1Segue currentEmployee = ", UserDefaults.standard.object(forKey: "currentEmployee") as? String ?? "")
+            if let destinationVC = segue.destination as? EmployeeViewController {
+                destinationVC.employeeName = UserDefaults.standard.object(forKey: "currentEmployee") as? String ?? ""
+            }
+        case "editEmployee2Segue":
+            print("edit2Segue currentEmployee = ", UserDefaults.standard.object(forKey: "currentEmployee") as? String ?? "")
+            if let destinationVC = segue.destination as? EmployeeViewController {
+                destinationVC.employeeName = UserDefaults.standard.object(forKey: "currentEmployee") as? String ?? ""
+            }
+        case "signoutSegue":
+            UserDefaults.standard.set(false, forKey: "isLoggedIn")
+        default:
+            break
+        }
     }
     
     func configureSearchController() {
@@ -131,6 +176,8 @@ extension CustomerViewController: NewCustomerDelegate {
         customerTableView.reloadData()
         let row = customers.count - 1
         delegate?.customerSelected(customers[row])
-        customerTableView.selectRow(at: IndexPath(row: row, section: 0), animated: true, scrollPosition: .top)
+        if customers.count > 0 {
+            customerTableView.selectRow(at: IndexPath(row: row, section: 0), animated: true, scrollPosition: .top)
+        }
     }
 }
