@@ -8,7 +8,6 @@
         <attribute name="phone" optional="YES" attributeType="String"/>
         <attribute name="state" optional="YES" attributeType="String"/>
         <attribute name="zip" attributeType="String"/>
-        <relationship name="employee" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Employee" inverseName="customer" inverseEntity="Employee"/>
         <relationship name="quotes" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Quote" inverseName="customer" inverseEntity="Quote"/>
     </entity>
     <entity name="Employee" representedClassName="Employee" parentEntity="SignatureManagedObject" syncable="YES" codeGenerationType="class">
@@ -17,7 +16,6 @@
         <attribute name="password" optional="YES" attributeType="String"/>
         <attribute name="phone" optional="YES" attributeType="String"/>
         <attribute name="username" optional="YES" attributeType="String"/>
-        <relationship name="customer" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Customer" inverseName="employee" inverseEntity="Customer"/>
         <relationship name="quotes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Quote" inverseName="employee" inverseEntity="Quote"/>
     </entity>
     <entity name="Image" representedClassName="Image" parentEntity="SignatureManagedObject" syncable="YES" codeGenerationType="class">
@@ -80,8 +78,8 @@
         <relationship name="quote" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Quote" inverseName="worksheet" inverseEntity="Quote"/>
     </entity>
     <elements>
-        <element name="Customer" positionX="-363.828125" positionY="-55.5546875" width="128" height="178"/>
-        <element name="Employee" positionX="-198" positionY="0" width="128" height="148"/>
+        <element name="Customer" positionX="-363.828125" positionY="-55.5546875" width="128" height="163"/>
+        <element name="Employee" positionX="-198" positionY="0" width="128" height="133"/>
         <element name="Image" positionX="-198" positionY="0" width="128" height="103"/>
         <element name="Material" positionX="-198" positionY="0" width="128" height="73"/>
         <element name="Quote" positionX="-40.4609375" positionY="19.296875" width="128" height="193"/>

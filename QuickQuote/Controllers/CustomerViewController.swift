@@ -34,6 +34,8 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating {
         
         NotificationCenter.default.addObserver(self, selector: #selector(onDismissEmployee), name: .onDismissEmployee, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(onDismissLogin), name: .onDismissLogin, object: nil)
+        //TODO: onDismissNewCustomer unnecessary?
+        NotificationCenter.default.addObserver(self, selector: #selector(onDismissNewCustomer), name: .onDismissNewCustomer, object: nil)
         if isLoggedIn() {
             prepareView()
         } else {
@@ -50,6 +52,10 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating {
     }
     
     @objc func onDismissCustomerEdit() {
+        customerTableView.reloadData()
+    }
+    
+    @objc func onDismissNewCustomer() {
         customerTableView.reloadData()
     }
     
@@ -104,6 +110,9 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating {
     func highlightFirstRow() {
         if customers.count > 0 {
             customerTableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .top)
+            //TODO: When a new customer is added, the last customer im the list is highlighted - the code below didn't fix it
+            customers = customers.sorted(by:
+            { ($0.dateModified!).compare($1.dateModified!) == .orderedDescending })
             delegate?.customerSelected(customers[0])
         }
     }
@@ -115,6 +124,8 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating {
         }
         do {
             customers = try context.fetch(fetchRequest) as! [Customer]
+            customers = customers.sorted(by:
+                { ($0.dateModified!).compare($1.dateModified!) == .orderedDescending })
         } catch let error as NSError {
             print("Could not fetch \(error)")
         }

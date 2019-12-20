@@ -11,6 +11,7 @@ import Foundation
 extension Notification.Name {
     static let onChangeCustomer = Notification.Name("onChangeCustomer")
     static let onDismissCustomerEdit = Notification.Name("onDismissCustomerEdit")
+    static let onDismissNewCustomer = Notification.Name("onDismissNewCustomer")
     static let onDismissNewTask = Notification.Name("onDismissNewTask")
     static let onDismissImageModal = Notification.Name("onDismissImageModal")
     static let onDismissEmployee = Notification.Name("onDismissEmployee")

@@ -99,6 +99,7 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
             coreData.saveContext()
         } else {
             title = "Quote for \(currentQuote?.customer?.name ?? "customer")"
+            checkForEmployee()
         }
         NotificationCenter.default.addObserver(self, selector: #selector(onDismissNewTask), name: .onDismissNewTask, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(onChangeCustomer), name: .onChangeCustomer, object: nil)
@@ -186,6 +187,12 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         loadViewIfNeeded()
     }
     
+    func checkForEmployee() {
+        if currentQuote?.employee?.name == nil {
+            assignEmployee(context: currentQuote!)
+        }
+    }
+    
     //MARK: - Collection View
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -239,10 +246,30 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         let newQuote = Quote(context: context)
         newQuote.quoteNumber = currentQuoteNumber
         newQuote.quoteStatus = "\(QuoteStatus.inProgress)"
-        newQuote.employee?.name = UserDefaults.standard.object(forKey: "currentEmployee") as? String ?? ""
+        assignEmployee(context: newQuote)
         currentCustomer?.addToQuotes(newQuote)
         coreData.saveContext()
         fetchCurrentQuote()
+    }
+    
+    func assignEmployee(context: Quote) {
+        let employeeName = UserDefaults.standard.object(forKey: "currentEmployee") as? String ?? ""
+        let currentEmployee = getCurrentEmployee(name: employeeName)
+        currentEmployee?.addToQuotes(context)
+    }
+    
+    func getCurrentEmployee(name: String) -> Employee? {
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Employee")
+        let predicate1 = NSPredicate(format: "name = %@", name)
+        fetchRequest.predicate = predicate1
+        fetchRequest.fetchLimit = 1
+        do {
+            let currentEmployee = try context.fetch(fetchRequest)
+            return currentEmployee.first as? Employee
+        } catch let error as NSError {
+            print(error)
+        }
+        return nil
     }
     
     func makeQuoteNumber(withUser sender: String, andDate date: Date) -> String {

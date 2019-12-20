@@ -45,7 +45,7 @@ class PreparePDFSheets: UIView {
         newPDFCoverSheet.quoteDate.text = (quote.dateCreated?.dateToLong())?.uppercased()
         newPDFCoverSheet.customerName.text = (quote.customer?.name)?.uppercased()
         newPDFCoverSheet.quoteNumber.text = quote.quoteNumber
-        newPDFCoverSheet.employeeName.text = quote.employee?.name
+        newPDFCoverSheet.employeeName.text = quote.employee?.name?.uppercased()
         newPDFCoverSheet.employeeContact.text = quote.employee?.phone
         
         pdfPages.append(newPDFCoverSheet.contentView)

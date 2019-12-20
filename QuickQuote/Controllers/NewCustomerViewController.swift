@@ -60,6 +60,7 @@ class NewCustomerViewController: UIViewController {
         if cust.email == "" { cust.email = "no email" }
         
         coreData.saveContext()
+        NotificationCenter.default.post(name: .onDismissNewCustomer, object: self, userInfo: nil)
     }
     
     func getCityStateFromPostalCode(_ zip: String) {
