@@ -46,7 +46,7 @@ class LoginViewController: UIViewController {
         if employees.count <= 0 {
             let employee = Employee(context: context)
             employee.name = "Administrator"
-            employee.email = "admin@email.com"
+            employee.email = "info@ncdrainage.com"
             employee.phone = "919-555-1212"
             employee.username = "admin"
             employee.password = "pass"

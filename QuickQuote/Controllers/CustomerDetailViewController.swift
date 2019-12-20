@@ -122,6 +122,18 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
         let cell = tableView.dequeueReusableCell(withIdentifier: "quoteReuseIdentifierCell") as! QuoteCell
         cell.layer.cornerRadius = 10
         let quote = currentCustomerQuotes[indexPath.section]
+        
+        switch quote.quoteStatus {
+        case "\(QuoteStatus.opened)":
+            cell.quoteStatusView.backgroundColor = UIColor(hex: "#df915aff")
+        case "\(QuoteStatus.inProgress)":
+            cell.quoteStatusView.backgroundColor = UIColor(hex: "#dfc95aff")
+        case "\(QuoteStatus.complete)":
+            cell.quoteStatusView.backgroundColor = UIColor(hex: "#5adf7dff")
+        default:
+            cell.quoteStatusView.backgroundColor = UIColor(hex: "#df5a5aff")
+        }
+        //cell.quoteStatusView.backgroundColor =
         cell.quoteNumber.text = quote.quoteNumber
         let newDateString = quote.dateCreated?.dateToShort()
         cell.quoteDate.text = newDateString

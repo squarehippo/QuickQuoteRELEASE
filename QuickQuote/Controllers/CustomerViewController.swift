@@ -32,9 +32,6 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("isLOggedIn = ", isLoggedIn())
-        print("currentEmployee = ", UserDefaults.standard.object(forKey: "currentEmployee") as? String ?? "")
-        
         NotificationCenter.default.addObserver(self, selector: #selector(onDismissEmployee), name: .onDismissEmployee, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(onDismissLogin), name: .onDismissLogin, object: nil)
         if isLoggedIn() {
@@ -82,12 +79,10 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating {
                 destinationVC.currentCustomer = currentCustomer as? Customer
             }
         case "editEmployee1Segue":
-            print("edit1Segue currentEmployee = ", UserDefaults.standard.object(forKey: "currentEmployee") as? String ?? "")
             if let destinationVC = segue.destination as? EmployeeViewController {
                 destinationVC.employeeName = UserDefaults.standard.object(forKey: "currentEmployee") as? String ?? ""
             }
         case "editEmployee2Segue":
-            print("edit2Segue currentEmployee = ", UserDefaults.standard.object(forKey: "currentEmployee") as? String ?? "")
             if let destinationVC = segue.destination as? EmployeeViewController {
                 destinationVC.employeeName = UserDefaults.standard.object(forKey: "currentEmployee") as? String ?? ""
             }

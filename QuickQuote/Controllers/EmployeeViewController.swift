@@ -66,7 +66,6 @@ class EmployeeViewController: UIViewController {
     }
     
     func getCurrentEmployee(currentName: String){
-        print("currentNmae in func = ", currentName)
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Employee")
         let predicate1 = NSPredicate(format: "name = %@", currentName)
         fetchRequest.predicate = predicate1
@@ -76,12 +75,9 @@ class EmployeeViewController: UIViewController {
         } catch let error as NSError {
             print(error)
         }
-        
-        print("count = ", employeeResult.count)
-        
+                
         if employeeResult.count > 0 {
             currentEmployee = employeeResult.first
-            print("success = got employee object!")
         }
     }
     
@@ -166,7 +162,7 @@ class EmployeeViewController: UIViewController {
     func usernameIsUnique() -> Bool {
         for employee in employees {
             if usernameField.text == employee.username {
-                print("This one is already here!")
+                //This one is already here!
                 return false
             }
         }

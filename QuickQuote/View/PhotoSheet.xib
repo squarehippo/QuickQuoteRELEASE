@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -12,16 +12,13 @@
                 <outlet property="caption1" destination="zeF-OJ-Xpc" id="2Lq-wh-Qkp"/>
                 <outlet property="caption2" destination="DPe-nc-6KC" id="OIi-F1-sj5"/>
                 <outlet property="caption3" destination="NAF-f8-G2H" id="ntb-2L-cfj"/>
-                <outlet property="caption4" destination="0Rp-Lb-oiU" id="hBk-VC-ANL"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="aSn-kI-NTY"/>
                 <outlet property="photo1" destination="a1S-Gr-hqj" id="DzE-jJ-0tu"/>
                 <outlet property="photo2" destination="QMM-6W-Css" id="Wx7-gd-jYg"/>
                 <outlet property="photo3" destination="QOK-pi-cjg" id="5rC-Wj-kRA"/>
-                <outlet property="photo4" destination="dZy-8X-TOp" id="kd6-Jt-2Yr"/>
                 <outlet property="photoStack1" destination="aGB-5U-cGn" id="5Sg-84-4ji"/>
                 <outlet property="photoStack2" destination="J7c-iQ-i1N" id="SK5-Mj-24S"/>
                 <outlet property="photoStack3" destination="ihy-qC-iz2" id="efM-rj-Ld5"/>
-                <outlet property="photoStack4" destination="yke-3X-YLV" id="sbE-xs-Ksz"/>
                 <outlet property="quoteNumber" destination="BIx-d5-hrt" id="XcX-du-td2"/>
             </connections>
         </placeholder>
@@ -75,16 +72,16 @@
                     <rect key="frame" x="20" y="70" width="572" height="702"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="aGB-5U-cGn">
-                            <rect key="frame" x="0.0" y="0.0" width="572" height="157.5"/>
+                            <rect key="frame" x="0.0" y="0.0" width="572" height="218"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="a1S-Gr-hqj">
-                                    <rect key="frame" x="0.0" y="0.0" width="197" height="157.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="272.5" height="218"/>
                                     <constraints>
                                         <constraint firstAttribute="width" secondItem="a1S-Gr-hqj" secondAttribute="height" multiplier="5:4" id="JAZ-dZ-FTU"/>
                                     </constraints>
                                 </imageView>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="zeF-OJ-Xpc">
-                                    <rect key="frame" x="205" y="0.0" width="367" height="157.5"/>
+                                    <rect key="frame" x="280.5" y="0.0" width="291.5" height="218"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                     <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </string>
                                     <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -94,16 +91,16 @@
                             </subviews>
                         </stackView>
                         <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="J7c-iQ-i1N">
-                            <rect key="frame" x="0.0" y="181.5" width="572" height="157.5"/>
+                            <rect key="frame" x="0.0" y="242" width="572" height="218"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QMM-6W-Css">
-                                    <rect key="frame" x="0.0" y="0.0" width="197" height="157.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="272.5" height="218"/>
                                     <constraints>
                                         <constraint firstAttribute="width" secondItem="QMM-6W-Css" secondAttribute="height" multiplier="5:4" id="rCg-Kw-uXS"/>
                                     </constraints>
                                 </imageView>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="DPe-nc-6KC">
-                                    <rect key="frame" x="205" y="0.0" width="367" height="157.5"/>
+                                    <rect key="frame" x="280.5" y="0.0" width="291.5" height="218"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                     <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </string>
                                     <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -113,37 +110,18 @@
                             </subviews>
                         </stackView>
                         <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ihy-qC-iz2">
-                            <rect key="frame" x="0.0" y="363" width="572" height="157.5"/>
+                            <rect key="frame" x="0.0" y="484" width="572" height="218"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QOK-pi-cjg">
-                                    <rect key="frame" x="0.0" y="0.0" width="197" height="157.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="272.5" height="218"/>
                                     <constraints>
                                         <constraint firstAttribute="width" secondItem="QOK-pi-cjg" secondAttribute="height" multiplier="5:4" id="E20-QV-VQ7"/>
                                     </constraints>
                                 </imageView>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="NAF-f8-G2H">
-                                    <rect key="frame" x="205" y="0.0" width="367" height="157.5"/>
+                                    <rect key="frame" x="280.5" y="0.0" width="291.5" height="218"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                     <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </string>
-                                    <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                </textView>
-                            </subviews>
-                        </stackView>
-                        <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="yke-3X-YLV">
-                            <rect key="frame" x="0.0" y="544.5" width="572" height="157.5"/>
-                            <subviews>
-                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dZy-8X-TOp">
-                                    <rect key="frame" x="0.0" y="0.0" width="197" height="157.5"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" secondItem="dZy-8X-TOp" secondAttribute="height" multiplier="5:4" id="MVX-Bt-4vx"/>
-                                    </constraints>
-                                </imageView>
-                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="0Rp-Lb-oiU">
-                                    <rect key="frame" x="205" y="0.0" width="367" height="157.5"/>
-                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </string>
                                     <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>

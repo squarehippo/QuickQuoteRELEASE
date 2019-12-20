@@ -46,7 +46,6 @@ class WorkSheetViewController: UIViewController {
         if let quote = currentQuote {
             if quote.worksheet == nil {
                 initializeWorksheet()
-                print("initalizing now...")
             }
         }
     }

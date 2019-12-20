@@ -11,6 +11,8 @@ import UIKit
 class WorkOrderViewController: UIViewController {
     
     var currentQuote: Quote?
+    let coreData = CoreDataStack.shared
+    var context = CoreDataStack.shared.persistentContainer.viewContext
     
     @IBOutlet weak var shareButton: UIBarButtonItem!
     
@@ -74,7 +76,9 @@ class WorkOrderViewController: UIViewController {
             if UIDevice.current.userInterfaceIdiom == .pad {
                 uiavc.popoverPresentationController?.barButtonItem = self.shareButton
             }
-            present(uiavc, animated: true, completion: nil)
+        present(uiavc, animated: true, completion: nil)
+        currentQuote?.quoteStatus = "\(QuoteStatus.complete)"
+        coreData.saveContext()
         }
         
         func getPDF() -> String {

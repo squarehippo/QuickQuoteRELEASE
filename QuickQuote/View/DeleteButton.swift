@@ -12,7 +12,7 @@ class DeleteButton: UIButton {
 
     init() {
         super.init(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-        setImage(UIImage(named: "x"), for: .normal)
+        setImage(UIImage(named: "x2"), for: .normal)
         self.contentMode = .scaleAspectFill
         alpha = 0.6
         tag = 1001

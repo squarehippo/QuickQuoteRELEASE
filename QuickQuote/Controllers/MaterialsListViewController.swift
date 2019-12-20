@@ -62,9 +62,7 @@ class MaterialsListViewController: UIViewController, UITableViewDelegate, UITabl
     
     func loadMaterialArray() {
         if let quote = currentQuote {
-            print("quote = currentQuote, check")
             if let materials = quote.materials {
-                print("materialsArray = blah, check")
                 materialArray = Array(materials) as! [Material]
                 materialArray = materialArray.sorted(by: { ($0.dateCreated!).compare($1.dateCreated!) == .orderedDescending
                 })

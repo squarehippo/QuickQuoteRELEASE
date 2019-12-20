@@ -20,7 +20,9 @@ class WorkOrderPage1: UIView {
     @IBOutlet weak var customerEmail: UILabel!
     @IBOutlet weak var workOrderNotes: UITextView!
     
-    @IBOutlet weak var materialsStackView: UIStackView!
+    @IBOutlet weak var materialView: UIView!
+    
+    
     
     
     override init(frame: CGRect) {
@@ -37,7 +39,11 @@ class WorkOrderPage1: UIView {
         Bundle.main.loadNibNamed("WorkOrderPage1", owner: self, options: nil)
         addSubview(contentView)
         contentView.frame = self.bounds
+        
+//        let containerView = UINib(nibName: String(describing: WorkOrderPage1.self), bundle: nil)
+//        .instantiate(withOwner: nil, options: nil).first as! WorkOrderPage1
+//        addSubview(containerView)
+//        containerView.frame = self.bounds
     }
-
 }
 

@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
     
     
     var currentCustomer: Customer? {
@@ -35,6 +35,7 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     let imagePicker = UIImagePickerController()
     var imageArray = [Image]()
     var deleteButton = DeleteButton()
+    var imageCell = UICollectionViewCell()
     
     var currentPDF = [String]()
     
@@ -55,6 +56,7 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         loadImageArray()
         assignCurrentQuoteInformation()
         setUpViewTasks()
+        loadGestureRecognizer()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -93,6 +95,8 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     func setUpViewTasks() {
         if isNewQuote {
             title = "New quote for \(currentCustomer?.name ?? "customer")"
+            currentQuote?.quoteStatus = "\(QuoteStatus.opened)"
+            coreData.saveContext()
         } else {
             title = "Quote for \(currentQuote?.customer?.name ?? "customer")"
         }
@@ -114,7 +118,57 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         loadImageArray()
         imageCollectionView.reloadData()
     }
+        
+    func loadGestureRecognizer() {
+        let lpgr = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+        lpgr.minimumPressDuration = 0.5
+        lpgr.delaysTouchesBegan = true
+        lpgr.delegate = self
+        imageCollectionView.addGestureRecognizer(lpgr)
+    }
     
+    @objc func handleLongPress(gesture : UILongPressGestureRecognizer!) {
+        if gesture.state != .began {
+            return
+        }
+        let p = gesture.location(in: imageCollectionView)
+
+        if let indexPath = imageCollectionView.indexPathForItem(at: p) {
+            clearAllAnimations()
+            imageCell = imageCollectionView.cellForItem(at: indexPath)!
+            imageCell.wiggle()
+            let imageButton = imageCell.contentView
+            let imageWidth = imageButton.frame.width
+            let imageHeight = imageButton.frame.height
+            let deleteWidth = imageWidth * 0.5
+            //let deleteHeight = imageWidth * 0.5
+            deleteButton.frame = CGRect(x: imageWidth / 2 - deleteWidth / 2, y: imageHeight / 2 - deleteWidth / 2, width: deleteWidth, height: deleteWidth)
+            deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
+            imageButton.addSubview(deleteButton)
+            print("Long press = ", indexPath.row)
+        } else {
+            print("couldn't find index path")
+        }
+    }
+    
+    @objc func deleteButtonTapped(_ sender: UIButton) {
+        
+        clearAllAnimations()
+    }
+    
+    func clearAllAnimations() {
+        imageCell.layer.removeAllAnimations()
+        imageCell.layer.transform = CATransform3DIdentity
+        imageCell.viewWithTag(1001)?.removeFromSuperview()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if touches.first?.view != imageCell {
+            clearAllAnimations()
+        }
+    }
+
+    //TODO: Substitute Adam Lyon with signed in employee
     func assignCurrentQuoteInformation() {
         if isNewQuote {
             currentQuoteNumber = makeQuoteNumber(withUser: "Adam Lyon", andDate: Date())
@@ -164,6 +218,11 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
             uiavc.popoverPresentationController?.barButtonItem = self.shareButton
         }
         present(uiavc, animated: true, completion: nil)
+        
+        if currentQuote?.quoteStatus != "\(QuoteStatus.complete)" {
+            currentQuote?.quoteStatus = "\(QuoteStatus.inProgress)"
+            coreData.saveContext()
+        }
     }
     
     func getPDF() -> String {
@@ -179,6 +238,8 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     func saveNewQuote() {
         let newQuote = Quote(context: context)
         newQuote.quoteNumber = currentQuoteNumber
+        newQuote.quoteStatus = "\(QuoteStatus.inProgress)"
+        newQuote.employee?.name = UserDefaults.standard.object(forKey: "currentEmployee") as? String ?? ""
         currentCustomer?.addToQuotes(newQuote)
         coreData.saveContext()
         fetchCurrentQuote()
@@ -247,16 +308,17 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         let cell = tableView.dequeueReusableCell(withIdentifier: "taskReuseIdentifier")! as! TaskCell
         cell.layer.cornerRadius = 10
         cell.taskDescription.sizeToFit()
-        let text = currentCustomerTasks?[indexPath.row]
-        cell.taskTitle.text = text?.title
-        if let cost = text?.cost {
+        let currentTask = currentCustomerTasks?[indexPath.row]
+        cell.taskTitle.text = "Task \(indexPath.row + 1)"
+        cell.taskTitle.text! += ": \(currentTask?.title ?? "")"
+        if let cost = currentTask?.cost {
             if cost.isNumeric {
                 cell.taskCost.text = "\(cost.currencyFormatting())"
             } else {
                 cell.taskCost.text = cost
             }
         }
-        cell.taskDescription.text = text?.taskDescription
+        cell.taskDescription.text = currentTask?.taskDescription
         return cell
     }
     
@@ -306,10 +368,6 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
             coreData.saveContext()
         }
     }
-    
-    
-    
-    
     
     func saveImage(data: Data, tag: Int) {
         if currentImageArray.count != tag {

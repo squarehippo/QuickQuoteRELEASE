@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="ipad12_9rounded" orientation="landscape" layout="fullscreen" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="WorkOrderPage1" customModule="QuickQuote" customModuleProvider="target">
             <connections>
-                <outlet property="contentView" destination="iN0-l3-epB" id="8x0-Ls-nDQ"/>
+                <outlet property="contentView" destination="iN0-l3-epB" id="3c0-Uq-y3S"/>
                 <outlet property="customerAddress" destination="dVt-2n-lLf" id="Wba-ge-RWP"/>
                 <outlet property="customerAddress2" destination="x4u-Ky-GL4" id="ZnT-05-ho2"/>
                 <outlet property="customerEmail" destination="Tw4-LJ-gCX" id="UtY-dR-4yo"/>
                 <outlet property="customerName" destination="D85-SM-JpR" id="vzh-vH-eG4"/>
                 <outlet property="customerPhone" destination="Mhc-01-iVN" id="nmq-Tv-3pG"/>
                 <outlet property="dateCreated" destination="eTf-CT-x6S" id="qxg-g0-I5A"/>
-                <outlet property="materialsStackView" destination="9wj-Jr-iPH" id="C25-RN-kTk"/>
+                <outlet property="materialView" destination="rH2-eX-7OB" id="UzC-Eo-XY7"/>
                 <outlet property="workOrderNotes" destination="QaK-Pd-xew" id="Lhp-kv-PSz"/>
                 <outlet property="workOrderNumber" destination="fc9-Ff-dL3" id="KLf-cb-dJ3"/>
             </connections>
@@ -30,9 +30,9 @@
                     <rect key="frame" x="0.0" y="0.0" width="612" height="80"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circleLogo" translatesAutoresizingMaskIntoConstraints="NO" id="rRO-8v-R2U">
-                            <rect key="frame" x="19" y="18" width="59" height="45"/>
+                            <rect key="frame" x="19" y="18" width="45" height="45"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="59" id="7jK-lw-7Me"/>
+                                <constraint firstAttribute="width" constant="45" id="7jK-lw-7Me"/>
                                 <constraint firstAttribute="height" constant="45" id="oJd-5g-1EX"/>
                             </constraints>
                         </imageView>
@@ -70,14 +70,8 @@
                         <constraint firstAttribute="width" constant="2" id="qqn-wb-tRf"/>
                     </constraints>
                 </view>
-                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="9wj-Jr-iPH">
-                    <rect key="frame" x="25" y="227" width="198" height="545"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="198" id="Men-Yc-uhc"/>
-                    </constraints>
-                </stackView>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="QaK-Pd-xew">
-                    <rect key="frame" x="242" y="219" width="350" height="553"/>
+                    <rect key="frame" x="242" y="231" width="350" height="541"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                     <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -172,27 +166,34 @@
                         <constraint firstAttribute="height" constant="40" id="e3S-Vf-nLS"/>
                     </constraints>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rH2-eX-7OB">
+                    <rect key="frame" x="20" y="239" width="204" height="533"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="204" id="YlC-HZ-DiM"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="rH2-eX-7OB" firstAttribute="top" secondItem="kRn-oR-gdb" secondAttribute="bottom" constant="20" id="11O-mh-JAy"/>
                 <constraint firstItem="A51-qL-7hw" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="4w2-5D-jv9"/>
                 <constraint firstItem="kRn-oR-gdb" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="6sd-eP-SO2"/>
                 <constraint firstItem="A51-qL-7hw" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="7Ve-mc-LdF"/>
                 <constraint firstItem="kRn-oR-gdb" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="APk-JA-GKI"/>
                 <constraint firstItem="mUS-IF-yow" firstAttribute="top" secondItem="A51-qL-7hw" secondAttribute="bottom" constant="15" id="H8P-W3-RfR"/>
-                <constraint firstItem="QaK-Pd-xew" firstAttribute="top" secondItem="kRn-oR-gdb" secondAttribute="bottom" id="HeP-BQ-f8G"/>
-                <constraint firstItem="cFZ-Wc-uPH" firstAttribute="leading" secondItem="9wj-Jr-iPH" secondAttribute="trailing" constant="9" id="VLm-BF-yp2"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="QaK-Pd-xew" secondAttribute="bottom" constant="20" id="ZNe-vw-4Hl"/>
-                <constraint firstItem="9wj-Jr-iPH" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="25" id="ZzU-7z-5z3"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="9wj-Jr-iPH" secondAttribute="bottom" constant="20" id="bbr-M0-ZwA"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="QaK-Pd-xew" secondAttribute="trailing" constant="20" id="N5f-bD-xcv"/>
+                <constraint firstItem="QaK-Pd-xew" firstAttribute="leading" secondItem="cFZ-Wc-uPH" secondAttribute="trailing" constant="8" id="NtK-Lj-4By"/>
+                <constraint firstItem="cFZ-Wc-uPH" firstAttribute="leading" secondItem="rH2-eX-7OB" secondAttribute="trailing" constant="8" id="Okr-5h-fUi"/>
+                <constraint firstItem="rH2-eX-7OB" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="VVT-t7-eSn"/>
                 <constraint firstItem="mUS-IF-yow" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="25" id="ewp-xE-o1u"/>
-                <constraint firstItem="9wj-Jr-iPH" firstAttribute="top" secondItem="kRn-oR-gdb" secondAttribute="bottom" constant="8" id="fqF-0e-eB7"/>
-                <constraint firstItem="QaK-Pd-xew" firstAttribute="leading" secondItem="cFZ-Wc-uPH" secondAttribute="trailing" constant="8" id="oa4-Un-jlH"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="QaK-Pd-xew" secondAttribute="trailing" constant="20" id="orP-6j-uRN"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="rH2-eX-7OB" secondAttribute="bottom" constant="20" id="mjI-gj-tYH"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="mUS-IF-yow" secondAttribute="trailing" constant="25" id="ptL-rM-B8t"/>
                 <constraint firstAttribute="bottom" secondItem="cFZ-Wc-uPH" secondAttribute="bottom" constant="20" id="s8T-FK-gG2"/>
                 <constraint firstItem="A51-qL-7hw" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="tCp-kF-A3a"/>
                 <constraint firstItem="cFZ-Wc-uPH" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="179" id="vA9-rj-FHj"/>
+                <constraint firstItem="QaK-Pd-xew" firstAttribute="top" secondItem="kRn-oR-gdb" secondAttribute="bottom" constant="12" id="wcl-Xc-elE"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="QaK-Pd-xew" secondAttribute="bottom" constant="20" id="wse-OC-KsK"/>
                 <constraint firstItem="kRn-oR-gdb" firstAttribute="top" secondItem="mUS-IF-yow" secondAttribute="bottom" constant="17" id="wwF-l1-spe"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

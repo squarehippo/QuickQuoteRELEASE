@@ -18,7 +18,7 @@ extension String {
                 return str
             }
         }
-        return ""
+        return self
     }
 }
 

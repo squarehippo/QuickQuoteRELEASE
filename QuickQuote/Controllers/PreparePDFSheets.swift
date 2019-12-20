@@ -11,6 +11,7 @@ import UIKit
 class PreparePDFSheets: UIView {
     
     var pdfPages = [UIView]()
+    var maxPhotosPerPage = 3
     
     func getPDFPath(for quote: Quote) -> String {
         return preparePDF(quote: quote)
@@ -21,8 +22,17 @@ class PreparePDFSheets: UIView {
         fileName = quote.quoteNumber
         
         makeCoverSheet(quote: quote)
-        makeQuoteSheet(quote: quote)
-        makePhotoSheet(quote: quote)
+        
+        let newQuoteSheet = MakeQuoteSheet()
+        for sheet in newQuoteSheet.makeSheet(quote: quote, source: "quote") {
+            pdfPages.append(sheet)
+        }
+        
+        let newPhotoSheet = MakePhotoSheet()
+        for sheet in newPhotoSheet.makeSheet(quote: quote) {
+            pdfPages.append(sheet)
+        }
+        
         makeSignSheet(quote: quote)
         
         return arrayToPDF(views: pdfPages, fileName: fileName ?? "Quote")
@@ -39,100 +49,6 @@ class PreparePDFSheets: UIView {
         newPDFCoverSheet.employeeContact.text = quote.employee?.phone
         
         pdfPages.append(newPDFCoverSheet.contentView)
-    }
-    
-    func makeQuoteSheet(quote: Quote) {
-        if let totalTasks = quote.tasks?.count {
-            for index in 0..<totalTasks {
-                if index % 4 == 0 {
-                    let newQuoteSheet = QuoteSheet()
-                    newQuoteSheet.quoteNumber.text = quote.quoteNumber
-                    newQuoteSheet.stackView2.isHidden = true
-                    newQuoteSheet.stackView3.isHidden = true
-                    newQuoteSheet.stackView4.isHidden = true
-                    
-                    let tasks = (Array(quote.tasks!) as? [Task])!.sorted(by: { ($0.dateCreated!).compare($1.dateCreated!) == .orderedAscending })
-                    
-                    for (thisIndex, task) in Array(tasks).enumerated() where thisIndex >= index && thisIndex < index + 4 {
-                        switch thisIndex {
-                        case index + 0:
-                            print("Assigning first task to variables")
-                            //newQuoteSheet.stackView1.isHidden = false
-                            newQuoteSheet.task1Title.text = task.title
-                            newQuoteSheet.task1Cost.text = task.cost
-                            newQuoteSheet.task1Description.text = task.taskDescription
-                        case index + 1:
-                            print("Assigning second task to variables")
-                            newQuoteSheet.stackView2.isHidden = false
-                            newQuoteSheet.stackView2Height.constant = 150
-                            newQuoteSheet.task2Title.text = task.title
-                            newQuoteSheet.task2Cost.text = task.cost
-                            newQuoteSheet.task2Description.text = task.taskDescription
-                        case index + 2:
-                            print("Assigning third task to variables")
-                            newQuoteSheet.stackView3.isHidden = false
-                            newQuoteSheet.stackView3Height.constant = 150
-                            newQuoteSheet.task3Title.text = task.title
-                            newQuoteSheet.task3Cost.text = task.cost
-                            newQuoteSheet.task3Description.text = task.taskDescription
-                        case index + 3:
-                            print("Assigning fourth task to variables")
-                            newQuoteSheet.stackView4.isHidden = false
-                            newQuoteSheet.stackView4Height.constant = 150
-                            newQuoteSheet.task4Title.text = task.title
-                            newQuoteSheet.task4Cost.text = task.cost
-                            newQuoteSheet.task4Description.text = task.taskDescription
-                        default:
-                            break
-                        }
-                    }
-                    pdfPages.append(newQuoteSheet.contentView)
-                }
-            }
-        }
-    }
-    
-    func makePhotoSheet(quote: Quote) {
-        if let totalPhotos = quote.images?.count {
-            for index in 0..<totalPhotos {
-                if index % 4 == 0 {
-                    let newPhotoSheet = PhotoSheet()
-                    newPhotoSheet.quoteNumber.text = quote.quoteNumber
-                    newPhotoSheet.photoStack2.isHidden = true
-                    newPhotoSheet.photoStack2.isHidden = true
-                    newPhotoSheet.photoStack4.isHidden = true
-                    
-                    let photos = (Array(quote.images!) as? [Image])!.sorted(by: { ($0.dateCreated!).compare($1.dateCreated!) == .orderedAscending })
-                    
-                    for (thisIndex, photo) in Array(photos).enumerated() where thisIndex >= index && thisIndex < index + 4 {
-                        switch thisIndex {
-                        case index + 0:
-                            //newPhotoSheet.stackView1.isHidden = false
-                            newPhotoSheet.photo1.image = UIImage(data: photo.imageData!)
-                            newPhotoSheet.caption1.text = photo.caption
-                        case index + 1:
-                            newPhotoSheet.photoStack2.isHidden = false
-                            //newPhotoSheet.photoStack2Height.constant = 150
-                            newPhotoSheet.photo2.image = UIImage(data: photo.imageData!)
-                            newPhotoSheet.caption2.text = photo.caption
-                        case index + 2:
-                            newPhotoSheet.photoStack3.isHidden = false
-                            //newPhotoSheet.photoStack3Height.constant = 150
-                            newPhotoSheet.photo3.image = UIImage(data: photo.imageData!)
-                            newPhotoSheet.caption3.text = photo.caption
-                        case index + 3:
-                            newPhotoSheet.photoStack4.isHidden = false
-                            //newPhotoSheet.photoStack4Height.constant = 150
-                            newPhotoSheet.photo4.image = UIImage(data: photo.imageData!)
-                            newPhotoSheet.caption4.text = photo.caption
-                        default:
-                            break
-                        }
-                    }
-                    pdfPages.append(newPhotoSheet.contentView)
-                }
-            }
-        }
     }
     
     func makeSignSheet(quote: Quote) {
