@@ -20,7 +20,7 @@ extension UIImage {
 
     func resizedTo1MB() -> UIImage? {
         guard let imageData = self.pngData() else { return nil }
-        let newImageSize = 500.0
+        let newImageSize = 1000.0
 
         var resizingImage = self
         var imageSizeKB = Double(imageData.count) / newImageSize

@@ -11,7 +11,6 @@ import CoreData
 
 class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
     
-    
     var currentCustomer: Customer? {
         didSet {
             refreshUI()
@@ -220,17 +219,23 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     @IBAction func shareButtonPressed(_ sender: UIBarButtonItem) {
         let pdfPath = getPDF()
         let pdfURL = URL(fileURLWithPath: pdfPath)
-        let uiavc = UIActivityViewController(activityItems: [pdfURL], applicationActivities: nil)
+        let quoteNumber = currentQuote?.quoteNumber ?? ""
+        let emailAddress = currentQuote?.customer?.email ?? ""
+        let custName = currentQuote?.customer?.name ?? ""
+        let message = MessageWithSubject(subject: "nc|drainage quote \(quoteNumber) for \(custName) \(emailAddress)", message: "Thank you for choosing nc|drainage!")
+        let controller = UIActivityViewController(activityItems: [message, pdfURL], applicationActivities: nil)
         if UIDevice.current.userInterfaceIdiom == .pad {
-            uiavc.popoverPresentationController?.barButtonItem = self.shareButton
+            controller.popoverPresentationController?.barButtonItem = self.shareButton
         }
-        present(uiavc, animated: true, completion: nil)
+        present(controller, animated: true, completion: nil)
         
         if currentQuote?.quoteStatus != "\(QuoteStatus.complete)" {
             currentQuote?.quoteStatus = "\(QuoteStatus.inProgress)"
             coreData.saveContext()
         }
     }
+    
+    
     
     func getPDF() -> String {
         let newPDF = PreparePDFSheets()

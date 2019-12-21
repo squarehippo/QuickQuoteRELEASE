@@ -32,7 +32,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WAI-GN-zDo">
                     <rect key="frame" x="0.0" y="50" width="268" height="692"/>
                     <subviews>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circleLogo" translatesAutoresizingMaskIntoConstraints="NO" id="ayZ-1e-ThA">
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logoLarge" translatesAutoresizingMaskIntoConstraints="NO" id="ayZ-1e-ThA">
                             <rect key="frame" x="25" y="423" width="202" height="154"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="202" id="Qk1-ra-MnB"/>
@@ -218,7 +218,7 @@
         </view>
     </objects>
     <resources>
-        <image name="circleLogo" width="262" height="258"/>
+        <image name="logoLarge" width="651" height="651"/>
         <image name="textLogoDark" width="818" height="209"/>
     </resources>
 </document>

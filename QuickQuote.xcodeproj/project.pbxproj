@@ -42,6 +42,7 @@
 		427B154B23AABA4700B95FE7 /* MakeQuoteSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427B154A23AABA4700B95FE7 /* MakeQuoteSheet.swift */; };
 		427B154D23AB03A400B95FE7 /* enum+QuoteStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427B154C23AB03A400B95FE7 /* enum+QuoteStatus.swift */; };
 		427B154F23AB17FB00B95FE7 /* UIColor+hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427B154E23AB17FB00B95FE7 /* UIColor+hex.swift */; };
+		427B155123AD3D5E00B95FE7 /* MessageWithSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427B155023AD3D5E00B95FE7 /* MessageWithSubject.swift */; };
 		427B4F04235F6B0E009816A5 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427B4F03235F6B0E009816A5 /* CoreDataStack.swift */; };
 		427B4F06235F7197009816A5 /* SignatureManagedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427B4F05235F7197009816A5 /* SignatureManagedObject.swift */; };
 		427B4F08235FD7D7009816A5 /* NewCustomerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427B4F07235FD7D7009816A5 /* NewCustomerViewController.swift */; };
@@ -106,6 +107,7 @@
 		427B154A23AABA4700B95FE7 /* MakeQuoteSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeQuoteSheet.swift; sourceTree = "<group>"; };
 		427B154C23AB03A400B95FE7 /* enum+QuoteStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "enum+QuoteStatus.swift"; sourceTree = "<group>"; };
 		427B154E23AB17FB00B95FE7 /* UIColor+hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+hex.swift"; sourceTree = "<group>"; };
+		427B155023AD3D5E00B95FE7 /* MessageWithSubject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageWithSubject.swift; sourceTree = "<group>"; };
 		427B4F03235F6B0E009816A5 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		427B4F05235F7197009816A5 /* SignatureManagedObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignatureManagedObject.swift; sourceTree = "<group>"; };
 		427B4F07235FD7D7009816A5 /* NewCustomerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCustomerViewController.swift; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 		42C454E02363D18C0024DD99 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				427B155023AD3D5E00B95FE7 /* MessageWithSubject.swift */,
 				426239B8239ECC9C004D58E0 /* LoginViewController.swift */,
 				4292E4FB235546DB009657EB /* CustomerViewController.swift */,
 				4292E4FD23554A41009657EB /* CustomerDetailViewController.swift */,
@@ -343,6 +346,7 @@
 				4292E4FE23554A41009657EB /* CustomerDetailViewController.swift in Sources */,
 				42E1E5192360BC07008B1912 /* String+Trim.swift in Sources */,
 				420C645723775A39001997D8 /* MaterialsListViewController.swift in Sources */,
+				427B155123AD3D5E00B95FE7 /* MessageWithSubject.swift in Sources */,
 				4211CA4D23676E73008D57C3 /* QuoteCell.swift in Sources */,
 				4211CA522368E3EA008D57C3 /* TaskCell.swift in Sources */,
 				429EBCE423845BBB0007DC55 /* PreparePDFSheets.swift in Sources */,
@@ -527,7 +531,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.squarehippobills-gmail.QuickQuote";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -546,7 +550,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.squarehippobills-gmail.QuickQuote";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
