@@ -31,8 +31,11 @@ class NewCustomerViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         customerName.becomeFirstResponder()
-        newCustomerView.layer.cornerRadius = 10.0
     }
     
     @IBAction func saveButton(_ sender: UIButton) {
