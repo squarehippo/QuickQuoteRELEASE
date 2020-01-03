@@ -12,8 +12,9 @@ import CoreLocation
 
 class EditCustomerViewController: UIViewController {
     
-    let coreData = CoreDataStack.shared
-    var context = CoreDataStack.shared.persistentContainer.viewContext
+    let coreData = UIApplication.shared.delegate as? AppDelegate
+    var context: NSManagedObjectContext!
+    
     var currentCustomer: Customer?
     
     @IBOutlet weak var editCustomerView: UIView!
@@ -62,7 +63,7 @@ class EditCustomerViewController: UIViewController {
         currentCustomer?.email = customerEmail.text?.trim()
         if currentCustomer?.email == "" { currentCustomer?.email = "no email" }
         
-        coreData.saveContext()
+        coreData?.saveContext()
     }
     
     
@@ -86,6 +87,6 @@ class EditCustomerViewController: UIViewController {
     func saveCityAndState(city: String, state: String) {
         currentCustomer?.city = city
         currentCustomer?.state = state
-        coreData.saveContext()
+        coreData?.saveContext()
     }
 }

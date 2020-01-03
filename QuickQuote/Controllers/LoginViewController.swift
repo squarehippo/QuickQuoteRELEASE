@@ -11,8 +11,9 @@ import CoreData
 
 class LoginViewController: UIViewController {
     
-    let coreData = CoreDataStack.shared
-    let context = CoreDataStack.shared.persistentContainer.viewContext
+    let coreData = UIApplication.shared.delegate as? AppDelegate
+    var context: NSManagedObjectContext!
+    
     var employees: [NSManagedObject] = []
     var currentEmployee: [NSManagedObject] = []
     var employeeDictionary: Dictionary = [String:String]()
@@ -50,7 +51,7 @@ class LoginViewController: UIViewController {
             employee.phone = "919-555-1212"
             employee.username = "admin"
             employee.password = "pass"
-            coreData.saveContext()
+            coreData?.saveContext()
             
             employeeDictionary["admin"] = "pass"
             

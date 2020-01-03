@@ -21,8 +21,9 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     let pageHeight: CGFloat = 792.0
     var pdfData = NSMutableData()
     var contentView: UIView?
-    let coreData = CoreDataStack.shared
-    var context = CoreDataStack.shared.persistentContainer.viewContext
+    
+    let coreData = UIApplication.shared.delegate as? AppDelegate
+    var context: NSManagedObjectContext!
     
     var currentQuote: Quote?
     var currentQuoteNumber: String?
@@ -63,26 +64,31 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         case "NewTaskSegue":
             if let destinationVC = segue.destination as? NewTaskViewController {
                 destinationVC.currentQuote = currentQuote
+                destinationVC.context = context
             }
         case "editTask":
             guard let destinationVC = segue.destination as? EditTaskViewController,
-                let currentTasks = currentCustomerTasks,
-                let selectedRow = taskTableView.indexPathForSelectedRow else { return }
+            let currentTasks = currentCustomerTasks,
+            let selectedRow = taskTableView.indexPathForSelectedRow else { return }
             destinationVC.currentTask = currentTasks[selectedRow.row]
+            destinationVC.context = context
         case "workOrder":
             if let destinationVC = segue.destination as? WorkOrderViewController {
                 destinationVC.currentQuote = currentQuote
+                destinationVC.context = context
             }
         case "collectionSegue":
             if let destinationVC = segue.destination as? ImageViewController {
                 destinationVC.currentQuote = currentQuote
                 let path = self.imageCollectionView.indexPath(for: sender as! ImageCollectionViewCell)
                 destinationVC.buttonTag = path?.row
+                destinationVC.context = context
             }
         case "newPhotoSegue":
             if let destinationVC = segue.destination as? ImageViewController {
                 destinationVC.currentQuote = currentQuote
                 destinationVC.buttonTag = currentImageArray.count
+                destinationVC.context = context
             }
         default:
             break
@@ -95,7 +101,7 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         if isNewQuote {
             title = "New quote for \(currentCustomer?.name ?? "customer")"
             currentQuote?.quoteStatus = "\(QuoteStatus.opened)"
-            coreData.saveContext()
+            coreData?.saveContext()
         } else {
             title = "Quote for \(currentQuote?.customer?.name ?? "customer")"
             checkForEmployee()
@@ -231,7 +237,7 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         if currentQuote?.quoteStatus != "\(QuoteStatus.complete)" {
             currentQuote?.quoteStatus = "\(QuoteStatus.inProgress)"
-            coreData.saveContext()
+            coreData?.saveContext()
         }
     }
     
@@ -248,12 +254,16 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     //MARK: - Quote Related
     
     func saveNewQuote() {
+        print("context in save = ", context)
+        guard context != nil else {
+            return
+        }
         let newQuote = Quote(context: context)
         newQuote.quoteNumber = currentQuoteNumber
         newQuote.quoteStatus = "\(QuoteStatus.inProgress)"
         assignEmployee(context: newQuote)
         currentCustomer?.addToQuotes(newQuote)
-        coreData.saveContext()
+        coreData?.saveContext()
         fetchCurrentQuote()
     }
     
@@ -362,7 +372,7 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         if editingStyle == .delete {
             if let task = currentCustomerTasks?[indexPath.row] {
                 context.delete(task)
-                coreData.saveContext()
+                coreData?.saveContext()
                 currentCustomerTasks?.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .fade)
             }
@@ -397,7 +407,7 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     func saveSortedArray(named sortedArray: [Image]) {
         for (index, image) in sortedArray.enumerated() {
             image.tag = Int32(index)
-            coreData.saveContext()
+            coreData?.saveContext()
         }
     }
     
@@ -409,7 +419,7 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
                 let test = try context.fetch(fetchRequest) as! [Image]
                 let objectToDelete = test[0]
                 context.delete(objectToDelete)
-                coreData.saveContext()
+                coreData?.saveContext()
             } catch  {
                 print("error")
             }
@@ -421,7 +431,7 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
             image.imageData = data
             image.tag = Int32(tag)
             quote.addToImages(image)
-            coreData.saveContext()
+            coreData?.saveContext()
         }
     }
 

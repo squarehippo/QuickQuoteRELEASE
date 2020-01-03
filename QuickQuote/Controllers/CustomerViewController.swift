@@ -21,13 +21,14 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating {
     var customers = [Customer]()
     var currentCustomer: NSManagedObject?
     
-    let coreData = CoreDataStack.shared
-    var context = CoreDataStack.shared.persistentContainer.viewContext
+    let coreData = UIApplication.shared.delegate as? AppDelegate
+    var context: NSManagedObjectContext!
     
     let searchController = UISearchController(searchResultsController: nil)
     
     @IBOutlet weak var customerTableView: UITableView!
     @IBOutlet weak var itemBarButton: UIBarButtonItem!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +42,8 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating {
         } else {
             performSegue(withIdentifier: "loginSegue", sender: self)
         }
+        
+        print("context = ", context as Any)
     }
     
     @objc func onDismissLogin() {
@@ -79,18 +82,22 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating {
         case "ModalCustomer":
             if let destinationVC = segue.destination as? NewCustomerViewController {
                 destinationVC.delegate = self
+                destinationVC.context = context
             }
         case "editCustomer":
             if let destinationVC = segue.destination as? EditCustomerViewController {
                 destinationVC.currentCustomer = currentCustomer as? Customer
+                destinationVC.context = context
             }
         case "editEmployee1Segue":
             if let destinationVC = segue.destination as? EmployeeViewController {
                 destinationVC.employeeName = UserDefaults.standard.object(forKey: "currentEmployee") as? String ?? ""
+                destinationVC.context = context
             }
         case "editEmployee2Segue":
             if let destinationVC = segue.destination as? EmployeeViewController {
                 destinationVC.employeeName = UserDefaults.standard.object(forKey: "currentEmployee") as? String ?? ""
+                destinationVC.context = context
             }
         case "signoutSegue":
             UserDefaults.standard.set(false, forKey: "isLoggedIn")
@@ -168,7 +175,7 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating {
             context.delete(cust)
             customers.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
-            coreData.saveContext()
+            coreData?.saveContext()
             delegate?.customerSelected(customers[0])
             //Not working! - row is being selected but not highlighted. Grrr...
             tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .top)

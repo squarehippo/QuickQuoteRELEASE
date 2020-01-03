@@ -7,12 +7,13 @@
 //
 
 import UIKit
+import CoreData
 
 class NotesViewController: UIViewController, UITextViewDelegate {
     
     var currentQuote: Quote?
-    let coreData = CoreDataStack.shared
-    var context = CoreDataStack.shared.persistentContainer.viewContext
+    let coreData = UIApplication.shared.delegate as? AppDelegate
+    var context: NSManagedObjectContext!
 
     @IBOutlet weak var notesTextView: UITextView!
     
@@ -27,7 +28,7 @@ class NotesViewController: UIViewController, UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         guard let quote = currentQuote else { return }
         quote.noteForWorkOrder = notesTextView.text
-        coreData.saveContext()
+        coreData?.saveContext()
     }
 
 }

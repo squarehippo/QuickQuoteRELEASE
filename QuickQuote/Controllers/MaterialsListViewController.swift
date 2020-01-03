@@ -12,8 +12,8 @@ import CoreData
 class MaterialsListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var currentQuote: Quote?
-    let coreData = CoreDataStack.shared
-    var context = CoreDataStack.shared.persistentContainer.viewContext
+    let coreData = UIApplication.shared.delegate as? AppDelegate
+    var context: NSManagedObjectContext!
     
     var materialArray = [Material]()
     var recentMaterialArray = [Material]()
@@ -48,7 +48,7 @@ class MaterialsListViewController: UIViewController, UITableViewDelegate, UITabl
                 let item = Material(context: self.context)
                 item.name = itemToSave
                 quote.addToMaterials(item)
-                self.coreData.saveContext()
+                self.coreData?.saveContext()
             }
             self.fetchMaterials()
             self .materialsListTableView.reloadData()
@@ -100,7 +100,7 @@ class MaterialsListViewController: UIViewController, UITableViewDelegate, UITabl
         if editingStyle == .delete {
             let material = materialArray[indexPath.row]
             context.delete(material)
-            coreData.saveContext()
+            coreData?.saveContext()
             materialArray.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }

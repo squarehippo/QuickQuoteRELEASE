@@ -11,8 +11,8 @@ import CoreData
 
 class EmployeeViewController: UIViewController {
     
-    let coreData = CoreDataStack.shared
-    var context = CoreDataStack.shared.persistentContainer.viewContext
+    let coreData = UIApplication.shared.delegate as? AppDelegate
+    var context: NSManagedObjectContext!
     
     var employees = [Employee]()
     var employeeName: String?
@@ -100,7 +100,7 @@ class EmployeeViewController: UIViewController {
             employees.append(employee)
         }
         NotificationCenter.default.post(name: .onDismissEmployee, object: self, userInfo: nil)
-        coreData.saveContext()
+        coreData?.saveContext()
     }
     
     @IBAction func dismissButtonPressed(_ sender: UIButton) {

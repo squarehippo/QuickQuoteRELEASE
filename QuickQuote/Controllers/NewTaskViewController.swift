@@ -14,8 +14,9 @@ protocol NewTaskDelegate {
 }
 class NewTaskViewController: UIViewController {
     
-    let coreData = CoreDataStack.shared
-    var context = CoreDataStack.shared.persistentContainer.viewContext
+    let coreData = UIApplication.shared.delegate as? AppDelegate
+    var context: NSManagedObjectContext!
+    
     var currentQuote: Quote?
     var delegate: NewTaskDelegate?
     
@@ -49,7 +50,7 @@ class NewTaskViewController: UIViewController {
         newTask.taskDescription = taskDescription.text
         newTask.cost = taskCost.text
         quote?.addToTasks(newTask)
-        coreData.saveContext()
+        coreData?.saveContext()
     }
     
     

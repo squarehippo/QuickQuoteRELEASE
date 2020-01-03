@@ -14,6 +14,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+        
+        guard let _ = (scene as? UIWindowScene) else { return }
         guard
             let splitViewController = window?.rootViewController as? UISplitViewController,
             let leftNavigationController = splitViewController.viewControllers.first as? UINavigationController,
@@ -23,6 +25,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             else { fatalError()}
         
         masterViewController.delegate = detailViewController
+        
+        let viewContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        viewContext.automaticallyMergesChangesFromParent = true
+        masterViewController.context = viewContext
+        detailViewController.context = viewContext
         
     }
 

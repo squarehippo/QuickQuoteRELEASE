@@ -13,8 +13,8 @@ class WorkSheetViewController: UIViewController {
     
     var currentQuote: Quote?
     
-    let coreData = CoreDataStack.shared
-    var context = CoreDataStack.shared.persistentContainer.viewContext
+    let coreData = UIApplication.shared.delegate as? AppDelegate
+    var context: NSManagedObjectContext!
     
     @IBOutlet weak var irrigationSegment: UISegmentedControl!
     @IBOutlet weak var sodKickerSegment: UISegmentedControl!
@@ -72,7 +72,7 @@ class WorkSheetViewController: UIViewController {
         worksheet.equipmentNeeded = Int32(UISegmentedControl.noSegment)
         
         quote.worksheet = worksheet
-        coreData.saveContext()
+        coreData?.saveContext()
     }
     
     @IBAction func segmentPressed(_ sender: UISegmentedControl) {
@@ -105,7 +105,7 @@ class WorkSheetViewController: UIViewController {
             default:
                 break
             }
-            coreData.saveContext()
+            coreData?.saveContext()
         }
     }
     
@@ -157,7 +157,7 @@ class WorkSheetViewController: UIViewController {
             worksheet.p2Feet = p2Feet.text
             worksheet.p2Diameter = p2Diameter.text
         
-            coreData.saveContext()
+            coreData?.saveContext()
         }
     }
    

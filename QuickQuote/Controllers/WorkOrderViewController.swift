@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import CoreData
 
 class WorkOrderViewController: UIViewController {
     
     var currentQuote: Quote?
-    let coreData = CoreDataStack.shared
-    var context = CoreDataStack.shared.persistentContainer.viewContext
+    
+    let coreData = UIApplication.shared.delegate as? AppDelegate
+    var context: NSManagedObjectContext!
     
     @IBOutlet weak var shareButton: UIBarButtonItem!
     
@@ -34,16 +36,19 @@ class WorkOrderViewController: UIViewController {
         if segue.identifier == "workOrderNotes" {
             if let destinationVC = segue.destination as? NotesViewController {
                 destinationVC.currentQuote = currentQuote
+                destinationVC.context = context
             }
         }
         if segue.identifier == "materialsList" {
             if let destinationVC = segue.destination as? MaterialsListViewController {
                 destinationVC.currentQuote = currentQuote
+                destinationVC.context = context
             }
         }
         if segue.identifier == "worksheet" {
             if let destinationVC = segue.destination as? WorkSheetViewController {
                 destinationVC.currentQuote = currentQuote
+                destinationVC.context = context
             }
         }
     }
@@ -78,7 +83,7 @@ class WorkOrderViewController: UIViewController {
             }
         present(uiavc, animated: true, completion: nil)
         currentQuote?.quoteStatus = "\(QuoteStatus.complete)"
-        coreData.saveContext()
+        coreData?.saveContext()
         }
         
         func getPDF() -> String {

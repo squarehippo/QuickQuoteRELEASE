@@ -19,8 +19,8 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
     }
     var currentCustomerQuotes = [Quote]()
     
-    let coreData = CoreDataStack.shared
-    var context = CoreDataStack.shared.persistentContainer.viewContext
+    let coreData = UIApplication.shared.delegate as? AppDelegate
+    var context: NSManagedObjectContext!
     
     
     @IBOutlet weak var quoteTableView: UITableView!
@@ -40,6 +40,8 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
         NotificationCenter.default.addObserver(self, selector: #selector(onDismissCustomerEdit), name: .onDismissCustomerEdit, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(onCityAvailable), name: .onCityAvailable, object: nil)
+        
+        print("detail side context = ", context)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -51,11 +53,13 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
         if segue.identifier == "NewQuoteSegue" {
             let destination = segue.destination as? QuoteViewController
             destination?.currentCustomer = currentCustomer
+            destination?.context = context
         }
         if segue.identifier == "EditQuoteSegue" {
             let destination = segue.destination as? QuoteViewController
             destination?.currentQuote = currentCustomerQuotes[quoteTableView.indexPathForSelectedRow!.section]
             destination?.isNewQuote = false
+            destination?.context = context
         }
     }
     
@@ -153,7 +157,7 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
         if editingStyle == .delete {
             let quote = currentCustomerQuotes[indexPath.section]
             context.delete(quote)
-            coreData.saveContext()
+            coreData?.saveContext()
             currentCustomerQuotes.remove(at: indexPath.section)
             let indexSet = IndexSet(integer: indexPath.section)
             tableView.deleteSections(indexSet, with: .fade)

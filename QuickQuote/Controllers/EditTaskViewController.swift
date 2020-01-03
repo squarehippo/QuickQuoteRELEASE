@@ -11,8 +11,9 @@ import CoreData
 
 class EditTaskViewController: UIViewController {
     
-    let coreData = CoreDataStack.shared
-    var context = CoreDataStack.shared.persistentContainer.viewContext
+    let coreData = UIApplication.shared.delegate as? AppDelegate
+    var context: NSManagedObjectContext!
+    
     var currentQuote: Quote?
     var currentTask: Task?
     
@@ -48,7 +49,7 @@ class EditTaskViewController: UIViewController {
         currentTask?.title = taskTitle.text
         currentTask?.taskDescription = taskDescription.text
         currentTask?.cost = taskCost.text
-        coreData.saveContext()
+        coreData?.saveContext()
     }
 }
 

@@ -16,8 +16,9 @@ protocol NewCustomerDelegate {
 
 class NewCustomerViewController: UIViewController {
     
-    let coreData = CoreDataStack.shared
-    var context = CoreDataStack.shared.persistentContainer.viewContext
+    let coreData = UIApplication.shared.delegate as? AppDelegate
+    var context: NSManagedObjectContext!
+    
     var currentCustomer: NSManagedObject?
     var delegate: NewCustomerDelegate?
     
@@ -62,7 +63,7 @@ class NewCustomerViewController: UIViewController {
         cust.email = customerEmail.text?.trim()
         if cust.email == "" { cust.email = "no email" }
         
-        coreData.saveContext()
+        coreData?.saveContext()
         NotificationCenter.default.post(name: .onDismissNewCustomer, object: self, userInfo: nil)
     }
     
@@ -88,7 +89,7 @@ class NewCustomerViewController: UIViewController {
         let cust = currentCustomer as! Customer
         cust.city = city
         cust.state = state
-        coreData.saveContext()
+        coreData?.saveContext()
     }
     
     func fetchCurrentCustomer() {
