@@ -637,7 +637,7 @@
                         <outlet property="customerTableView" destination="uuX-54-Rgf" id="iAb-HI-F6a"/>
                         <outlet property="itemBarButton" destination="NFR-Sb-P9Q" id="caT-MW-c1r"/>
                         <outlet property="tableView" destination="uuX-54-Rgf" id="FEN-Yp-nVP"/>
-                        <segue destination="wWI-8z-UiL" kind="presentation" identifier="loginSegue" id="ni5-z6-v0o"/>
+                        <segue destination="wWI-8z-UiL" kind="presentation" identifier="segueToLogin" id="ni5-z6-v0o"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="v8P-LJ-y4x" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -2558,7 +2558,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="QxM-bl-BPj"/>
-        <segue reference="akB-lS-CIf"/>
+        <segue reference="ni5-z6-v0o"/>
         <segue reference="1Vt-eZ-D3L"/>
         <segue reference="6as-8Z-DbP"/>
     </inferredMetricsTieBreakers>

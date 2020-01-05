@@ -11,11 +11,7 @@ import CoreData
 
 class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
     
-    var currentCustomer: Customer? {
-        didSet {
-            refreshUI()
-        }
-    }
+    var currentCustomer: Customer? 
     
     let pageWidth: CGFloat = 612.0
     let pageHeight: CGFloat = 792.0
@@ -48,7 +44,7 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         taskTableView.dataSource = self
         taskTableView.delegate = self
         taskTableView.layer.cornerRadius = 10
@@ -188,10 +184,6 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         loadCustomerTasks()
     }
     
-    func refreshUI() {
-        loadViewIfNeeded()
-    }
-    
     func checkForEmployee() {
         if currentQuote?.employee?.name == nil {
             assignEmployee(context: currentQuote!)
@@ -254,10 +246,6 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     //MARK: - Quote Related
     
     func saveNewQuote() {
-        print("context in save = ", context)
-        guard context != nil else {
-            return
-        }
         let newQuote = Quote(context: context)
         newQuote.quoteNumber = currentQuoteNumber
         newQuote.quoteStatus = "\(QuoteStatus.inProgress)"

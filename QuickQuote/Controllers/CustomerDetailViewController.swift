@@ -41,7 +41,7 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
         
         NotificationCenter.default.addObserver(self, selector: #selector(onCityAvailable), name: .onCityAvailable, object: nil)
         
-        print("detail side context = ", context)
+        print("detail side context = ", context as Any)
     }
     
     override func viewWillAppear(_ animated: Bool) {
