@@ -88,6 +88,7 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating, NS
         if searchString.count != 0 {
             let predicate = NSPredicate(format: "name CONTAINS[c] %@", searchString)
             customerFetchRequest.predicate = predicate
+            print("enabling predicate", predicate)
         }
         
         let firstSortDescriptor = NSSortDescriptor(key: "name", ascending: true)
