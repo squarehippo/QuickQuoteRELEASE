@@ -98,7 +98,6 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
         customerPhone.text = currentCustomer?.phone ?? ""
         customerEmail.text = currentCustomer?.email ?? ""
         customerName.text = currentCustomer?.name ?? ""
-        
         quoteTableView.reloadData()
     }
     
@@ -173,7 +172,7 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
             do {
                 try context?.save()
             } catch  {
-                print("Boom")
+                print("Can't save")
             }
         }
     }
