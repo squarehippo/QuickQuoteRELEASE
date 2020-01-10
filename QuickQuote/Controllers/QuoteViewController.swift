@@ -42,9 +42,10 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     @IBOutlet weak var imageCollectionView: UICollectionView!
     
     
+    //MARK: - View Related
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        print("Made it to quote view controller")
         taskTableView.dataSource = self
         taskTableView.delegate = self
         taskTableView.layer.cornerRadius = 10
@@ -54,44 +55,6 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         setUpViewTasks()
         loadGestureRecognizer()
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case "NewTaskSegue":
-            if let destinationVC = segue.destination as? NewTaskViewController {
-                destinationVC.currentQuote = currentQuote
-                destinationVC.context = context
-            }
-        case "editTask":
-            guard let destinationVC = segue.destination as? EditTaskViewController,
-            let currentTasks = currentCustomerTasks,
-            let selectedRow = taskTableView.indexPathForSelectedRow else { return }
-            destinationVC.currentTask = currentTasks[selectedRow.row]
-            destinationVC.context = context
-        case "workOrder":
-            if let destinationVC = segue.destination as? WorkOrderViewController {
-                destinationVC.currentQuote = currentQuote
-                destinationVC.context = context
-            }
-        case "collectionSegue":
-            if let destinationVC = segue.destination as? ImageViewController {
-                destinationVC.currentQuote = currentQuote
-                let path = self.imageCollectionView.indexPath(for: sender as! ImageCollectionViewCell)
-                destinationVC.buttonTag = path?.row
-                destinationVC.context = context
-            }
-        case "newPhotoSegue":
-            if let destinationVC = segue.destination as? ImageViewController {
-                destinationVC.currentQuote = currentQuote
-                destinationVC.buttonTag = currentImageArray.count
-                destinationVC.context = context
-            }
-        default:
-            break
-        }
-    }
-    
-    //MARK: - View Related
     
     func setUpViewTasks() {
         if isNewQuote {
@@ -186,7 +149,7 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func checkForEmployee() {
         if currentQuote?.employee?.name == nil {
-            assignEmployee(context: currentQuote!)
+            assignEmployee(quote: currentQuote!)
         }
     }
     
@@ -233,8 +196,6 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
-    
-    
     func getPDF() -> String {
         let newPDF = PreparePDFSheets()
         if let quote = currentQuote {
@@ -249,16 +210,16 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         let newQuote = Quote(context: context)
         newQuote.quoteNumber = currentQuoteNumber
         newQuote.quoteStatus = "\(QuoteStatus.inProgress)"
-        assignEmployee(context: newQuote)
+        assignEmployee(quote: newQuote)
         currentCustomer?.addToQuotes(newQuote)
         coreData?.saveContext()
         fetchCurrentQuote()
     }
     
-    func assignEmployee(context: Quote) {
+    func assignEmployee(quote: Quote) {
         let employeeName = UserDefaults.standard.object(forKey: "currentEmployee") as? String ?? ""
         let currentEmployee = getCurrentEmployee(name: employeeName)
-        currentEmployee?.addToQuotes(context)
+        currentEmployee?.addToQuotes(quote)
     }
     
     func getCurrentEmployee(name: String) -> Employee? {
@@ -420,6 +381,43 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
             image.tag = Int32(tag)
             quote.addToImages(image)
             coreData?.saveContext()
+        }
+    }
+    
+    //MARK: -- prepare for segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+        case "NewTaskSegue":
+            if let destinationVC = segue.destination as? NewTaskViewController {
+                destinationVC.currentQuote = currentQuote
+                destinationVC.context = context
+            }
+        case "editTask":
+            guard let destinationVC = segue.destination as? EditTaskViewController,
+            let currentTasks = currentCustomerTasks,
+            let selectedRow = taskTableView.indexPathForSelectedRow else { return }
+            destinationVC.currentTask = currentTasks[selectedRow.row]
+            destinationVC.context = context
+        case "workOrder":
+            if let destinationVC = segue.destination as? WorkOrderViewController {
+                destinationVC.currentQuote = currentQuote
+                destinationVC.context = context
+            }
+        case "collectionSegue":
+            if let destinationVC = segue.destination as? ImageViewController {
+                destinationVC.currentQuote = currentQuote
+                let path = self.imageCollectionView.indexPath(for: sender as! ImageCollectionViewCell)
+                destinationVC.buttonTag = path?.row
+                destinationVC.context = context
+            }
+        case "newPhotoSegue":
+            if let destinationVC = segue.destination as? ImageViewController {
+                destinationVC.currentQuote = currentQuote
+                destinationVC.buttonTag = currentImageArray.count
+                destinationVC.context = context
+            }
+        default:
+            break
         }
     }
 

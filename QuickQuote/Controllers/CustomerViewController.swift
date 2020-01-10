@@ -18,7 +18,6 @@ protocol CustomerSelectionDelegate: class {
 class CustomerViewController: UITableViewController, UISearchResultsUpdating, NSFetchedResultsControllerDelegate {
     
     var delegate: CustomerSelectionDelegate?
-    var customers = [Customer]()
     var currentCustomer: NSManagedObject?
     
     let coreData = UIApplication.shared.delegate as? AppDelegate
@@ -33,7 +32,11 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating, NS
     //MARK: - View
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        configureControllers()
+        NotificationCenter.default.addObserver(self, selector: #selector(onDismissLogin), name: .onDismissLogin, object: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         if isLoggedIn() {
             prepareView()
         } else {
@@ -41,7 +44,16 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating, NS
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    // MARK: - Setup
+    func isLoggedIn() -> Bool {
+        return UserDefaults.standard.bool(forKey: "isLoggedIn")
+    }
+    
+    @objc func onDismissLogin() {
+        highlightFirstRow()
+    }
+    
+    func configureControllers() {
         configureSearchController()
         configureFetchedController(searchString: "")
         do {
@@ -51,14 +63,11 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating, NS
         }
     }
     
-    // MARK: - Setup
-    func isLoggedIn() -> Bool {
-        return UserDefaults.standard.bool(forKey: "isLoggedIn")
-    }
-    
     func prepareView() {
         title = "Customers"
-        if customers.count > 0 {
+        if customerFetchedController.fetchedObjects?.count ?? 0 > 0 {
+            let indexPath = IndexPath(row: 0, section: 0)
+            currentCustomer = customerFetchedController.object(at: indexPath)
             highlightFirstRow()
         }
         itemBarButton.title = UserDefaults.standard.object(forKey: "currentEmployee") as? String ?? ""
@@ -73,12 +82,11 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating, NS
     }
     
     func highlightFirstRow() {
-        if customers.count > 0 {
+        print("should be highlighting first row now")
+        if customerFetchedController.fetchedObjects?.count ?? 0 > 0 {
             customerTableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .top)
-            // TODO: - When a new customer is added, the last customer im the list is highlighted - the code below didn't fix it
-            customers = customers.sorted(by:
-            { ($0.dateModified!).compare($1.dateModified!) == .orderedDescending })
-            delegate?.customerSelected(customers[0])
+            
+            NotificationCenter.default.post(name: .onChangeCustomer, object: self, userInfo: ["currentCust" : currentCustomer as! Customer])
         }
     }
     
@@ -88,12 +96,10 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating, NS
         if searchString.count != 0 {
             let predicate = NSPredicate(format: "name CONTAINS[c] %@", searchString)
             customerFetchRequest.predicate = predicate
-            print("enabling predicate", predicate)
         }
         
-        let firstSortDescriptor = NSSortDescriptor(key: "name", ascending: true)
-        let secondSortDescriptor = NSSortDescriptor(key: "dateModified", ascending: false)
-        customerFetchRequest.sortDescriptors = [firstSortDescriptor, secondSortDescriptor]
+        let firstSortDescriptor = NSSortDescriptor(key: "dateModified", ascending: false)
+        customerFetchRequest.sortDescriptors = [firstSortDescriptor]
         
         customerFetchedController = NSFetchedResultsController<Customer>(
         fetchRequest: customerFetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
@@ -106,15 +112,19 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating, NS
         if let currentSearch = searchController.searchBar.text {
             configureFetchedController(searchString: currentSearch)
         }
+        
+        do {
+            try customerFetchedController.performFetch()
+        } catch  {
+            print("could not perform fetch")
+        }
+        customerTableView.reloadData()
     }
     
     // MARK: - Table view data source
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let sections = customerFetchedController.sections {
-            let currentSection = sections[section]
-            return currentSection.numberOfObjects
-        }
-        return 0
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        return customerFetchedController.fetchedObjects?.count ?? 0
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -167,6 +177,7 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating, NS
             }
         case .update:
             if let updateIndexPath = indexPath {
+                print("customer view is updating")
                 let cell = customerTableView.cellForRow(at: updateIndexPath)
                 let customer = customerFetchedController.object(at: updateIndexPath)
                 cell?.textLabel?.text = customer.name
@@ -204,6 +215,10 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating, NS
     // MARK: - prepare for segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
+        case "segueToLogin":
+        if let destinationVC = segue.destination as? LoginViewController {
+            destinationVC.context = context
+        }
         case "ModalCustomer":
             if let destinationVC = segue.destination as? NewCustomerViewController {
                 //destinationVC.delegate = self
