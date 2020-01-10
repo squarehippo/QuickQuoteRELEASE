@@ -45,7 +45,6 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     //MARK: - View Related
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("Made it to quote view controller")
         taskTableView.dataSource = self
         taskTableView.delegate = self
         taskTableView.layer.cornerRadius = 10

@@ -12,7 +12,7 @@ import CoreLocation
 
 // TODO: Change this to use the notification center already in place
 protocol CustomerSelectionDelegate: class {
-    func customerSelected(_ newCustomer: Customer)
+    func customerSelected(_ selectedCustomer: Customer)
 }
 
 class CustomerViewController: UITableViewController, UISearchResultsUpdating, NSFetchedResultsControllerDelegate {
@@ -82,7 +82,6 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating, NS
     }
     
     func highlightFirstRow() {
-        print("should be highlighting first row now")
         if customerFetchedController.fetchedObjects?.count ?? 0 > 0 {
             customerTableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .top)
             
@@ -112,7 +111,6 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating, NS
         if let currentSearch = searchController.searchBar.text {
             configureFetchedController(searchString: currentSearch)
         }
-        
         do {
             try customerFetchedController.performFetch()
         } catch  {
@@ -138,7 +136,7 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating, NS
         let customer = customerFetchedController.object(at: indexPath)
         delegate?.customerSelected(customer)
         currentCustomer = customer
-        NotificationCenter.default.post(name: .onChangeCustomer, object: self, userInfo: nil)
+        NotificationCenter.default.post(name: .onChangeCustomer, object: self, userInfo: ["currentCust" : currentCustomer as! Customer])
     }
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -177,7 +175,6 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating, NS
             }
         case .update:
             if let updateIndexPath = indexPath {
-                print("customer view is updating")
                 let cell = customerTableView.cellForRow(at: updateIndexPath)
                 let customer = customerFetchedController.object(at: updateIndexPath)
                 cell?.textLabel?.text = customer.name

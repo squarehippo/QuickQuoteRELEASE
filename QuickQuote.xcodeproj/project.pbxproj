@@ -64,6 +64,7 @@
 		42AD0B51238D88630057CFCC /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AD0B50238D88630057CFCC /* PhotoView.swift */; };
 		42BAEDE5237853A10054A31C /* NotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42BAEDE4237853A10054A31C /* NotesViewController.swift */; };
 		42BF7FE7236C8EA800605C68 /* DateToSeconds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42BF7FE6236C8EA800605C68 /* DateToSeconds.swift */; };
+		42D03AC023C900060016E31C /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42D03ABF23C900060016E31C /* CloudKit.framework */; };
 		42E1E5192360BC07008B1912 /* String+Trim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E1E5182360BC07008B1912 /* String+Trim.swift */; };
 		42F255C5236230F4002883C1 /* QuoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F255C4236230F4002883C1 /* QuoteViewController.swift */; };
 /* End PBXBuildFile section */
@@ -128,6 +129,9 @@
 		42AD0B50238D88630057CFCC /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
 		42BAEDE4237853A10054A31C /* NotesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesViewController.swift; sourceTree = "<group>"; };
 		42BF7FE6236C8EA800605C68 /* DateToSeconds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateToSeconds.swift; sourceTree = "<group>"; };
+		42D03ABD23C900030016E31C /* QuickQuoteDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = QuickQuoteDebug.entitlements; sourceTree = "<group>"; };
+		42D03ABF23C900060016E31C /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		42D03AC123C900980016E31C /* QuickQuote.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = QuickQuote.entitlements; sourceTree = "<group>"; };
 		42E1E5182360BC07008B1912 /* String+Trim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Trim.swift"; sourceTree = "<group>"; };
 		42F255C4236230F4002883C1 /* QuoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteViewController.swift; sourceTree = "<group>"; wrapsLines = 1; };
 /* End PBXFileReference section */
@@ -137,6 +141,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42D03AC023C900060016E31C /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -181,6 +186,7 @@
 				42688B7923553C6A00AE825A /* SceneDelegate.swift */,
 				42688B7623553C6A00AE825A /* QuickQuote */,
 				42688B7523553C6A00AE825A /* Products */,
+				42D03ABE23C900060016E31C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -195,6 +201,8 @@
 		42688B7623553C6A00AE825A /* QuickQuote */ = {
 			isa = PBXGroup;
 			children = (
+				42D03AC123C900980016E31C /* QuickQuote.entitlements */,
+				42D03ABD23C900030016E31C /* QuickQuoteDebug.entitlements */,
 				42C454DF2363D1700024DD99 /* Model */,
 				4211CA50236894FC008D57C3 /* View */,
 				42C454E02363D18C0024DD99 /* Controllers */,
@@ -238,6 +246,14 @@
 				427B154A23AABA4700B95FE7 /* MakeQuoteSheet.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		42D03ABE23C900060016E31C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				42D03ABF23C900060016E31C /* CloudKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		42E1E51A2360BC22008B1912 /* Extensions */ = {
@@ -520,6 +536,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = QuickQuote/QuickQuoteDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6BWKDGAU39;
 				INFOPLIST_FILE = QuickQuote/Info.plist;
@@ -539,6 +556,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = QuickQuote/QuickQuote.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6BWKDGAU39;
 				INFOPLIST_FILE = QuickQuote/Info.plist;

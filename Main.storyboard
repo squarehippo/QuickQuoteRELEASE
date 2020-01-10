@@ -669,7 +669,7 @@
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xh1-SU-ERH">
                                         <rect key="frame" x="0.0" y="0.0" width="620" height="51"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" textContentType="name"/>
                                     </textField>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Eq5-uO-ukq">
                                         <rect key="frame" x="0.0" y="71" width="620" height="51"/>
@@ -682,7 +682,7 @@
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="zip code" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bZ3-c4-rlc">
                                                 <rect key="frame" x="403" y="0.0" width="217" height="51"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                <textInputTraits key="textInputTraits" textContentType="postal-code"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation" textContentType="postal-code"/>
                                             </textField>
                                         </subviews>
                                         <constraints>
@@ -692,12 +692,12 @@
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="phone" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uQ1-4C-8e9">
                                         <rect key="frame" x="0.0" y="142" width="620" height="51"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <textInputTraits key="textInputTraits" textContentType="tel"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation" textContentType="tel"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ugs-BV-r7G">
                                         <rect key="frame" x="0.0" y="213" width="620" height="51"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <textInputTraits key="textInputTraits" textContentType="email"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="emailAddress" textContentType="email"/>
                                     </textField>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Snj-q9-4jr">
                                         <rect key="frame" x="0.0" y="284" width="620" height="51"/>
@@ -2637,7 +2637,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="QxM-bl-BPj"/>
         <segue reference="ni5-z6-v0o"/>
-        <segue reference="1Vt-eZ-D3L"/>
+        <segue reference="45t-YR-Jjb"/>
         <segue reference="6as-8Z-DbP"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15702" systemVersion="19B88" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15702" systemVersion="19C57" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Customer" representedClassName="Customer" parentEntity="SignatureManagedObject" syncable="YES" codeGenerationType="class">
-        <attribute name="address" attributeType="String"/>
+        <attribute name="address" optional="YES" attributeType="String"/>
+        <attribute name="attribute" optional="YES" attributeType="String"/>
         <attribute name="city" optional="YES" attributeType="String"/>
         <attribute name="email" optional="YES" attributeType="String"/>
-        <attribute name="name" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="phone" optional="YES" attributeType="String"/>
         <attribute name="state" optional="YES" attributeType="String"/>
-        <attribute name="zip" attributeType="String"/>
+        <attribute name="zip" optional="YES" attributeType="String"/>
         <relationship name="quotes" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Quote" inverseName="customer" inverseEntity="Quote"/>
     </entity>
     <entity name="Employee" representedClassName="Employee" parentEntity="SignatureManagedObject" syncable="YES" codeGenerationType="class">
@@ -31,7 +32,7 @@
     <entity name="Quote" representedClassName="Quote" parentEntity="SignatureManagedObject" syncable="YES" codeGenerationType="class">
         <attribute name="noteForCustomer" optional="YES" attributeType="String"/>
         <attribute name="noteForWorkOrder" optional="YES" attributeType="String"/>
-        <attribute name="quoteNumber" attributeType="String"/>
+        <attribute name="quoteNumber" optional="YES" attributeType="String"/>
         <attribute name="quoteStatus" optional="YES" attributeType="String"/>
         <relationship name="customer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Customer" inverseName="quotes" inverseEntity="Customer"/>
         <relationship name="employee" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Employee" inverseName="quotes" inverseEntity="Employee"/>
@@ -47,7 +48,7 @@
     <entity name="Task" representedClassName="Task" parentEntity="SignatureManagedObject" syncable="YES" codeGenerationType="class">
         <attribute name="cost" optional="YES" attributeType="String"/>
         <attribute name="taskDescription" optional="YES" attributeType="String"/>
-        <attribute name="title" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
         <relationship name="quote" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Quote" inverseName="tasks" inverseEntity="Quote"/>
     </entity>
     <entity name="Worksheet" representedClassName="Worksheet" parentEntity="SignatureManagedObject" syncable="YES" codeGenerationType="class">
@@ -78,7 +79,7 @@
         <relationship name="quote" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Quote" inverseName="worksheet" inverseEntity="Quote"/>
     </entity>
     <elements>
-        <element name="Customer" positionX="-363.828125" positionY="-55.5546875" width="128" height="163"/>
+        <element name="Customer" positionX="-363.828125" positionY="-55.5546875" width="128" height="178"/>
         <element name="Employee" positionX="-198" positionY="0" width="128" height="133"/>
         <element name="Image" positionX="-198" positionY="0" width="128" height="103"/>
         <element name="Material" positionX="-198" positionY="0" width="128" height="73"/>

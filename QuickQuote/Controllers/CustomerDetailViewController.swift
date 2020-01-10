@@ -75,8 +75,7 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
     }
     
     @objc func onChangeCustomer(_ notification: Notification) {
-        print(notification.userInfo as Any)
-        refreshUI()
+        currentCustomer = notification.userInfo?["currentCust"] as? Customer
         title = currentCustomer?.name
     }
     
@@ -85,7 +84,6 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
     }
     
     func refreshUI() {
-        print("refreshing ui")
         loadViewIfNeeded()
         if let name = currentCustomer?.name {
             configureFetchedController(searchString: name)
@@ -100,6 +98,8 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
         customerPhone.text = currentCustomer?.phone ?? ""
         customerEmail.text = currentCustomer?.email ?? ""
         customerName.text = currentCustomer?.name ?? ""
+        
+        quoteTableView.reloadData()
     }
     
     func cityStateZipToString() -> String {
@@ -200,7 +200,6 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
         case .insert:
-            print("now inserting...")
             if let insertIndexPath = newIndexPath {
                 let indexSet = IndexSet(integer: insertIndexPath.section)
                 quoteTableView.insertSections(indexSet, with: .fade)
@@ -211,7 +210,6 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
                 quoteTableView.deleteSections(indexSet, with: .fade)
             }
         case .update:
-            print("calling update")
             if let updateIndexPath = indexPath {
                 let cell = quoteTableView.cellForRow(at: updateIndexPath) as! QuoteCell
                 let quote = quoteFetchedController.fetchedObjects![updateIndexPath.section] as Quote
@@ -274,8 +272,8 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
 }
 
 extension CustomerDetailViewController: CustomerSelectionDelegate {
-    func customerSelected(_ newCustomer: Customer) {
-        currentCustomer = newCustomer
+    func customerSelected(_ selectedCustomer: Customer) {
+        currentCustomer = selectedCustomer
         quoteTableView.reloadData()
         title = currentCustomer?.name
     }
