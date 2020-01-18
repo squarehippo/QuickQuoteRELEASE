@@ -85,7 +85,11 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating, NS
         if customerFetchedController.fetchedObjects?.count ?? 0 > 0 {
             customerTableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .top)
             
-            NotificationCenter.default.post(name: .onChangeCustomer, object: self, userInfo: ["currentCust" : currentCustomer as! Customer])
+            currentCustomer = customerFetchedController.fetchedObjects?.first
+            
+            if let customer = currentCustomer {
+                NotificationCenter.default.post(name: .onChangeCustomer, object: self, userInfo: ["currentCust" : customer as! Customer])
+            }
         }
     }
     
@@ -142,14 +146,8 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating, NS
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let customer = customerFetchedController.object(at: indexPath)
-            if editingStyle == .delete {
-                context.delete(customer)
-                do {
-                    try context?.save()
-                } catch  {
-                    print("Boom")
-                }
-            }
+            context.delete(customer)
+            coreData?.saveContext()
         }
     }
     
@@ -178,6 +176,7 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating, NS
                 let cell = customerTableView.cellForRow(at: updateIndexPath)
                 let customer = customerFetchedController.object(at: updateIndexPath)
                 cell?.textLabel?.text = customer.name
+                highlightFirstRow()
             }
         case .move:
             if let deleteIndexPath = indexPath {
@@ -224,6 +223,7 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating, NS
         case "editCustomer":
             if let destinationVC = segue.destination as? EditCustomerViewController {
                 destinationVC.currentCustomer = currentCustomer as? Customer
+                print("currentCuteomr = ", currentCustomer as Any)
                 destinationVC.context = context
             }
         case "editEmployee1Segue":
@@ -238,6 +238,9 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating, NS
             }
         case "signoutSegue":
             UserDefaults.standard.set(false, forKey: "isLoggedIn")
+            if let destinationVC = segue.destination as? LoginViewController {
+                destinationVC.context = context
+            }
         default:
             break
         }

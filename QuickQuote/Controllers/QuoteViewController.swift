@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
+class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate, NSFetchedResultsControllerDelegate {
     
     var currentCustomer: Customer? 
     
@@ -21,6 +21,9 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     let coreData = UIApplication.shared.delegate as? AppDelegate
     var context: NSManagedObjectContext!
     
+    var taskFetchedController: NSFetchedResultsController<Task>!
+    
+    var currentEmployee: Employee?
     var currentQuote: Quote?
     var currentQuoteNumber: String?
     var currentCustomerTasks: [Task]?
@@ -45,33 +48,50 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     //MARK: - View Related
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         taskTableView.dataSource = self
         taskTableView.delegate = self
         taskTableView.layer.cornerRadius = 10
         
-        loadImageArray()
-        assignCurrentQuoteInformation()
-        setUpViewTasks()
         loadGestureRecognizer()
+        addObservers()
+        
+        if currentQuote == nil { createNewQuote() }
+        prepareQuote()
     }
     
-    func setUpViewTasks() {
-        if isNewQuote {
-            title = "New quote for \(currentCustomer?.name ?? "customer")"
-            currentQuote?.quoteStatus = "\(QuoteStatus.opened)"
-            coreData?.saveContext()
-        } else {
-            title = "Quote for \(currentQuote?.customer?.name ?? "customer")"
-            checkForEmployee()
+    override func viewWillAppear(_ animated: Bool) {
+        configureFetchedController(quote: currentQuote!)
+        do {
+            try taskFetchedController.performFetch()
+        } catch  {
+            print("could not perform fetch")
         }
-        NotificationCenter.default.addObserver(self, selector: #selector(onDismissNewTask), name: .onDismissNewTask, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(onChangeCustomer), name: .onChangeCustomer, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(onDismissImageModal), name: .onDismissImageModal, object: nil)
     }
     
-    @objc func onDismissNewTask() {
-        loadCustomerTasks()
-        taskTableView.reloadData()
+    private func createNewQuote() {
+        print("creating new quote...")
+        let newQuote = Quote(context: context)
+        if currentQuote?.employee?.name == nil {
+            assignEmployee(quote: currentQuote!)
+        }
+        currentQuoteNumber = makeQuoteNumber(withUser: currentEmployee?.name ?? "error", andDate: Date())
+        newQuote.quoteNumber = currentQuoteNumber
+        newQuote.quoteStatus = "\(QuoteStatus.inProgress)"
+        assignEmployee(quote: newQuote)
+        currentCustomer?.addToQuotes(newQuote)
+        print("all quote fields are complete and ready to be saved")
+        coreData?.saveContext()
+        print("saved new quote...")
+        fetchCurrentQuote()
+    }
+    
+    private func prepareQuote() {
+        currentQuoteNumber = currentQuote?.quoteNumber
+        quoteNumber.text = "Quote: " + (currentQuoteNumber ?? "error")
+        quoteDate.text = currentQuote?.dateCreated?.dateToShortString()
+        title = "Quote for \(currentQuote?.customer?.name ?? "customer")"
+        loadImageArray()
     }
     
     @objc func onChangeCustomer() {
@@ -81,6 +101,11 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     @objc func onDismissImageModal() {
         loadImageArray()
         imageCollectionView.reloadData()
+    }
+    
+    @objc func deleteButtonTapped(_ sender: UIButton) {
+        //TODO: Delete image from coredata
+        clearAllAnimations()
     }
         
     func loadGestureRecognizer() {
@@ -115,9 +140,9 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
-    @objc func deleteButtonTapped(_ sender: UIButton) {
-        
-        clearAllAnimations()
+    private func addObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(onChangeCustomer), name: .onChangeCustomer, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(onDismissImageModal), name: .onDismissImageModal, object: nil)
     }
     
     func clearAllAnimations() {
@@ -131,89 +156,8 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
             clearAllAnimations()
         }
     }
-
-    //TODO: Substitute Adam Lyon with signed in employee
-    func assignCurrentQuoteInformation() {
-        if isNewQuote {
-            currentQuoteNumber = makeQuoteNumber(withUser: "Adam Lyon", andDate: Date())
-            quoteDate.text = Date().dateToShort()
-            saveNewQuote()
-        } else {
-            quoteDate.text = currentQuote?.dateCreated?.dateToShort()
-            currentQuoteNumber = currentQuote?.quoteNumber
-        }
-        quoteNumber.text = "Quote: " + (currentQuoteNumber ?? "error")
-        loadCustomerTasks()
-    }
-    
-    func checkForEmployee() {
-        if currentQuote?.employee?.name == nil {
-            assignEmployee(quote: currentQuote!)
-        }
-    }
-    
-    //MARK: - Collection View
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return currentImageArray.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 125, height: 80)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = imageCollectionView.cellForItem(at: indexPath) as! ImageCollectionViewCell
-        performSegue(withIdentifier: "collectionSegue", sender: cell)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ImageCollectionViewCell
-        let sortedArray = currentImageArray.sorted { $0.tag < $1.tag }
-        cell.collectionImage.image = UIImage(data: sortedArray[indexPath.row].imageData!)
-        return cell
-    }
-    
-    //MARK: - Share
-    
-    @IBAction func shareButtonPressed(_ sender: UIBarButtonItem) {
-        let pdfPath = getPDF()
-        let pdfURL = URL(fileURLWithPath: pdfPath)
-        let quoteNumber = currentQuote?.quoteNumber ?? ""
-        let emailAddress = currentQuote?.customer?.email ?? ""
-        let custName = currentQuote?.customer?.name ?? ""
-        let message = MessageWithSubject(subject: "nc|drainage quote \(quoteNumber) for \(custName) \(emailAddress)", message: "Thank you for choosing nc|drainage!")
-        let controller = UIActivityViewController(activityItems: [message, pdfURL], applicationActivities: nil)
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            controller.popoverPresentationController?.barButtonItem = self.shareButton
-        }
-        present(controller, animated: true, completion: nil)
-        
-        if currentQuote?.quoteStatus != "\(QuoteStatus.complete)" {
-            currentQuote?.quoteStatus = "\(QuoteStatus.inProgress)"
-            coreData?.saveContext()
-        }
-    }
-    
-    func getPDF() -> String {
-        let newPDF = PreparePDFSheets()
-        if let quote = currentQuote {
-           return newPDF.getPDFPath(for: quote)
-        }
-        return ""
-    }
     
     //MARK: - Quote Related
-    
-    func saveNewQuote() {
-        let newQuote = Quote(context: context)
-        newQuote.quoteNumber = currentQuoteNumber
-        newQuote.quoteStatus = "\(QuoteStatus.inProgress)"
-        assignEmployee(quote: newQuote)
-        currentCustomer?.addToQuotes(newQuote)
-        coreData?.saveContext()
-        fetchCurrentQuote()
-    }
     
     func assignEmployee(quote: Quote) {
         let employeeName = UserDefaults.standard.object(forKey: "currentEmployee") as? String ?? ""
@@ -269,6 +213,7 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func fetchCurrentQuote() {
         let fetchRequest = NSFetchRequest<Quote>(entityName: "Quote")
+        //TODO: Use quote number as predicate to ENSURE correct quote is returned
         do {
             let fetchedResults = try context.fetch(fetchRequest)
             if fetchedResults.count > 0 {
@@ -291,24 +236,25 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     //MARK: - TableView
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return currentCustomerTasks?.count ?? 0
+        print("count = ", taskFetchedController.fetchedObjects?.count ?? 0)
+        return taskFetchedController.fetchedObjects?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "taskReuseIdentifier")! as! TaskCell
         cell.layer.cornerRadius = 10
         cell.taskDescription.sizeToFit()
-        let currentTask = currentCustomerTasks?[indexPath.row]
+        let currentTask = taskFetchedController.object(at: indexPath)
         cell.taskTitle.text = "Task \(indexPath.row + 1)"
-        cell.taskTitle.text! += ": \(currentTask?.title ?? "")"
-        if let cost = currentTask?.cost {
+        cell.taskTitle.text! += ": \(currentTask.title ?? "")"
+        if let cost = currentTask.cost {
             if cost.isNumeric {
                 cell.taskCost.text = "\(cost.currencyFormatting())"
             } else {
                 cell.taskCost.text = cost
             }
         }
-        cell.taskDescription.text = currentTask?.taskDescription
+        cell.taskDescription.text = currentTask.taskDescription
         return cell
     }
     
@@ -318,18 +264,89 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            if let task = currentCustomerTasks?[indexPath.row] {
-                context.delete(task)
-                coreData?.saveContext()
-                currentCustomerTasks?.remove(at: indexPath.row)
-                tableView.deleteRows(at: [indexPath], with: .fade)
-            }
+            let task = taskFetchedController.object(at: indexPath)
+            context.delete(task)
+            coreData?.saveContext()
         }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 85
     }
+    
+    //MARK: - NSFetchedController + delegate methods
+    
+    func configureFetchedController(quote: Quote) {
+        let taskFetchRequest = NSFetchRequest<Task>(entityName: "Task")
+        
+        let predicate = NSPredicate(format: "quote = %@", quote)
+        taskFetchRequest.predicate = predicate
+        
+        let firstSortDescriptor = NSSortDescriptor(key: "dateModified", ascending: false)
+        taskFetchRequest.sortDescriptors = [firstSortDescriptor]
+        
+        taskFetchedController = NSFetchedResultsController<Task>(
+        fetchRequest: taskFetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        
+        taskFetchedController.delegate = self
+    }
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        taskTableView.beginUpdates()
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            //This seems to be getting called unnecessarily when I want to create a new quote.
+            if let insertIndexPath = newIndexPath {
+                taskTableView.insertRows(at: [insertIndexPath], with: .automatic)
+            }
+        case .delete:
+            if let deleteIndexPath = indexPath {
+                taskTableView.deleteRows(at: [deleteIndexPath], with: .fade)
+            }
+        case .update:
+            if let updateIndexPath = indexPath {
+                let cell = taskTableView.cellForRow(at: updateIndexPath) as! TaskCell
+                let task = taskFetchedController.object(at: updateIndexPath)
+                cell.taskTitle.text = task.title
+                cell.taskCost.text = task.cost
+                cell.taskDescription.text = task.taskDescription
+            }
+        case .move:
+            if let deleteIndexPath = indexPath {
+                taskTableView.deleteRows(at: [deleteIndexPath], with: .fade)
+            }
+            
+            if let insertIndexPath = newIndexPath {
+                taskTableView.insertRows(at: [insertIndexPath], with: .fade)
+            }
+        default:
+            break
+        }
+    }
+    
+//    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, sectionIndexTitleForSectionName sectionName: String) -> String? {
+//        return sectionName
+//    }
+//    
+//    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+//        let sectionIndexSet = NSIndexSet(index: sectionIndex) as IndexSet
+//        
+//        switch type {
+//        case .insert:
+//            taskTableView.insertSections(sectionIndexSet, with: .fade)
+//        case .delete:
+//            taskTableView.deleteSections(sectionIndexSet, with: .fade)
+//        default:
+//            break
+//        }
+//    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+           taskTableView.endUpdates()
+       }
     
     //MARK: - Photo Related
     
@@ -381,6 +398,57 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
             quote.addToImages(image)
             coreData?.saveContext()
         }
+    }
+    
+    //MARK: - Image Collection View
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return currentImageArray.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 125, height: 80)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = imageCollectionView.cellForItem(at: indexPath) as! ImageCollectionViewCell
+        performSegue(withIdentifier: "collectionSegue", sender: cell)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ImageCollectionViewCell
+        let sortedArray = currentImageArray.sorted { $0.tag < $1.tag }
+        cell.collectionImage.image = UIImage(data: sortedArray[indexPath.row].imageData!)
+        return cell
+    }
+    
+    //MARK: - Share
+    
+    @IBAction func shareButtonPressed(_ sender: UIBarButtonItem) {
+        let pdfPath = getPDF()
+        let pdfURL = URL(fileURLWithPath: pdfPath)
+        let quoteNumber = currentQuote?.quoteNumber ?? ""
+        let emailAddress = currentQuote?.customer?.email ?? ""
+        let custName = currentQuote?.customer?.name ?? ""
+        let message = MessageWithSubject(subject: "nc|drainage quote \(quoteNumber) for \(custName) \(emailAddress)", message: "Thank you for choosing nc|drainage!")
+        let controller = UIActivityViewController(activityItems: [message, pdfURL], applicationActivities: nil)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            controller.popoverPresentationController?.barButtonItem = self.shareButton
+        }
+        present(controller, animated: true, completion: nil)
+        
+        if currentQuote?.quoteStatus != "\(QuoteStatus.complete)" {
+            currentQuote?.quoteStatus = "\(QuoteStatus.inProgress)"
+            coreData?.saveContext()
+        }
+    }
+    
+    func getPDF() -> String {
+        let newPDF = PreparePDFSheets()
+        if let quote = currentQuote {
+           return newPDF.getPDFPath(for: quote)
+        }
+        return ""
     }
     
     //MARK: -- prepare for segue

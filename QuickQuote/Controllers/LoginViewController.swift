@@ -37,6 +37,8 @@ class LoginViewController: UIViewController {
     }
     
     func getCurrentUserList() {
+        print("employees = ", employees)
+        print("context", context as Any)
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Employee")
         do {
             employees = try context.fetch(fetchRequest)
@@ -106,5 +108,11 @@ class LoginViewController: UIViewController {
             userFullName = "error"
         }
         return userFullName.trim()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destinationVC = segue.destination as? EmployeeViewController {
+            destinationVC.context = context
+        }
     }
 }

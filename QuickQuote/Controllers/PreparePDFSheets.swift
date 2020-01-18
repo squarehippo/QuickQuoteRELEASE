@@ -42,11 +42,14 @@ class PreparePDFSheets: UIView {
     
     func makeCoverSheet(quote: Quote) {
         let newPDFCoverSheet = CoverSheet()
-        newPDFCoverSheet.quoteDate.text = (quote.dateCreated?.dateToLong())?.uppercased()
+        newPDFCoverSheet.quoteDate.text = (quote.dateCreated?.dateToLongString())?.uppercased()
         newPDFCoverSheet.customerName.text = (quote.customer?.name)?.uppercased()
+        newPDFCoverSheet.customerAddress1.text = (quote.customer?.address)?.uppercased()
+        newPDFCoverSheet.customerAddress2.text = quote.customer?.cityStateZipToString().uppercased()
         newPDFCoverSheet.quoteNumber.text = quote.quoteNumber
         newPDFCoverSheet.employeeName.text = quote.employee?.name?.uppercased()
-        newPDFCoverSheet.employeeContact.text = quote.employee?.phone
+        newPDFCoverSheet.employeePhone.text = quote.employee?.phone
+        newPDFCoverSheet.employeeEmail.text = quote.employee?.email?.uppercased()
         
         pdfPages.append(newPDFCoverSheet.contentView)
     }

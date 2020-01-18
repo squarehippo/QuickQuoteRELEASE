@@ -32,6 +32,7 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
     
     
     override func viewDidLoad() {
+        
         quoteTableView.dataSource = self
         quoteTableView.delegate = self
         
@@ -94,50 +95,27 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
             }
         }        
         customerAddress1.text = currentCustomer?.address ?? ""
-        customerAddress2.text = cityStateZipToString()
+        customerAddress2.text = currentCustomer?.cityStateZipToString()
         customerPhone.text = currentCustomer?.phone ?? ""
         customerEmail.text = currentCustomer?.email ?? ""
         customerName.text = currentCustomer?.name ?? ""
         quoteTableView.reloadData()
     }
     
-    func cityStateZipToString() -> String {
-        if let city = currentCustomer?.city,
-        let state = currentCustomer?.state,
-        let zip = currentCustomer?.zip {
-            return "\(city), \(state) \(zip)"
-        }
-        return ""
-    }
-    
     // MARK: - Table view
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return quoteFetchedController.fetchedObjects?.count ?? 0
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 25
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
-        headerView.backgroundColor = UIColor.clear
-        return headerView
-    }
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 95
+        return 115
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "quoteReuseIdentifierCell") as! QuoteCell
         
-        let quote = quoteFetchedController.fetchedObjects![indexPath.section] as Quote
+        let quote = quoteFetchedController.fetchedObjects![indexPath.row] as Quote
         switch quote.quoteStatus {
         case "\(QuoteStatus.opened)":
             cell.quoteStatusView.backgroundColor = UIColor(hex: "#df915aff")
@@ -150,7 +128,7 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
         }
 
         cell.quoteNumber.text = quote.quoteNumber
-        let newDateString = quote.dateCreated?.dateToShort()
+        let newDateString = quote.dateCreated?.dateToShortString()
         cell.quoteDate.text = newDateString
         if let currentImage = getImageToDisplay(from: quote) {
             cell.quoteImageView.image = UIImage(data: currentImage.imageData!)
@@ -167,13 +145,12 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let quote = quoteFetchedController.fetchedObjects![indexPath.section] as Quote
+            let quote = quoteFetchedController.fetchedObjects![indexPath.row] as Quote
             context.delete(quote)
-            do {
-                try context?.save()
-            } catch  {
-                print("Can't save")
-            }
+            coreData?.saveContext()
+        }
+        if editingStyle == .insert {
+            print("should I do something here?")
         }
     }
     
@@ -199,21 +176,22 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
         case .insert:
+            //This seems to be getting called unnecessarily when I want to create a new quote.
+            print("Attempting insert here...")
             if let insertIndexPath = newIndexPath {
-                let indexSet = IndexSet(integer: insertIndexPath.section)
-                quoteTableView.insertSections(indexSet, with: .fade)
+                quoteTableView.insertRows(at: [insertIndexPath], with: .fade)
             }
+            
         case .delete:
             if let deleteIndexPath = indexPath {
-                let indexSet = IndexSet(integer: deleteIndexPath.section)
-                quoteTableView.deleteSections(indexSet, with: .fade)
+                quoteTableView.deleteRows(at: [deleteIndexPath], with: .fade)
             }
         case .update:
             if let updateIndexPath = indexPath {
                 let cell = quoteTableView.cellForRow(at: updateIndexPath) as! QuoteCell
-                let quote = quoteFetchedController.fetchedObjects![updateIndexPath.section] as Quote
+                let quote = quoteFetchedController.fetchedObjects![updateIndexPath.row] as Quote
                 cell.quoteNumber.text = quote.quoteNumber
-                let newDateString = quote.dateCreated?.dateToShort()
+                let newDateString = quote.dateCreated?.dateToShortString()
                 cell.quoteDate.text = newDateString
                 if let currentImage = getImageToDisplay(from: quote) {
                     cell.quoteImageView.image = UIImage(data: currentImage.imageData!)
@@ -223,13 +201,11 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
             }
         case .move:
             if let deleteIndexPath = indexPath {
-                let indexSet = IndexSet(integer: deleteIndexPath.section)
-                quoteTableView.deleteSections(indexSet, with: .fade)
+                quoteTableView.deleteRows(at: [deleteIndexPath], with: .fade)
             }
             
             if let insertIndexPath = newIndexPath {
-                let indexSet = IndexSet(integer: insertIndexPath.section)
-                quoteTableView.insertSections(indexSet, with: .fade)
+                quoteTableView.insertRows(at: [insertIndexPath], with: .fade)
             }
         default:
             break
@@ -257,17 +233,19 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
     //MARK: -- Prepare for segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "NewQuoteSegue" {
+            print("prepare for NewQuoteSegue")
             let destination = segue.destination as? QuoteViewController
             destination?.currentCustomer = currentCustomer
             destination?.context = context
         }
         if segue.identifier == "EditQuoteSegue" {
             let destination = segue.destination as? QuoteViewController
-            destination?.currentQuote = quoteFetchedController.fetchedObjects![quoteTableView.indexPathForSelectedRow!.section] as Quote 
+            destination?.currentQuote = quoteFetchedController.fetchedObjects![quoteTableView.indexPathForSelectedRow!.row] as Quote 
             destination?.isNewQuote = false
             destination?.context = context
         }
     }
+    
 }
 
 extension CustomerDetailViewController: CustomerSelectionDelegate {

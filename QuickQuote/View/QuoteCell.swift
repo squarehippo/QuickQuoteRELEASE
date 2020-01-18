@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-@IBDesignable
+//@IBDesignable
 
 class QuoteCell: UITableViewCell {
     
@@ -18,30 +18,12 @@ class QuoteCell: UITableViewCell {
     @IBOutlet weak var quoteStatusView: UIView!
     @IBOutlet weak var quoteImageView: UIImageView!
     
-        @IBInspectable var cornerRadius: CGFloat {
-            set {
-                layer.cornerRadius = newValue
-                layer.masksToBounds = true
-            }
-            get {
-                return layer.cornerRadius
-            }
-        }
-    
-        @IBInspectable var borderWidth: CGFloat = 0 {
-            didSet {
-                layer.borderWidth = borderWidth
-            }
-        }
-    
-        @IBInspectable var borderColor: UIColor? {
-            set {
-                guard let uiColor = newValue else { return }
-                layer.borderColor = uiColor.cgColor
-            }
-            get {
-                guard let color = layer.borderColor else { return nil }
-                return UIColor(cgColor: color)
-            }
-        }
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0))
+        contentView.layer.cornerRadius = 10
+        contentView.layer.borderWidth = 2
+        contentView.layer.borderColor = CGColor(srgbRed: 1, green: 1, blue: 1, alpha: 1)
+    }
 }

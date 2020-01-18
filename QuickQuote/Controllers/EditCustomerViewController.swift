@@ -28,7 +28,6 @@ class EditCustomerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        editCustomerView.layer.cornerRadius = 10.0
         loadCustomerInfo()
     }
     
@@ -43,6 +42,7 @@ class EditCustomerViewController: UIViewController {
     }
     
     func loadCustomerInfo() {
+        print("currentC = ", currentCustomer?.address as Any)
         customerName.text = currentCustomer?.name
         customerAddress.text = currentCustomer?.address
         customerZipCode.text = currentCustomer?.zip

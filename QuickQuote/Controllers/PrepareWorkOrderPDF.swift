@@ -126,7 +126,7 @@ class PrepareWorkOrderPDF : UIView {
     func makeFirstPage(quote: Quote) {
         let firstPage = WorkOrderPage1() 
         firstPage.workOrderNumber.text = quote.quoteNumber
-        firstPage.dateCreated.text = quote.dateCreated?.dateToLong()
+        firstPage.dateCreated.text = quote.dateCreated?.dateToLongString()
         firstPage.customerName.text = quote.customer?.name
         firstPage.customerAddress.text = quote.customer?.address
         firstPage.customerAddress2.text = cityStateZipToString(quote: quote)

@@ -9,7 +9,7 @@
 import Foundation
 
 extension Date {
-    func dateToShort() -> String {
+    func dateToShortString() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .short
         dateFormatter.timeStyle = .none
@@ -17,7 +17,7 @@ extension Date {
         return dateFormatter.string(from: self)
     }
     
-    func dateToLong() -> String {
+    func dateToLongString() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .long
         dateFormatter.timeStyle = .none

@@ -45,6 +45,7 @@
 		427B155123AD3D5E00B95FE7 /* MessageWithSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427B155023AD3D5E00B95FE7 /* MessageWithSubject.swift */; };
 		427B4F06235F7197009816A5 /* SignatureManagedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427B4F05235F7197009816A5 /* SignatureManagedObject.swift */; };
 		427B4F08235FD7D7009816A5 /* NewCustomerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427B4F07235FD7D7009816A5 /* NewCustomerViewController.swift */; };
+		42826BE823D382E900AE16CB /* CityStateZipToString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42826BE723D382E900AE16CB /* CityStateZipToString.swift */; };
 		4292E4FA2355407D009657EB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4292E4F92355407D009657EB /* Main.storyboard */; };
 		4292E4FC235546DB009657EB /* CustomerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4292E4FB235546DB009657EB /* CustomerViewController.swift */; };
 		4292E4FE23554A41009657EB /* CustomerDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4292E4FD23554A41009657EB /* CustomerDetailViewController.swift */; };
@@ -110,6 +111,7 @@
 		427B155023AD3D5E00B95FE7 /* MessageWithSubject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageWithSubject.swift; sourceTree = "<group>"; };
 		427B4F05235F7197009816A5 /* SignatureManagedObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignatureManagedObject.swift; sourceTree = "<group>"; };
 		427B4F07235FD7D7009816A5 /* NewCustomerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCustomerViewController.swift; sourceTree = "<group>"; };
+		42826BE723D382E900AE16CB /* CityStateZipToString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityStateZipToString.swift; sourceTree = "<group>"; };
 		4292E4F92355407D009657EB /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		4292E4FB235546DB009657EB /* CustomerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerViewController.swift; sourceTree = "<group>"; wrapsLines = 1; };
 		4292E4FD23554A41009657EB /* CustomerDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerDetailViewController.swift; sourceTree = "<group>"; };
@@ -270,6 +272,7 @@
 				4264094D23A403E100F26C88 /* UIView+PDF.swift */,
 				427B154C23AB03A400B95FE7 /* enum+QuoteStatus.swift */,
 				427B154E23AB17FB00B95FE7 /* UIColor+hex.swift */,
+				42826BE723D382E900AE16CB /* CityStateZipToString.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -401,6 +404,7 @@
 				422A6990236F546300CE1433 /* ResizeImage.swift in Sources */,
 				4266356323888E730038EA4B /* ImageViewController.swift in Sources */,
 				427B4F06235F7197009816A5 /* SignatureManagedObject.swift in Sources */,
+				42826BE823D382E900AE16CB /* CityStateZipToString.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -536,7 +540,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = QuickQuote/QuickQuoteDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6BWKDGAU39;
 				INFOPLIST_FILE = QuickQuote/Info.plist;
@@ -556,9 +559,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = QuickQuote/QuickQuote.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6BWKDGAU39;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = QuickQuote/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -567,6 +569,7 @@
 				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.squarehippobills-gmail.QuickQuote";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

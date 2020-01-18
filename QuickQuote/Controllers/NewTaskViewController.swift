@@ -39,19 +39,21 @@ class NewTaskViewController: UIViewController {
         } else {
             saveTask()
             dismiss(animated: true, completion: nil)
-            NotificationCenter.default.post(name: .onDismissNewTask, object: self, userInfo: nil)
         }
     }
     
     func saveTask() {
+        print("saving task...")
         let quote = currentQuote
+        print("quote = ", quote)
+        print("context = ", context)
         let newTask = Task(context: context)
         newTask.title = taskTitle.text
         newTask.taskDescription = taskDescription.text
         newTask.cost = taskCost.text
         quote?.addToTasks(newTask)
         coreData?.saveContext()
+        print("task saved")
     }
-    
     
 }
