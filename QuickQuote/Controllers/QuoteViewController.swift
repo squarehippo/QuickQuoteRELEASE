@@ -22,6 +22,8 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     var context: NSManagedObjectContext!
     
     var taskFetchedController: NSFetchedResultsController<Task>!
+    var imageFetchedController: NSFetchedResultsController<Image>!
+
     
     var currentEmployee: Employee?
     var currentQuote: Quote?
@@ -31,10 +33,13 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     var currentImage: Image?
     var currentImageArray = [Image]()
+    var savedObjects = [NSManagedObject]()
     let imagePicker = UIImagePickerController()
     var imageArray = [Image]()
     var deleteButton = DeleteButton()
     var imageCell = UICollectionViewCell()
+    var currentPath: IndexPath?
+
     
     var currentPDF = [String]()
     
@@ -61,20 +66,23 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        configureFetchedController(quote: currentQuote!)
+        configureTaskFetchedController(quote: currentQuote!)
         do {
             try taskFetchedController.performFetch()
         } catch  {
             print("could not perform fetch")
         }
+//        configureImageFetchedController(quote: currentQuote!)
+//        do {
+//            try imageFetchedController.performFetch()
+//        } catch  {
+//            print("could not perform fetch")
+//        }
     }
     
     private func createNewQuote() {
         print("creating new quote...")
         let newQuote = Quote(context: context)
-        if currentQuote?.employee?.name == nil {
-            assignEmployee(quote: currentQuote!)
-        }
         currentQuoteNumber = makeQuoteNumber(withUser: currentEmployee?.name ?? "error", andDate: Date())
         newQuote.quoteNumber = currentQuoteNumber
         newQuote.quoteStatus = "\(QuoteStatus.inProgress)"
@@ -87,6 +95,7 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     private func prepareQuote() {
+        print("Calling prepare quote")
         currentQuoteNumber = currentQuote?.quoteNumber
         quoteNumber.text = "Quote: " + (currentQuoteNumber ?? "error")
         quoteDate.text = currentQuote?.dateCreated?.dateToShortString()
@@ -101,11 +110,6 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     @objc func onDismissImageModal() {
         loadImageArray()
         imageCollectionView.reloadData()
-    }
-    
-    @objc func deleteButtonTapped(_ sender: UIButton) {
-        //TODO: Delete image from coredata
-        clearAllAnimations()
     }
         
     func loadGestureRecognizer() {
@@ -123,6 +127,7 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         let p = gesture.location(in: imageCollectionView)
 
         if let indexPath = imageCollectionView.indexPathForItem(at: p) {
+            currentPath = indexPath
             clearAllAnimations()
             imageCell = imageCollectionView.cellForItem(at: indexPath)!
             imageCell.wiggle()
@@ -130,13 +135,23 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
             let imageWidth = imageButton.frame.width
             let imageHeight = imageButton.frame.height
             let deleteWidth = imageWidth * 0.5
-            //let deleteHeight = imageWidth * 0.5
             deleteButton.frame = CGRect(x: imageWidth / 2 - deleteWidth / 2, y: imageHeight / 2 - deleteWidth / 2, width: deleteWidth, height: deleteWidth)
-            deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
+            deleteButton.addTarget(self, action: #selector(deleteButtonPressed), for: .touchUpInside)
             imageButton.addSubview(deleteButton)
             print("Long press = ", indexPath.row)
         } else {
             print("couldn't find index path")
+        }
+    }
+    
+    @objc func deleteButtonPressed() {
+        if let path = currentPath {
+            print("path =", path)
+            currentImageArray.remove(at: path.row)
+            imageCollectionView.deleteItems(at: [path])
+            let objectToBeDeleted = savedObjects[path.row]
+            context.delete(objectToBeDeleted)
+            coreData?.saveContext()
         }
     }
     
@@ -236,7 +251,6 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     //MARK: - TableView
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("count = ", taskFetchedController.fetchedObjects?.count ?? 0)
         return taskFetchedController.fetchedObjects?.count ?? 0
     }
     
@@ -276,7 +290,7 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     //MARK: - NSFetchedController + delegate methods
     
-    func configureFetchedController(quote: Quote) {
+    func configureTaskFetchedController(quote: Quote) {
         let taskFetchRequest = NSFetchRequest<Task>(entityName: "Task")
         
         let predicate = NSPredicate(format: "quote = %@", quote)
@@ -291,8 +305,29 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         taskFetchedController.delegate = self
     }
     
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        taskTableView.beginUpdates()
+    func configureImageFetchedController(quote: Quote) {
+        let imageFetchRequest = NSFetchRequest<Image>(entityName: "Image")
+        
+        let predicate = NSPredicate(format: "quote = %@", quote)
+        imageFetchRequest.predicate = predicate
+        
+        let firstSortDescriptor = NSSortDescriptor(key: "dateModified", ascending: false)
+        imageFetchRequest.sortDescriptors = [firstSortDescriptor]
+        
+        imageFetchedController = NSFetchedResultsController<Image>(
+        fetchRequest: imageFetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        
+        imageFetchedController.delegate = self
+    }
+    
+    func controllerWillChangeContent(_ controller:
+        NSFetchedResultsController<NSFetchRequestResult>) {
+        if controller == taskFetchedController {
+            taskTableView.beginUpdates()
+        } else {
+            
+        }
+        
     }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
@@ -363,6 +398,7 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
             fetchRequest.predicate = NSPredicate(format: "quote.quoteNumber = %@", quoteNumber)
             do {
                 currentImageArray = try context.fetch(fetchRequest) as! [Image]
+                savedObjects = try context.fetch(fetchRequest)
             } catch let error as NSError {
                 print("Could not fetch \(error)")
             }

@@ -23,7 +23,7 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
     
     var quoteFetchedController: NSFetchedResultsController<Quote>!
     
-    @IBOutlet weak var quoteTableView: UITableView!
+    @IBOutlet weak var quoteTableView: UITableView! 
     @IBOutlet weak var customerAddress1: UILabel!
     @IBOutlet weak var customerAddress2: UILabel!
     @IBOutlet weak var customerEmail: UILabel!
@@ -149,9 +149,6 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
             context.delete(quote)
             coreData?.saveContext()
         }
-        if editingStyle == .insert {
-            print("should I do something here?")
-        }
     }
     
     func getImageToDisplay(from quote: Quote) -> Image? {
@@ -176,17 +173,18 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
         case .insert:
-            //This seems to be getting called unnecessarily when I want to create a new quote.
             print("Attempting insert here...")
+            print("number of rows: \(quoteTableView.numberOfRows(inSection: 0))")
             if let insertIndexPath = newIndexPath {
                 quoteTableView.insertRows(at: [insertIndexPath], with: .fade)
             }
-            
         case .delete:
+            print("deleting...")
             if let deleteIndexPath = indexPath {
                 quoteTableView.deleteRows(at: [deleteIndexPath], with: .fade)
             }
         case .update:
+            print("updating...")
             if let updateIndexPath = indexPath {
                 let cell = quoteTableView.cellForRow(at: updateIndexPath) as! QuoteCell
                 let quote = quoteFetchedController.fetchedObjects![updateIndexPath.row] as Quote
@@ -221,15 +219,16 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
         
         switch type {
         case .insert:
+            print("section inserting...")
             quoteTableView.insertSections(sectionIndexSet, with: .fade)
         case .delete:
+            print("section deleting...")
             quoteTableView.deleteSections(sectionIndexSet, with: .fade)
         default:
             break
         }
     }
-    
-    
+
     //MARK: -- Prepare for segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "NewQuoteSegue" {
@@ -251,6 +250,7 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
 extension CustomerDetailViewController: CustomerSelectionDelegate {
     func customerSelected(_ selectedCustomer: Customer) {
         currentCustomer = selectedCustomer
+        print("currentCustomer = ", currentCustomer)
         quoteTableView.reloadData()
         title = currentCustomer?.name
     }
