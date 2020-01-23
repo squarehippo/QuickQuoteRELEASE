@@ -166,15 +166,16 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
         quoteTableView.beginUpdates()
     }
     
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        quoteTableView.endUpdates()
-    }
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange anObject: Any,
+                    at indexPath: IndexPath?,
+                    for type: NSFetchedResultsChangeType,
+                    newIndexPath: IndexPath?) {
         switch type {
         case .insert:
             print("Attempting insert here...")
             print("number of rows: \(quoteTableView.numberOfRows(inSection: 0))")
+            print("number of sections:", quoteTableView.numberOfSections)
             if let insertIndexPath = newIndexPath {
                 quoteTableView.insertRows(at: [insertIndexPath], with: .fade)
             }
@@ -227,6 +228,10 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
         default:
             break
         }
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        quoteTableView.endUpdates()
     }
 
     //MARK: -- Prepare for segue
