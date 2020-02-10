@@ -24,7 +24,7 @@ class PreparePDFSheets: UIView {
         makeCoverSheet(quote: quote)
         
         let newQuoteSheet = MakeQuoteSheet()
-        for sheet in newQuoteSheet.makeSheet(quote: quote, source: "quote") {
+        for sheet in newQuoteSheet.makeSheet(quote: quote, source: TaskType.quote.rawValue) {
             pdfPages.append(sheet)
         }
         

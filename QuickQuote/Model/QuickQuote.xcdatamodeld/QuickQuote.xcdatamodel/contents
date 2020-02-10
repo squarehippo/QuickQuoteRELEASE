@@ -47,6 +47,7 @@
     </entity>
     <entity name="Task" representedClassName="Task" parentEntity="SignatureManagedObject" syncable="YES" codeGenerationType="class">
         <attribute name="cost" optional="YES" attributeType="String"/>
+        <attribute name="numberOfLines" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="taskDescription" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <relationship name="quote" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Quote" inverseName="tasks" inverseEntity="Quote"/>
@@ -85,7 +86,7 @@
         <element name="Material" positionX="-198" positionY="0" width="128" height="73"/>
         <element name="Quote" positionX="-40.4609375" positionY="19.296875" width="128" height="193"/>
         <element name="SignatureManagedObject" positionX="-162.91015625" positionY="-154.80859375" width="128" height="73"/>
-        <element name="Task" positionX="-198" positionY="0" width="128" height="103"/>
+        <element name="Task" positionX="-198" positionY="0" width="128" height="118"/>
         <element name="Worksheet" positionX="-189" positionY="9" width="128" height="418"/>
     </elements>
 </model>

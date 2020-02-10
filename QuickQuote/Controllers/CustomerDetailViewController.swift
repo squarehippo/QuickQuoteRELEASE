@@ -11,12 +11,7 @@ import CoreData
 
 class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate
 {
-    
-    var currentCustomer: Customer? {
-        didSet {
-            refreshUI()
-        }
-    }
+    var currentCustomer: Customer?
     
     let coreData = UIApplication.shared.delegate as? AppDelegate
     var context: NSManagedObjectContext!
@@ -37,13 +32,6 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
         quoteTableView.delegate = self
         
         navigationController?.navigationBar.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(onDismissCustomerEdit), name: .onDismissCustomerEdit, object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(onCityAvailable), name: .onCityAvailable, object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(onChangeCustomer), name: .onChangeCustomer, object: nil)
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -53,6 +41,16 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
         } catch  {
             print("could not perform fetch")
         }
+        
+        addObservers()
+    }
+    
+    private func addObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(onDismissCustomerEdit), name: .onDismissCustomerEdit, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(onChangeCustomer), name: .onChangeCustomer, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(onCityAvailable), name: .onCityAvailable, object: nil)
     }
     
     func configureFetchedController(searchString: String) {
@@ -71,21 +69,30 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
     }
     
     @objc func onDismissCustomerEdit() {
-        refreshUI()
+        updateCustomerHeader()
         title = currentCustomer?.name
+    }
+    
+    @objc func onCityAvailable() {
+        updateCustomerHeader()
     }
     
     @objc func onChangeCustomer(_ notification: Notification) {
         currentCustomer = notification.userInfo?["currentCust"] as? Customer
         title = currentCustomer?.name
+        updateCustomerHeader()
+        reloadTableView()
     }
     
-    @objc func onCityAvailable() {
-        refreshUI()
+    private func updateCustomerHeader() {
+        customerAddress1.text = currentCustomer?.address ?? ""
+        customerAddress2.text = currentCustomer?.cityStateZipToString()
+        customerPhone.text = currentCustomer?.phone ?? ""
+        customerEmail.text = currentCustomer?.email ?? ""
+        customerName.text = currentCustomer?.name ?? ""
     }
     
-    func refreshUI() {
-        loadViewIfNeeded()
+    private func reloadTableView() {
         if let name = currentCustomer?.name {
             configureFetchedController(searchString: name)
             do {
@@ -93,12 +100,7 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
             } catch  {
                 print("could not perform fetch")
             }
-        }        
-        customerAddress1.text = currentCustomer?.address ?? ""
-        customerAddress2.text = currentCustomer?.cityStateZipToString()
-        customerPhone.text = currentCustomer?.phone ?? ""
-        customerEmail.text = currentCustomer?.email ?? ""
-        customerName.text = currentCustomer?.name ?? ""
+        }
         quoteTableView.reloadData()
     }
     
@@ -166,26 +168,17 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
         quoteTableView.beginUpdates()
     }
     
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
-                    didChange anObject: Any,
-                    at indexPath: IndexPath?,
-                    for type: NSFetchedResultsChangeType,
-                    newIndexPath: IndexPath?) {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
         case .insert:
-            print("Attempting insert here...")
-            print("number of rows: \(quoteTableView.numberOfRows(inSection: 0))")
-            print("number of sections:", quoteTableView.numberOfSections)
             if let insertIndexPath = newIndexPath {
                 quoteTableView.insertRows(at: [insertIndexPath], with: .fade)
             }
         case .delete:
-            print("deleting...")
             if let deleteIndexPath = indexPath {
                 quoteTableView.deleteRows(at: [deleteIndexPath], with: .fade)
             }
         case .update:
-            print("updating...")
             if let updateIndexPath = indexPath {
                 let cell = quoteTableView.cellForRow(at: updateIndexPath) as! QuoteCell
                 let quote = quoteFetchedController.fetchedObjects![updateIndexPath.row] as Quote
@@ -220,10 +213,8 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
         
         switch type {
         case .insert:
-            print("section inserting...")
             quoteTableView.insertSections(sectionIndexSet, with: .fade)
         case .delete:
-            print("section deleting...")
             quoteTableView.deleteSections(sectionIndexSet, with: .fade)
         default:
             break
@@ -237,7 +228,6 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
     //MARK: -- Prepare for segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "NewQuoteSegue" {
-            print("prepare for NewQuoteSegue")
             let destination = segue.destination as? QuoteViewController
             destination?.currentCustomer = currentCustomer
             destination?.context = context
@@ -250,13 +240,4 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
         }
     }
     
-}
-
-extension CustomerDetailViewController: CustomerSelectionDelegate {
-    func customerSelected(_ selectedCustomer: Customer) {
-        currentCustomer = selectedCustomer
-        print("currentCustomer = ", currentCustomer)
-        quoteTableView.reloadData()
-        title = currentCustomer?.name
-    }
 }

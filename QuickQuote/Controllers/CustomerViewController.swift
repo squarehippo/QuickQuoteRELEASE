@@ -10,14 +10,9 @@ import UIKit
 import CoreData
 import CoreLocation
 
-// TODO: Change this to use the notification center already in place
-protocol CustomerSelectionDelegate: class {
-    func customerSelected(_ selectedCustomer: Customer)
-}
 
 class CustomerViewController: UITableViewController, UISearchResultsUpdating, NSFetchedResultsControllerDelegate {
     
-    var delegate: CustomerSelectionDelegate?
     var currentCustomer: NSManagedObject?
     
     let coreData = UIApplication.shared.delegate as? AppDelegate
@@ -33,7 +28,7 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating, NS
     override func viewDidLoad() {
         super.viewDidLoad()
         configureControllers()
-        NotificationCenter.default.addObserver(self, selector: #selector(onDismissLogin), name: .onDismissLogin, object: nil)
+        addObservers()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -44,12 +39,27 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating, NS
         }
     }
     
+    private func addObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(onDismissLogin), name: .onDismissLogin, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(onCreateNewQuote), name: .onCreateNewQuote, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(onDismissNewCustomer), name: .onDismissNewCustomer, object: nil)
+    }
+    
+    
     // MARK: - Setup
     func isLoggedIn() -> Bool {
         return UserDefaults.standard.bool(forKey: "isLoggedIn")
     }
     
     @objc func onDismissLogin() {
+        highlightFirstRow()
+    }
+    
+    @objc func onCreateNewQuote() {
+        highlightFirstRow()
+    }
+    
+    @objc func onDismissNewCustomer() {
         highlightFirstRow()
     }
     
@@ -69,6 +79,7 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating, NS
             let indexPath = IndexPath(row: 0, section: 0)
             currentCustomer = customerFetchedController.object(at: indexPath)
             highlightFirstRow()
+            NotificationCenter.default.post(name: .onChangeCustomer, object: self, userInfo: ["currentCust" : currentCustomer as! Customer])
         }
         itemBarButton.title = UserDefaults.standard.object(forKey: "currentEmployee") as? String ?? ""
     }
@@ -84,12 +95,8 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating, NS
     func highlightFirstRow() {
         if customerFetchedController.fetchedObjects?.count ?? 0 > 0 {
             customerTableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .top)
-            
             currentCustomer = customerFetchedController.fetchedObjects?.first
-            
-            if let customer = currentCustomer {
-                NotificationCenter.default.post(name: .onChangeCustomer, object: self, userInfo: ["currentCust" : customer as! Customer])
-            }
+            NotificationCenter.default.post(name: .onFirstRowHighlighted, object: self, userInfo: nil)
         }
     }
     
@@ -138,7 +145,6 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating, NS
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let customer = customerFetchedController.object(at: indexPath)
-        delegate?.customerSelected(customer)
         currentCustomer = customer
         NotificationCenter.default.post(name: .onChangeCustomer, object: self, userInfo: ["currentCust" : currentCustomer as! Customer])
     }
@@ -223,7 +229,6 @@ class CustomerViewController: UITableViewController, UISearchResultsUpdating, NS
         case "editCustomer":
             if let destinationVC = segue.destination as? EditCustomerViewController {
                 destinationVC.currentCustomer = currentCustomer as? Customer
-                print("currentCuteomr = ", currentCustomer as Any)
                 destinationVC.context = context
             }
         case "editEmployee1Segue":

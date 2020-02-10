@@ -7,7 +7,7 @@
 //
 import UIKit
 
-extension UIView{
+extension UIView {
     
     func arrayToPDF(views: [UIView], fileName: String) -> String {
         let pdfData = NSMutableData()

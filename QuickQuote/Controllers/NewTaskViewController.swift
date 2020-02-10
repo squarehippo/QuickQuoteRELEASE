@@ -43,17 +43,16 @@ class NewTaskViewController: UIViewController {
     }
     
     func saveTask() {
-        print("saving task...")
         let quote = currentQuote
-        print("quote = ", quote)
-        print("context = ", context)
         let newTask = Task(context: context)
+        let numLines = round((taskDescription.contentSize.height / (taskDescription.font?.lineHeight ?? 0)))
+        newTask.numberOfLines = Int32(numLines)
+        print("numLines =", numLines)
         newTask.title = taskTitle.text
         newTask.taskDescription = taskDescription.text
         newTask.cost = taskCost.text
         quote?.addToTasks(newTask)
         coreData?.saveContext()
-        print("task saved")
     }
     
 }

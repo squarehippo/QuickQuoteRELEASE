@@ -42,7 +42,6 @@ class EditCustomerViewController: UIViewController {
     }
     
     func loadCustomerInfo() {
-        print("currentC = ", currentCustomer?.address as Any)
         customerName.text = currentCustomer?.name
         customerAddress.text = currentCustomer?.address
         customerZipCode.text = currentCustomer?.zip

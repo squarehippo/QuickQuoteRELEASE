@@ -58,7 +58,6 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         taskTableView.delegate = self
         taskTableView.layer.cornerRadius = 10
         
-        loadGestureRecognizer()
         addObservers()
         
         if currentQuote == nil { createNewQuote() }
@@ -81,21 +80,20 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     private func createNewQuote() {
-        print("creating new quote...")
         let newQuote = Quote(context: context)
+        getCurrentEmployee()
         currentQuoteNumber = makeQuoteNumber(withUser: currentEmployee?.name ?? "error", andDate: Date())
         newQuote.quoteNumber = currentQuoteNumber
         newQuote.quoteStatus = "\(QuoteStatus.inProgress)"
-        assignEmployee(quote: newQuote)
+        currentEmployee?.addToQuotes(newQuote)
         currentCustomer?.addToQuotes(newQuote)
-        print("all quote fields are complete and ready to be saved")
         coreData?.saveContext()
-        print("saved new quote...")
         fetchCurrentQuote()
+        
+        NotificationCenter.default.post(name: .onCreateNewQuote, object: self, userInfo: nil)
     }
     
     private func prepareQuote() {
-        print("Calling prepare quote")
         currentQuoteNumber = currentQuote?.quoteNumber
         quoteNumber.text = "Quote: " + (currentQuoteNumber ?? "error")
         quoteDate.text = currentQuote?.dateCreated?.dateToShortString()
@@ -103,8 +101,12 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         loadImageArray()
     }
     
-    @objc func onChangeCustomer() {
-        navigationController?.popToRootViewController(animated: true)
+    @objc func onChangeCustomer(_ notification: Notification) {
+        if let notificationCustomer = notification.userInfo?["currentCust"] as? Customer {
+            if currentCustomer?.name != notificationCustomer.name {
+                navigationController?.popToRootViewController(animated: true)
+            }
+        }
     }
     
     @objc func onDismissImageModal() {
@@ -112,49 +114,6 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         imageCollectionView.reloadData()
     }
         
-    func loadGestureRecognizer() {
-        let lpgr = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
-        lpgr.minimumPressDuration = 0.5
-        lpgr.delaysTouchesBegan = true
-        lpgr.delegate = self
-        imageCollectionView.addGestureRecognizer(lpgr)
-    }
-    
-    @objc func handleLongPress(gesture : UILongPressGestureRecognizer!) {
-        if gesture.state != .began {
-            return
-        }
-        let p = gesture.location(in: imageCollectionView)
-
-        if let indexPath = imageCollectionView.indexPathForItem(at: p) {
-            currentPath = indexPath
-            clearAllAnimations()
-            imageCell = imageCollectionView.cellForItem(at: indexPath)!
-            imageCell.wiggle()
-            let imageButton = imageCell.contentView
-            let imageWidth = imageButton.frame.width
-            let imageHeight = imageButton.frame.height
-            let deleteWidth = imageWidth * 0.5
-            deleteButton.frame = CGRect(x: imageWidth / 2 - deleteWidth / 2, y: imageHeight / 2 - deleteWidth / 2, width: deleteWidth, height: deleteWidth)
-            deleteButton.addTarget(self, action: #selector(deleteButtonPressed), for: .touchUpInside)
-            imageButton.addSubview(deleteButton)
-            print("Long press = ", indexPath.row)
-        } else {
-            print("couldn't find index path")
-        }
-    }
-    
-    @objc func deleteButtonPressed() {
-        if let path = currentPath {
-            print("path =", path)
-            currentImageArray.remove(at: path.row)
-            imageCollectionView.deleteItems(at: [path])
-            let objectToBeDeleted = savedObjects[path.row]
-            context.delete(objectToBeDeleted)
-            coreData?.saveContext()
-        }
-    }
-    
     private func addObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(onChangeCustomer), name: .onChangeCustomer, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(onDismissImageModal), name: .onDismissImageModal, object: nil)
@@ -174,24 +133,23 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     //MARK: - Quote Related
     
-    func assignEmployee(quote: Quote) {
-        let employeeName = UserDefaults.standard.object(forKey: "currentEmployee") as? String ?? ""
-        let currentEmployee = getCurrentEmployee(name: employeeName)
-        currentEmployee?.addToQuotes(quote)
-    }
+//    func assignEmployee(quote: Quote) {
+//        //let employeeName = UserDefaults.standard.object(forKey: "currentEmployee") as? String ?? ""
+//        //currentEmployee = getCurrentEmployee(name: employeeName)
+//    }
     
-    func getCurrentEmployee(name: String) -> Employee? {
+    func getCurrentEmployee() {
+        let employeeName = UserDefaults.standard.object(forKey: "currentEmployee") as? String ?? ""
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Employee")
-        let predicate1 = NSPredicate(format: "name = %@", name)
+        let predicate1 = NSPredicate(format: "name = %@", employeeName)
         fetchRequest.predicate = predicate1
         fetchRequest.fetchLimit = 1
         do {
-            let currentEmployee = try context.fetch(fetchRequest)
-            return currentEmployee.first as? Employee
+            let thisEmployee = try context.fetch(fetchRequest)
+            currentEmployee = thisEmployee.first as? Employee
         } catch let error as NSError {
             print(error)
         }
-        return nil
     }
     
     func makeQuoteNumber(withUser sender: String, andDate date: Date) -> String {
@@ -244,7 +202,7 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         if let quote = currentQuote {
             currentCustomerTasks = Array(quote.tasks!) as? [Task]
             currentCustomerTasks = currentCustomerTasks?.sorted(by:
-                { ($0.dateCreated!).compare($1.dateCreated!) == .orderedAscending })
+                { ($0.dateCreated!).compare($1.dateCreated!) == .orderedDescending })
         }
     }
     
@@ -296,7 +254,7 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         let predicate = NSPredicate(format: "quote = %@", quote)
         taskFetchRequest.predicate = predicate
         
-        let firstSortDescriptor = NSSortDescriptor(key: "dateModified", ascending: false)
+        let firstSortDescriptor = NSSortDescriptor(key: "dateCreated", ascending: true)
         taskFetchRequest.sortDescriptors = [firstSortDescriptor]
         
         taskFetchedController = NSFetchedResultsController<Task>(
@@ -311,7 +269,7 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         let predicate = NSPredicate(format: "quote = %@", quote)
         imageFetchRequest.predicate = predicate
         
-        let firstSortDescriptor = NSSortDescriptor(key: "dateModified", ascending: false)
+        let firstSortDescriptor = NSSortDescriptor(key: "dateModified", ascending: true)
         imageFetchRequest.sortDescriptors = [firstSortDescriptor]
         
         imageFetchedController = NSFetchedResultsController<Image>(
@@ -327,13 +285,11 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         } else {
             
         }
-        
     }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
         case .insert:
-            //This seems to be getting called unnecessarily when I want to create a new quote.
             if let insertIndexPath = newIndexPath {
                 taskTableView.insertRows(at: [insertIndexPath], with: .automatic)
             }
@@ -496,11 +452,13 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
                 destinationVC.context = context
             }
         case "editTask":
-            guard let destinationVC = segue.destination as? EditTaskViewController,
-            let currentTasks = currentCustomerTasks,
-            let selectedRow = taskTableView.indexPathForSelectedRow else { return }
-            destinationVC.currentTask = currentTasks[selectedRow.row]
-            destinationVC.context = context
+            
+            if let destinationVC = segue.destination as? EditTaskViewController {
+                let selectedTask = taskFetchedController.fetchedObjects![taskTableView.indexPathForSelectedRow?.row ?? 0] as Task
+                destinationVC.currentTask = selectedTask
+                destinationVC.context = context
+            }
+            
         case "workOrder":
             if let destinationVC = segue.destination as? WorkOrderViewController {
                 destinationVC.currentQuote = currentQuote

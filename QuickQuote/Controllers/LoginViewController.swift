@@ -37,8 +37,6 @@ class LoginViewController: UIViewController {
     }
     
     func getCurrentUserList() {
-        print("employees = ", employees)
-        print("context", context as Any)
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Employee")
         do {
             employees = try context.fetch(fetchRequest)

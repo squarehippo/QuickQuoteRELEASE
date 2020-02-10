@@ -8,61 +8,100 @@
 
 import UIKit
 
-class MakeQuoteSheet {
+class MakeQuoteSheet: UIView {
     
     var sheetArray = [UIView]()
+    var taskLineCount = 0
+    let maxSheetLineCount = 50
+    let titleAndFooterHeight = 5
+    var tempTaskArray = [Task]()
+    
     
     func makeSheet(quote: Quote, source: String) -> [UIView] {
-        if let totalTasks = quote.tasks?.count {
-            for index in 0..<totalTasks {
-                if index % 4 == 0 {
-                    let newQuoteSheet = QuoteSheet()
-                    newQuoteSheet.quoteNumber.text = quote.quoteNumber
-                    newQuoteSheet.stackView2.isHidden = true
-                    newQuoteSheet.stackView3.isHidden = true
-                    newQuoteSheet.stackView4.isHidden = true
-                    
-                    let tasks = (Array(quote.tasks!) as? [Task])!.sorted(by: { ($0.dateCreated!).compare($1.dateCreated!) == .orderedAscending })
-                    
-                    for (thisIndex, task) in Array(tasks).enumerated() where thisIndex >= index && thisIndex < index + 4 {
-                        switch thisIndex {
-                        case index + 0:
-                            //newQuoteSheet.stackView1.isHidden = false
-                            newQuoteSheet.task1Title.text = task.title
-                            let cost = source == "work" ? "" : task.cost?.currencyFormatting()
-                            newQuoteSheet.task1Cost.text = cost
-                            newQuoteSheet.task1Description.text = task.taskDescription
-                        case index + 1:
-                            newQuoteSheet.stackView2.isHidden = false
-                            newQuoteSheet.stackView2Height.constant = 150
-                            newQuoteSheet.task2Title.text = task.title
-                            let cost = source == "work" ? "" : task.cost?.currencyFormatting()
-                            newQuoteSheet.task2Cost.text = cost
-                            newQuoteSheet.task2Description.text = task.taskDescription
-                        case index + 2:
-                            newQuoteSheet.stackView3.isHidden = false
-                            newQuoteSheet.stackView3Height.constant = 150
-                            newQuoteSheet.task3Title.text = task.title
-                            let cost = source == "work" ? "" : task.cost?.currencyFormatting()
-                            newQuoteSheet.task3Cost.text = cost
-                            newQuoteSheet.task3Description.text = task.taskDescription
-                        case index + 3:
-                            newQuoteSheet.stackView4.isHidden = false
-                            newQuoteSheet.stackView4Height.constant = 150
-                            newQuoteSheet.task4Title.text = task.title
-                            let cost = source == "work" ? "" : task.cost?.currencyFormatting()
-                            newQuoteSheet.task4Cost.text = cost
-                            newQuoteSheet.task4Description.text = task.taskDescription
-                        default:
-                            break
-                        }
-                    }
-                    sheetArray.append(newQuoteSheet.contentView)
+        let tasks = (Array(quote.tasks!) as? [Task])!.sorted(by: { ($0.dateCreated!).compare($1.dateCreated!) == .orderedAscending })
+        
+        //Loop though all tasks
+        for task in tasks {
+            let newTaskView = TaskView()
+            
+            //Get the total height if the new label were to be added
+            newTaskView.taskDescription.text = task.taskDescription //Calculate the height if added
+            let currentLabelHeight = newTaskView.taskDescription.numberOfLabelLines + titleAndFooterHeight
+            taskLineCount += currentLabelHeight
+            
+            //If that total is less than the size of the screen, add task to a task array
+            if taskLineCount < maxSheetLineCount {
+                tempTaskArray.append(task)
+                
+                //If this is the last task, then create a new sheet from tasks in the tempTaskArray, regardless of taskLineCount
+                if task == tasks[tasks.endIndex - 1]{
+                    createTaskSheet(task: tempTaskArray, source: source, quote: quote)
+                }
+            } else {
+                
+                //Otherwise, add a new sheet and populate the stack using the task array
+                createTaskSheet(task: tempTaskArray, source: source, quote: quote)
+                
+                //Still need to handle current task - wipe array and add current task.
+                tempTaskArray.removeAll()
+                tempTaskArray.append(task)
+                taskLineCount = 0
+                
+                if task == tasks[tasks.endIndex - 1]{
+                    createTaskSheet(task: tempTaskArray, source: source, quote: quote)
                 }
             }
         }
         return sheetArray
     }
-
+    
+    private func createTaskSheet(task: [Task], source: String, quote: Quote) {
+        //Create sheet
+        let taskSheet = TaskSheet(frame: CGRect(x: 0, y: 0, width: 612, height: 792))
+        taskSheet.quoteNumber.text = quote.quoteNumber
+        
+        //Loop through all tasks
+        for currentTask in tempTaskArray {
+            let taskView = TaskView()
+            
+            //set labels
+            taskView.taskTitle.text = currentTask.title
+            taskView.taskDescription.text = currentTask.taskDescription
+            if source == TaskType.workOrder.rawValue {
+                taskView.taskCost.text = ""
+            } else {
+                if let cost = currentTask.cost {
+                    if cost.isNumeric {
+                        taskView.taskCost.text = "\(cost.currencyFormatting())"
+                    } else {
+                        taskView.taskCost.text = cost
+                    }
+                }
+            }
+            taskView.setNeedsLayout()
+            taskView.layoutIfNeeded()
+            taskSheet.mainStack.translatesAutoresizingMaskIntoConstraints = false
+            //add label to stack
+            taskSheet.mainStack.addArrangedSubview(taskView)
+        }
+        
+        //Once all labels have been added to the stack, add the new sheet to a sheet array
+        print("adding sheet")
+        taskSheet.sizeToFit()
+        taskSheet.setNeedsLayout()
+        taskSheet.layoutIfNeeded()
+        sheetArray.append(taskSheet)
+    }
+    
 }
 
+
+extension UILabel {
+    var numberOfLabelLines: Int {
+        let maxSize = CGSize(width: frame.size.width, height: CGFloat(MAXFLOAT))
+        let text = (self.text ?? "") as NSString
+        let textHeight = text.boundingRect(with: maxSize, options: .usesLineFragmentOrigin, attributes: [.font: font!], context: nil).height
+        let lineHeight = font.lineHeight
+        return Int(ceil(textHeight / lineHeight))
+    }
+}

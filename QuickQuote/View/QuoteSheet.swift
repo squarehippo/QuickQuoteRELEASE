@@ -12,6 +12,8 @@ class QuoteSheet: UIView {
     
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var quoteNumber: UILabel!
+    @IBOutlet weak var mainStack: UIStackView!
+    
     
     @IBOutlet weak var task1Title: UILabel!
     @IBOutlet weak var task1Cost: UILabel!

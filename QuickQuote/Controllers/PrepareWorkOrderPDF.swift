@@ -115,7 +115,7 @@ class PrepareWorkOrderPDF : UIView {
         }
         
         let newQuoteSheet = MakeQuoteSheet()
-        for sheet in newQuoteSheet.makeSheet(quote: quote, source: "work") {
+        for sheet in newQuoteSheet.makeSheet(quote: quote, source: TaskType.workOrder.rawValue) {
             pdfPages.append(sheet)
         }
         
@@ -254,7 +254,7 @@ class PrepareWorkOrderPDF : UIView {
                 let selectedLocatorTitle = Locator.allCases[Int("\(index)") ?? 0]
                 page.locator.text = selectedLocatorTitle.rawValue.capitalized
             } else {
-                page.sodKicker.text = " "
+                page.locator.text = " "
             }
         }
         

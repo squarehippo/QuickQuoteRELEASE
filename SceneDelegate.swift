@@ -23,9 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let rightNavigationController = splitViewController.viewControllers.last as? UINavigationController,
             let detailViewController = rightNavigationController.viewControllers.first as? CustomerDetailViewController
             else { fatalError()}
-        
-        masterViewController.delegate = detailViewController
-        
+                
         let viewContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         viewContext.automaticallyMergesChangesFromParent = true
         masterViewController.context = viewContext
