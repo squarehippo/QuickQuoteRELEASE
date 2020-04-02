@@ -46,6 +46,8 @@ class PreparePDFSheets: UIView {
         newPDFCoverSheet.customerName.text = (quote.customer?.name)?.uppercased()
         newPDFCoverSheet.customerAddress1.text = (quote.customer?.address)?.uppercased()
         newPDFCoverSheet.customerAddress2.text = quote.customer?.cityStateZipToString().uppercased()
+        newPDFCoverSheet.customerPhone.text = quote.customer?.phone
+        newPDFCoverSheet.customerEmail.text = quote.customer?.email
         newPDFCoverSheet.quoteNumber.text = quote.quoteNumber
         newPDFCoverSheet.employeeName.text = quote.employee?.name?.uppercased()
         newPDFCoverSheet.employeePhone.text = quote.employee?.phone

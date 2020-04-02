@@ -422,7 +422,13 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         let quoteNumber = currentQuote?.quoteNumber ?? ""
         let emailAddress = currentQuote?.customer?.email ?? ""
         let custName = currentQuote?.customer?.name ?? ""
-        let message = MessageWithSubject(subject: "nc|drainage quote \(quoteNumber) for \(custName) \(emailAddress)", message: "Thank you for choosing nc|drainage!")
+        let nameFormatter = PersonNameComponentsFormatter()
+        let name = custName
+        guard let nameComponents = nameFormatter.personNameComponents(from: name) else {return}
+        nameFormatter.style = .short
+        let firstName = nameFormatter.string(from: nameComponents)
+        
+        let message = MessageWithSubject(subject: "nc|drainage quote \(quoteNumber) for \(custName) \(emailAddress)", message: "Dear \(firstName),\n\n Thank you for allowing NC Drainage to quote your project! Attached is our proposal for the work that was discussed. If you wish to move forward with this work, please indicate the tasks you accept, sign and return this document to me.")
         let controller = UIActivityViewController(activityItems: [message, pdfURL], applicationActivities: nil)
         if UIDevice.current.userInterfaceIdiom == .pad {
             controller.popoverPresentationController?.barButtonItem = self.shareButton
