@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Cvx-dz-7gI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Cvx-dz-7gI">
     <device id="ipad9_7" orientation="landscape" layout="fullscreen" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -222,7 +222,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jha-QH-0UL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="996" y="365"/>
+            <point key="canvasLocation" x="940" y="365"/>
         </scene>
         <!--Customer Information-->
         <scene sceneID="1Bo-Yz-LGN">
@@ -404,7 +404,7 @@
         <!--Employee View Controller-->
         <scene sceneID="VRf-G3-uLH">
             <objects>
-                <viewController modalTransitionStyle="crossDissolve" modalPresentationStyle="formSheet" id="KC3-1Z-lqP" customClass="EmployeeViewController" customModule="QuickQuote" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="NewEmployeeController" modalTransitionStyle="crossDissolve" modalPresentationStyle="formSheet" id="KC3-1Z-lqP" customClass="EmployeeViewController" customModule="QuickQuote" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3cN-yH-Wqg" customClass="GenericView" customModule="QuickQuote" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="500" height="500"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -649,7 +649,7 @@
         <!--New Customer View Controller-->
         <scene sceneID="UcY-V6-YAg">
             <objects>
-                <viewController modalPresentationStyle="formSheet" id="f3H-yP-fcd" customClass="NewCustomerViewController" customModule="QuickQuote" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="NewCustomerController" modalPresentationStyle="formSheet" id="f3H-yP-fcd" customClass="NewCustomerViewController" customModule="QuickQuote" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gd8-pA-wos" customClass="GenericView" customModule="QuickQuote" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="700" height="425"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1013,7 +1013,7 @@
         <!--Edit Customer View Controller-->
         <scene sceneID="FpP-xX-wL1">
             <objects>
-                <viewController modalPresentationStyle="formSheet" id="ne2-nm-euG" customClass="EditCustomerViewController" customModule="QuickQuote" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="EditCustomerController" modalPresentationStyle="formSheet" id="ne2-nm-euG" customClass="EditCustomerViewController" customModule="QuickQuote" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xhi-xK-c6g">
                         <rect key="frame" x="0.0" y="0.0" width="700" height="425"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1300,7 +1300,7 @@
         <!--New Task View Controller-->
         <scene sceneID="anH-ER-qNe">
             <objects>
-                <viewController modalTransitionStyle="crossDissolve" modalPresentationStyle="formSheet" id="cUN-c6-6Ko" customClass="NewTaskViewController" customModule="QuickQuote" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="NewTaskController" modalTransitionStyle="crossDissolve" modalPresentationStyle="formSheet" id="cUN-c6-6Ko" customClass="NewTaskViewController" customModule="QuickQuote" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="hDB-g7-sfl">
                         <rect key="frame" x="0.0" y="0.0" width="700" height="325"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1481,7 +1481,7 @@
         <!--Image View Controller-->
         <scene sceneID="nrW-Gm-y15">
             <objects>
-                <viewController modalPresentationStyle="formSheet" id="M95-vg-TNi" customClass="ImageViewController" customModule="QuickQuote" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="AddNewPhotoController" modalPresentationStyle="formSheet" id="M95-vg-TNi" customClass="ImageViewController" customModule="QuickQuote" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="WGg-s6-DZs">
                         <rect key="frame" x="0.0" y="0.0" width="700" height="325"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1648,7 +1648,7 @@
         <!--Edit Task View Controller-->
         <scene sceneID="gTM-YC-qXC">
             <objects>
-                <viewController modalTransitionStyle="crossDissolve" modalPresentationStyle="formSheet" id="4Xi-hF-sz2" customClass="EditTaskViewController" customModule="QuickQuote" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="EditTaskController" modalTransitionStyle="crossDissolve" modalPresentationStyle="formSheet" id="4Xi-hF-sz2" customClass="EditTaskViewController" customModule="QuickQuote" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ghG-jI-myb">
                         <rect key="frame" x="0.0" y="0.0" width="700" height="325"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1952,7 +1952,7 @@
         <!--Work Sheet View Controller-->
         <scene sceneID="n2N-2q-9od">
             <objects>
-                <viewController modalTransitionStyle="crossDissolve" id="Pzz-Jv-65M" customClass="WorkSheetViewController" customModule="QuickQuote" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="WorksheetController" modalTransitionStyle="crossDissolve" id="Pzz-Jv-65M" customClass="WorkSheetViewController" customModule="QuickQuote" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Q01-Z9-0z4">
                         <rect key="frame" x="0.0" y="0.0" width="703.5" height="637"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2642,25 +2642,25 @@
             <point key="canvasLocation" x="2495.21484375" y="-550.390625"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="QxM-bl-BPj"/>
+        <segue reference="ni5-z6-v0o"/>
+        <segue reference="45t-YR-Jjb"/>
+        <segue reference="6as-8Z-DbP"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="blank" width="1080" height="792"/>
         <image name="circleLogo" width="262" height="258"/>
         <image name="email" width="32" height="32"/>
         <image name="grassandsky" width="1524" height="858"/>
-        <image name="hammer" catalog="system" width="64" height="56"/>
-        <image name="person.circle" catalog="system" width="64" height="60"/>
+        <image name="hammer" catalog="system" width="128" height="115"/>
+        <image name="person.circle" catalog="system" width="128" height="121"/>
         <image name="pin" width="64" height="64"/>
-        <image name="square.and.arrow.up" catalog="system" width="56" height="64"/>
-        <image name="square.and.pencil" catalog="system" width="64" height="58"/>
+        <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>
+        <image name="square.and.pencil" catalog="system" width="128" height="118"/>
         <image name="telephone" width="32" height="32"/>
         <image name="textLogoDark" width="818" height="209"/>
-        <image name="trash" catalog="system" width="60" height="64"/>
+        <image name="trash" catalog="system" width="121" height="128"/>
         <image name="user" width="32" height="32"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="QxM-bl-BPj"/>
-        <segue reference="ni5-z6-v0o"/>
-        <segue reference="1Vt-eZ-D3L"/>
-        <segue reference="6as-8Z-DbP"/>
-    </inferredMetricsTieBreakers>
 </document>

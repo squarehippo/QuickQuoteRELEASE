@@ -35,14 +35,32 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        configureFetchedController(searchString: currentCustomer?.name ?? "")
-        do {
-            try quoteFetchedController.performFetch()
-        } catch  {
-            print("could not perform fetch")
-        }
-        
+       configureFetchedController(searchString: currentCustomer?.name ?? "")
+       do {
+           try quoteFetchedController.performFetch()
+       } catch  {
+           print("could not perform fetch")
+       }
         addObservers()
+        
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+        
+        notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        
+        quoteTableView.reloadData()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        quoteFetchedController.delegate = nil
+    }
+    
+    @objc func appMovedToForeground() {
+        print("APP MOVED TO FOREGROUND")
+    }
+    
+    @objc func appMovedToBackground() {
+        print("APP MOVED TO BACKGROUND")
     }
     
     private func addObservers() {
@@ -179,6 +197,7 @@ class CustomerDetailViewController: UIViewController, UITableViewDelegate, UITab
                 quoteTableView.deleteRows(at: [deleteIndexPath], with: .fade)
             }
         case .update:
+            print("updating now??")
             if let updateIndexPath = indexPath {
                 let cell = quoteTableView.cellForRow(at: updateIndexPath) as! QuoteCell
                 let quote = quoteFetchedController.fetchedObjects![updateIndexPath.row] as Quote

@@ -169,5 +169,21 @@ class EmployeeViewController: UIViewController {
         return true
     }
     
+    override func encodeRestorableState(with coder: NSCoder) {
+        super.encodeRestorableState(with: coder)
+        
+        print("encoding now...")
+        
+        if let currentEmployee = currentEmployee {
+            coder.encode(currentEmployee, forKey: "currentEmployee")
+        }
+    }
+    
+    override func decodeRestorableState(with coder: NSCoder) {
+        print("decoding now...")
+        super.decodeRestorableState(with: coder)
+        currentEmployee = coder.decodeObject(forKey: "currentEmployee") as? NSManagedObject
+    }
+    
 
 }

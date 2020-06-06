@@ -9,16 +9,17 @@
 import UIKit
 import CoreData
 
-protocol NewTaskDelegate {
-    func newTaskVCDismissed()
-}
+//protocol NewTaskDelegate {
+//    func newTaskVCDismissed()
+//}
+
 class NewTaskViewController: UIViewController {
     
     let coreData = UIApplication.shared.delegate as? AppDelegate
     var context: NSManagedObjectContext!
     
     var currentQuote: Quote?
-    var delegate: NewTaskDelegate?
+    //var delegate: NewTaskDelegate?
     
     @IBOutlet weak var newTaskView: UIView!
     @IBOutlet weak var taskTitle: UITextField!

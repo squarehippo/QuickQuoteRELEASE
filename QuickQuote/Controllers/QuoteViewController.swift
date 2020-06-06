@@ -13,10 +13,10 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     var currentCustomer: Customer? 
     
-    let pageWidth: CGFloat = 612.0
-    let pageHeight: CGFloat = 792.0
-    var pdfData = NSMutableData()
-    var contentView: UIView?
+    //let pageWidth: CGFloat = 612.0
+    //let pageHeight: CGFloat = 792.0
+    //var pdfData = NSMutableData()
+    //var contentView: UIView?
     
     let coreData = UIApplication.shared.delegate as? AppDelegate
     var context: NSManagedObjectContext!
@@ -458,13 +458,11 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
                 destinationVC.context = context
             }
         case "editTask":
-            
             if let destinationVC = segue.destination as? EditTaskViewController {
                 let selectedTask = taskFetchedController.fetchedObjects![taskTableView.indexPathForSelectedRow?.row ?? 0] as Task
                 destinationVC.currentTask = selectedTask
                 destinationVC.context = context
             }
-            
         case "workOrder":
             if let destinationVC = segue.destination as? WorkOrderViewController {
                 destinationVC.currentQuote = currentQuote
@@ -487,12 +485,12 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
             break
         }
     }
-
 }
 
-extension QuoteViewController: NewTaskDelegate {
-    func newTaskVCDismissed() {
-        taskTableView.reloadData()
-    }
-}
+//extension QuoteViewController: NewTaskDelegate {
+//    func newTaskVCDismissed() {
+//        taskTableView.reloadData()
+//        print("reloading from delegate now...")
+//    }
+//}
 
