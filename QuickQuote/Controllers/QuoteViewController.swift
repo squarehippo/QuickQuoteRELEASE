@@ -420,7 +420,7 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         let pdfPath = getPDF()
         let pdfURL = URL(fileURLWithPath: pdfPath)
         let quoteNumber = currentQuote?.quoteNumber ?? ""
-        let emailAddress = currentQuote?.customer?.email ?? ""
+        let custStreet = currentQuote?.customer?.address ?? ""
         let custName = currentQuote?.customer?.name ?? ""
         let nameFormatter = PersonNameComponentsFormatter()
         let name = custName
@@ -428,7 +428,7 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         nameFormatter.style = .short
         let firstName = nameFormatter.string(from: nameComponents)
         
-        let message = MessageWithSubject(subject: "nc|drainage quote \(quoteNumber) for \(custName) \(emailAddress)", message: "Dear \(firstName),\n\n Thank you for allowing NC Drainage to quote your project! Attached is our proposal for the work that was discussed. If you wish to move forward with this work, please indicate the tasks you accept, sign and return this document to me.")
+        let message = MessageWithSubject(subject: "NC Drainage quote \(quoteNumber) for \(custStreet)", message: "Hello \(firstName),\n\n Thank you for giving NC Drainage the opportunity to quote your project. Attached is our proposal for the work we discussed. If you wish to move forward, please indicate the tasks you accept and then sign and return the proposal to me. At that point, we will discuss scheduling options.\n\n Please feel free to call or email me at any time with questions.\n\n Kind Regards,")
         let controller = UIActivityViewController(activityItems: [message, pdfURL], applicationActivities: nil)
         if UIDevice.current.userInterfaceIdiom == .pad {
             controller.popoverPresentationController?.barButtonItem = self.shareButton
