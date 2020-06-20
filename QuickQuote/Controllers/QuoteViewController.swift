@@ -422,13 +422,15 @@ class QuoteViewController: UIViewController, UITableViewDataSource, UITableViewD
         let quoteNumber = currentQuote?.quoteNumber ?? ""
         let custStreet = currentQuote?.customer?.address ?? ""
         let custName = currentQuote?.customer?.name ?? ""
+        let custEmail = currentQuote?.customer?.email ?? ""
+        let repName = currentQuote?.employee?.name ?? ""
         let nameFormatter = PersonNameComponentsFormatter()
         let name = custName
         guard let nameComponents = nameFormatter.personNameComponents(from: name) else {return}
         nameFormatter.style = .short
         let firstName = nameFormatter.string(from: nameComponents)
         
-        let message = MessageWithSubject(subject: "NC Drainage quote \(quoteNumber) for \(custStreet)", message: "Hello \(firstName),\n\n Thank you for giving NC Drainage the opportunity to quote your project. Attached is our proposal for the work we discussed. If you wish to move forward, please indicate the tasks you accept and then sign and return the proposal to me. At that point, we will discuss scheduling options.\n\n Please feel free to call or email me at any time with questions.\n\n Kind Regards,")
+        let message = MessageWithSubject(subject: "NC Drainage quote \(quoteNumber) for \(custStreet)  \(custEmail)", message: "Hello \(firstName),\n\n Thank you for giving NC Drainage the opportunity to quote your project. Attached is our proposal for the work we discussed. If you wish to move forward, please indicate the tasks you accept and then sign and return the proposal to me. At that point, we will discuss scheduling options.\n\n Please feel free to call or email me at any time with questions.\n\n Kind Regards,\n \(repName)")
         let controller = UIActivityViewController(activityItems: [message, pdfURL], applicationActivities: nil)
         if UIDevice.current.userInterfaceIdiom == .pad {
             controller.popoverPresentationController?.barButtonItem = self.shareButton
