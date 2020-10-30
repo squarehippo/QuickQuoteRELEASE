@@ -14,6 +14,7 @@
 		4211CA522368E3EA008D57C3 /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4211CA512368E3EA008D57C3 /* TaskCell.swift */; };
 		4211CA54236A0C78008D57C3 /* Notification+Names.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4211CA53236A0C78008D57C3 /* Notification+Names.swift */; };
 		4211CA56236A2278008D57C3 /* EditTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4211CA55236A2278008D57C3 /* EditTaskViewController.swift */; };
+		421E2A0225338BBC006B156A /* PDFPage1View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421E2A0125338BBC006B156A /* PDFPage1View.swift */; };
 		422A6990236F546300CE1433 /* ResizeImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422A698F236F546300CE1433 /* ResizeImage.swift */; };
 		422E39FF23785C21004F42E7 /* WorkSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422E39FE23785C21004F42E7 /* WorkSheetViewController.swift */; };
 		422E3A0123785C32004F42E7 /* WorkOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422E3A0023785C32004F42E7 /* WorkOrderViewController.swift */; };
@@ -81,6 +82,7 @@
 		4211CA512368E3EA008D57C3 /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
 		4211CA53236A0C78008D57C3 /* Notification+Names.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Names.swift"; sourceTree = "<group>"; };
 		4211CA55236A2278008D57C3 /* EditTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskViewController.swift; sourceTree = "<group>"; };
+		421E2A0125338BBC006B156A /* PDFPage1View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFPage1View.swift; sourceTree = "<group>"; };
 		422A698F236F546300CE1433 /* ResizeImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizeImage.swift; sourceTree = "<group>"; };
 		422E39FE23785C21004F42E7 /* WorkSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkSheetViewController.swift; sourceTree = "<group>"; };
 		422E3A0023785C32004F42E7 /* WorkOrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkOrderViewController.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 		4211CA50236894FC008D57C3 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				421E2A0125338BBC006B156A /* PDFPage1View.swift */,
 				4211CA4C23676E73008D57C3 /* QuoteCell.swift */,
 				4211CA512368E3EA008D57C3 /* TaskCell.swift */,
 				424DD09C2370B96800EFE029 /* ImageButton.swift */,
@@ -404,6 +407,7 @@
 				42AD0B51238D88630057CFCC /* PhotoView.swift in Sources */,
 				427B154923AAB0F500B95FE7 /* MakePhotoSheet.swift in Sources */,
 				422E39FF23785C21004F42E7 /* WorkSheetViewController.swift in Sources */,
+				421E2A0225338BBC006B156A /* PDFPage1View.swift in Sources */,
 				429EBCD0237F0FE90007DC55 /* CoverSheet.swift in Sources */,
 				427B154D23AB03A400B95FE7 /* enum+QuoteStatus.swift in Sources */,
 				42BAEDE5237853A10054A31C /* NotesViewController.swift in Sources */,
@@ -561,11 +565,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.51;
+				MARKETING_VERSION = 2.53;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.squarehippobills-gmail.QuickQuote";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -581,12 +585,12 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.51;
+				MARKETING_VERSION = 2.53;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.squarehippobills-gmail.QuickQuote";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
