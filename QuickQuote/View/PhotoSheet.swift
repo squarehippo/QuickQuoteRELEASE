@@ -20,9 +20,6 @@ class PhotoSheet: UIView {
     @IBOutlet weak var photoStack2: UIStackView!
     @IBOutlet weak var photo2: UIImageView!
     @IBOutlet weak var caption2: UITextView!
-    @IBOutlet weak var photoStack3: UIStackView!
-    @IBOutlet weak var photo3: UIImageView!
-    @IBOutlet weak var caption3: UITextView!
     
     
     override init(frame: CGRect) {

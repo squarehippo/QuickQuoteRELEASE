@@ -86,7 +86,7 @@ class MakeQuoteSheet: UIView {
         }
         
         //Once all labels have been added to the stack, add the new sheet to a sheet array
-        print("adding sheet")
+        //print("adding sheet")
         taskSheet.sizeToFit()
         taskSheet.setNeedsLayout()
         taskSheet.layoutIfNeeded()
